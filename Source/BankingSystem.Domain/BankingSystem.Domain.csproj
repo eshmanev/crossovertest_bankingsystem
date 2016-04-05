@@ -41,8 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CustomerService.cs" />
-    <Compile Include="Services\ICustomerService.cs" />
+    <Compile Include="CustomerService.cs" />
+    <Compile Include="ICustomerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BankingSystem.DAL\BankingSystem.DAL.csproj">

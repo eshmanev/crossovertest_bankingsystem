@@ -18,8 +18,6 @@ namespace BankingSystem.DAL.Mappings
             CompositeId()
                 .KeyProperty(x => x.LoginKey)
                 .KeyProperty(x => x.ProviderName);
-            Map(x => x.LoginKey);
-            Map(x => x.ProviderName);
             References(x => x.Customer).Column("CustomerId").ForeignKey("FK_LoginInfo_Customer").Class<Customer>();
         }
     }

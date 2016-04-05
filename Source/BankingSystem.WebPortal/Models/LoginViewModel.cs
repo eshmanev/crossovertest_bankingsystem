@@ -5,13 +5,12 @@ namespace BankingSystem.WebPortal.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Login")]
+        public string Login { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "PasswordHash")]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]

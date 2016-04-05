@@ -4,7 +4,7 @@ using BankingSystem.Data;
 namespace BankingSystem.DAL.Entities
 {
     /// <summary>
-    /// Represents a customer.
+    ///     Represents a customer.
     /// </summary>
     /// <seealso cref="BankingSystem.Data.ICustomer" />
     public class Customer : ICustomer
@@ -27,6 +27,22 @@ namespace BankingSystem.DAL.Entities
         ///     The unique username.
         /// </value>
         public virtual string UserName { get; protected set; }
+
+        /// <summary>
+        ///     Gets the customer's email address.
+        /// </summary>
+        /// <value>
+        ///     The email.
+        /// </value>
+        public virtual string Email { get; set; }
+
+        /// <summary>
+        ///     Gets the password hash.
+        /// </summary>
+        /// <value>
+        ///     The password.
+        /// </value>
+        public virtual string PasswordHash { get; set; }
 
         /// <summary>
         ///     Gets the first name.
@@ -66,6 +82,34 @@ namespace BankingSystem.DAL.Entities
         {
             get { return _logins; }
             set { _logins = (IList<LoginInfo>) value; }
+        }
+
+        /// <summary>
+        ///     Adds the login.
+        /// </summary>
+        /// <param name="login">The login.</param>
+        public virtual void AddLogin(ILoginInfo login)
+        {
+            var loginInfo = (LoginInfo) login;
+            if (loginInfo != null && !_logins.Contains(loginInfo))
+            {
+                _logins.Add(loginInfo);
+                loginInfo.Customer = this;
+            }
+        }
+
+        /// <summary>
+        ///     Removes the login.
+        /// </summary>
+        /// <param name="login">The login.</param>
+        public virtual void RemoveLogin(ILoginInfo login)
+        {
+            var loginInfo = (LoginInfo) login;
+            if (loginInfo != null && _logins.Contains(loginInfo))
+            {
+                _logins.Remove(loginInfo);
+                loginInfo.Customer = null;
+            }
         }
     }
 }

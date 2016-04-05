@@ -3,56 +3,84 @@
 namespace BankingSystem.Data
 {
     /// <summary>
-    /// Defines a customer.
+    ///     Defines a customer.
     /// </summary>
     public interface ICustomer
     {
         /// <summary>
-        /// Gets the entity identifier.
+        ///     Gets the entity identifier.
         /// </summary>
         /// <value>
-        /// The identifier.
+        ///     The identifier.
         /// </value>
         int Id { get; }
 
         /// <summary>
-        /// Gets the unique username.
+        ///     Gets the unique username.
         /// </summary>
         /// <value>
-        /// The unique username.
+        ///     The unique username.
         /// </value>
         string UserName { get; }
 
         /// <summary>
-        /// Gets the first name.
+        ///     Gets the customer's email address.
         /// </summary>
         /// <value>
-        /// The first name.
+        ///     The email.
+        /// </value>
+        string Email { get; set; }
+
+        /// <summary>
+        ///     Gets the password hash.
+        /// </summary>
+        /// <value>
+        ///     The password.
+        /// </value>
+        string PasswordHash { get; }
+
+        /// <summary>
+        ///     Gets the first name.
+        /// </summary>
+        /// <value>
+        ///     The first name.
         /// </value>
         string FirstName { get; }
 
         /// <summary>
-        /// Gets the last name.
+        ///     Gets the last name.
         /// </summary>
         /// <value>
-        /// The last name.
+        ///     The last name.
         /// </value>
         string LastName { get; }
 
         /// <summary>
-        /// Gets a collection of the customer's accounts.
+        ///     Gets a collection of the customer's accounts.
         /// </summary>
         /// <value>
-        /// The accounts.
+        ///     The accounts.
         /// </value>
         IEnumerable<IAccount> Accounts { get; }
 
         /// <summary>
-        /// Gets a collection of the customer's logins.
+        ///     Gets a collection of the customer's logins.
         /// </summary>
         /// <value>
-        /// The logins.
+        ///     The logins.
         /// </value>
-        IEnumerable<ILoginInfo> Logins { get; } 
+        IEnumerable<ILoginInfo> Logins { get; }
+
+        /// <summary>
+        ///     Adds the login.
+        /// </summary>
+        /// <param name="login">The login.</param>
+        void AddLogin(ILoginInfo login);
+
+        /// <summary>
+        ///     Removes the login.
+        /// </summary>
+        /// <param name="login">The login.</param>
+        void RemoveLogin(ILoginInfo login);
     }
 }

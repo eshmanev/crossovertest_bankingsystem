@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using BankingSystem.WebPortal.Managers;
 using BankingSystem.WebPortal.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
@@ -11,13 +13,22 @@ namespace BankingSystem.WebPortal.Controllers
     [RequireHttps]
     public class AuthController : Controller
     {
+        // Used for XSRF protection when adding external logins
+        private const string XsrfKey = "XsrfId";
         private CustomerSignInManager _signInManager;
+        private CustomerManager _userManager;
         private IAuthenticationManager _authenticationManager;
 
         public CustomerSignInManager SignInManager
         {
             get { return _signInManager ?? HttpContext.GetOwinContext().Get<CustomerSignInManager>(); }
             internal set { _signInManager = value; }
+        }
+
+        public CustomerManager UserManager
+        {
+            get { return _userManager ?? HttpContext.GetOwinContext().Get<CustomerManager>(); }
+            internal set { _userManager = value; }
         }
 
         public IAuthenticationManager AuthenticationManager
@@ -41,7 +52,7 @@ namespace BankingSystem.WebPortal.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Login, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -54,6 +65,12 @@ namespace BankingSystem.WebPortal.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+        }
+
+        public ActionResult LogOff()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult ExternalLogin(string provider, string returnUrl)
@@ -89,6 +106,79 @@ namespace BankingSystem.WebPortal.Controllers
             }
         }
 
+        public async Task<ActionResult> Manage()
+        {
+            var userId = User.Identity.GetUserId<int>();
+            var model = new ManageAccountViewModel
+            {
+                HasPassword = HasPassword(),
+                Logins = await UserManager.GetLoginsAsync(userId),
+            };
+            return View(model);
+        }
+
+        public async Task<ActionResult> ManageLogins(string message)
+        {
+            ViewBag.StatusMessage = message;
+            var userId = User.Identity.GetUserId<int>();
+            var user = await UserManager.FindByIdAsync(userId);
+            var userLogins = await UserManager.GetLoginsAsync(userId);
+            var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
+            ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
+            return View(
+                new ManageLoginsViewModel
+                {
+                    CurrentLogins = userLogins,
+                    OtherLogins = otherLogins
+                });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
+        {
+            var userId = User.Identity.GetUserId<int>();
+            var result = await UserManager.RemoveLoginAsync(userId, new UserLoginInfo(loginProvider, providerKey));
+            string message;
+            if (result.Succeeded)
+            {
+                var user = await UserManager.FindByIdAsync(userId);
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+                message = "Login has been successfully removed.";
+            }
+            else
+            {
+                message = "An error has occurred.";
+            }
+            return RedirectToAction("ManageLogins", new { Message = message });
+        }
+
+        //
+        // POST: /Manage/LinkLogin
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LinkLogin(string provider)
+        {
+            // Request a redirect to the external login provider to link a login for the current user
+            return new ChallengeResult(provider, Url.Action("LinkLoginCallback"), User.Identity.GetUserId());
+        }
+
+        //
+        // GET: /Manage/LinkLoginCallback
+        public async Task<ActionResult> LinkLoginCallback()
+        {
+            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
+            if (loginInfo == null)
+            {
+                return RedirectToAction("ManageLogins", new { Message = "An error has occurred" });
+            }
+            var result = await UserManager.AddLoginAsync(User.Identity.GetUserId<int>(), loginInfo.Login);
+            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = "An error has occurred" });
+        }
+
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -98,11 +188,14 @@ namespace BankingSystem.WebPortal.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        private bool HasPassword()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId<int>());
+            return user?.PasswordHash != null;
+        }
+
         internal class ChallengeResult : HttpUnauthorizedResult
         {
-            // Used for XSRF protection when adding external logins
-            private const string XsrfKey = "XsrfId";
-
             public ChallengeResult(string provider, string redirectUri)
                 : this(provider, redirectUri, null)
             {

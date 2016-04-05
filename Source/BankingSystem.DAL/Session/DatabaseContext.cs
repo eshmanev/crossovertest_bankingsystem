@@ -26,7 +26,7 @@ namespace BankingSystem.DAL.Session
             _sessionFactoryHolder = sessionFactoryHolder;
         }
 
-        private bool IsInTransaction => _transaction != null && _transaction.IsActive;
+        private bool IsInTransaction => _transaction != null;
 
         /// <summary>
         ///     Gets the repository of customers.
@@ -74,7 +74,8 @@ namespace BankingSystem.DAL.Session
                 return;
             }
 
-            _session.Transaction.Commit();
+            _transaction.Commit();
+            DisposeTransaction();
         }
 
         /// <summary>
@@ -87,7 +88,8 @@ namespace BankingSystem.DAL.Session
                 return;
             }
 
-            _session.Transaction.Rollback();
+            _transaction.Rollback();
+            DisposeTransaction();
         }
 
         /// <summary>
@@ -111,7 +113,8 @@ namespace BankingSystem.DAL.Session
                 return;
             }
 
-            _session.Transaction.Dispose();
+            _transaction.Dispose();
+            _transaction = null;
         }
 
         private IRepository<T> GetRepository<T>()

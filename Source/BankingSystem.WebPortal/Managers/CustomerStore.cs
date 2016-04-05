@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BankingSystem.Domain.Services;
+using BankingSystem.Domain;
 using Microsoft.AspNet.Identity;
 
 namespace BankingSystem.WebPortal.Managers
@@ -10,7 +10,7 @@ namespace BankingSystem.WebPortal.Managers
     /// <summary>
     /// Represents a store of customers.
     /// </summary>
-    public class CustomerStore : IUserLoginStore<User, int>
+    public class CustomerStore : IUserLoginStore<User, int>, IUserLockoutStore<User, int>, IUserEmailStore<User, int>, IUserTwoFactorStore<User, int>
     {
         private readonly ICustomerService _customerService;
 
@@ -36,7 +36,7 @@ namespace BankingSystem.WebPortal.Managers
         /// </summary>
         Task IUserStore<User, int>.UpdateAsync(User user)
         {
-            throw new NotSupportedException();
+            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -48,19 +48,25 @@ namespace BankingSystem.WebPortal.Managers
         }
 
         /// <summary>
-        /// This method is not supported.
+        /// Adds a user login with the specified provider and key
         /// </summary>
-        Task IUserLoginStore<User, int>.AddLoginAsync(User user, UserLoginInfo login)
+        /// <param name="user">The user.</param>
+        /// <param name="login">The user's login.</param>
+        public Task AddLoginAsync(User user, UserLoginInfo login)
         {
-            throw new NotSupportedException();
+            _customerService.AddCustomerLogin(user.Id, login.LoginProvider, login.ProviderKey);
+            return Task.FromResult(true);
         }
 
         /// <summary>
-        /// This method is not supported.
+        /// Removes the user login with the specified combination if it exists.
         /// </summary>
-        Task IUserLoginStore<User, int>.RemoveLoginAsync(User user, UserLoginInfo login)
+        /// <param name="user">The user.</param>
+        /// <param name="login">The user's login.</param>
+        public Task RemoveLoginAsync(User user, UserLoginInfo login)
         {
-            throw new NotSupportedException();
+            _customerService.RemoveCustomerLogin(user.Id, login.LoginProvider, login.ProviderKey);
+            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -112,5 +118,90 @@ namespace BankingSystem.WebPortal.Managers
         public void Dispose()
         {
         }
+
+        #region Implementation of IUserLockoutStore<User, int>
+
+        Task<DateTimeOffset> IUserLockoutStore<User, int>.GetLockoutEndDateAsync(User user)
+        {
+            return Task.FromResult(DateTimeOffset.MinValue);
+        }
+
+        Task IUserLockoutStore<User, int>.SetLockoutEndDateAsync(User user, DateTimeOffset lockoutEnd)
+        {
+            return Task.FromResult(false);
+        }
+
+        Task<int> IUserLockoutStore<User, int>.IncrementAccessFailedCountAsync(User user)
+        {
+            return Task.FromResult(0);
+        }
+
+        Task IUserLockoutStore<User, int>.ResetAccessFailedCountAsync(User user)
+        {
+            return Task.FromResult(false);
+        }
+
+        Task<int> IUserLockoutStore<User, int>.GetAccessFailedCountAsync(User user)
+        {
+            return Task.FromResult(0);
+        }
+
+        Task<bool> IUserLockoutStore<User, int>.GetLockoutEnabledAsync(User user)
+        {
+            return Task.FromResult(false);
+        }
+
+        Task IUserLockoutStore<User, int>.SetLockoutEnabledAsync(User user, bool enabled)
+        {
+            return Task.FromResult(false);
+        }
+
+        #endregion
+
+        #region Implementation of  IUserEmailStore<User, int>
+
+        Task IUserEmailStore<User, int>.SetEmailAsync(User user, string email)
+        {
+            _customerService.UpdateCustomerEmail(user.Id, email);
+            return Task.FromResult(true);
+        }
+
+        Task<string> IUserEmailStore<User, int>.GetEmailAsync(User user)
+        {
+            var customer = _customerService.FindCustomerById(user.Id);
+            return Task.FromResult(customer?.Email);
+        }
+
+        Task<bool> IUserEmailStore<User, int>.GetEmailConfirmedAsync(User user)
+        {
+            return Task.FromResult(true);
+        }
+
+        Task IUserEmailStore<User, int>.SetEmailConfirmedAsync(User user, bool confirmed)
+        {
+            return Task.FromResult(true);
+        }
+
+        Task<User> IUserEmailStore<User, int>.FindByEmailAsync(string email)
+        {
+            var customer = _customerService.FindCustomerByEmail(email);
+            return Task.FromResult(customer != null ? new User(customer) : null);
+        }
+
+        #endregion
+
+        #region Implementation of IUserTwoFactorStore<User, int>
+
+        Task IUserTwoFactorStore<User, int>.SetTwoFactorEnabledAsync(User user, bool enabled)
+        {
+            return Task.FromResult(false);
+        }
+
+        Task<bool> IUserTwoFactorStore<User, int>.GetTwoFactorEnabledAsync(User user)
+        {
+            return Task.FromResult(false);
+        }
+
+        #endregion
     }
 }

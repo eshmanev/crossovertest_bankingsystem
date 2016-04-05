@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using BankingSystem.DAL;
 using BankingSystem.DAL.Session;
-using BankingSystem.Domain.Services;
+using BankingSystem.Domain;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Mvc;
 

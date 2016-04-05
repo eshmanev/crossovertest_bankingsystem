@@ -202,12 +202,17 @@
     <Content Include="Views\Auth\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Auth\Lockout.cshtml" />
     <Content Include="Views\Auth\ExternalLoginCannotBeVerified.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Auth\Manage.cshtml" />
+    <Content Include="Views\Auth\ManageLogins.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -216,6 +221,8 @@
     <Compile Include="Managers\CustomerSignInManager.cs" />
     <Compile Include="Managers\CustomerStore.cs" />
     <Compile Include="Managers\User.cs" />
+    <Compile Include="Models\ManageLoginsViewModel.cs" />
+    <Compile Include="Models\ManageAccountViewModel.cs" />
     <Compile Include="Models\ExternalLoginListViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

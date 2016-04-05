@@ -10,7 +10,9 @@ namespace BankingSystem.WebPortal.Controllers
     {
         public ActionResult Index()
         {
-            return !User.Identity.IsAuthenticated ? (ActionResult)RedirectToAction("Login", "Auth") : View("Dashboard");
+            return !User.Identity.IsAuthenticated
+                ? RedirectToAction("Login", "Auth")
+                : RedirectToAction("Index", "Dashboard");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BankingSystem.Data;
+﻿using System;
+using BankingSystem.Data;
 
 namespace BankingSystem.DAL.Entities
 {
@@ -8,13 +9,34 @@ namespace BankingSystem.DAL.Entities
     /// <seealso cref="BankingSystem.Data.ILoginInfo" />
     public class LoginInfo : ILoginInfo
     {
+        protected LoginInfo()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="LoginInfo" /> class.
+        /// </summary>
+        /// <param name="providerName">Name of the provider.</param>
+        /// <param name="loginKey">The login key.</param>
+        public LoginInfo(string providerName, string loginKey)
+        {
+            if (string.IsNullOrEmpty(providerName))
+                throw new ArgumentNullException(nameof(providerName));
+
+            if (string.IsNullOrEmpty(loginKey))
+                throw new ArgumentNullException(nameof(loginKey));
+
+            ProviderName = providerName;
+            LoginKey = loginKey;
+        }
+
         /// <summary>
         ///     Gets the customer.
         /// </summary>
         /// <value>
         ///     The customer.
         /// </value>
-        public virtual ICustomer Customer { get; protected set; }
+        public virtual ICustomer Customer { get; protected internal set; }
 
         /// <summary>
         ///     Gets the name of the login provider.

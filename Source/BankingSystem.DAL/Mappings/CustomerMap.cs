@@ -19,8 +19,10 @@ namespace BankingSystem.DAL.Mappings
             Table("Customers");
             Id(x => x.Id).GeneratedBy.HiLo<Customer>();
             Map(x => x.UserName).Unique();
+            Map(x => x.Email);
             Map(x => x.FirstName);
             Map(x => x.LastName);
+            Map(x => x.PasswordHash);
             HasMany<Account>(Reveal.Member<Customer>("_accounts")).Inverse().Cascade.AllDeleteOrphan();
             HasMany<LoginInfo>(Reveal.Member<Customer>("_logins")).Inverse().Cascade.AllDeleteOrphan();
         }
