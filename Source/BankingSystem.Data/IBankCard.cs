@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BankingSystem.Domain
+﻿namespace BankingSystem.Data
 {
     /// <summary>
     /// Defines a bank card.

@@ -1,12 +1,28 @@
 ﻿using System.Collections.Generic;
 
-namespace BankingSystem.Domain
+namespace BankingSystem.Data
 {
     /// <summary>
     /// Defines a customer.
     /// </summary>
     public interface ICustomer
     {
+        /// <summary>
+        /// Gets the entity identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
+        int Id { get; }
+
+        /// <summary>
+        /// Gets the unique username.
+        /// </summary>
+        /// <value>
+        /// The unique username.
+        /// </value>
+        string UserName { get; }
+
         /// <summary>
         /// Gets the first name.
         /// </summary>
@@ -29,6 +45,14 @@ namespace BankingSystem.Domain
         /// <value>
         /// The accounts.
         /// </value>
-        IList<IAccount> Accounts { get; } 
+        IEnumerable<IAccount> Accounts { get; }
+
+        /// <summary>
+        /// Gets a collection of the customer's logins.
+        /// </summary>
+        /// <value>
+        /// The logins.
+        /// </value>
+        IEnumerable<ILoginInfo> Logins { get; } 
     }
 }
