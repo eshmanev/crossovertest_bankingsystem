@@ -19,30 +19,58 @@ namespace BankingSystem.WebPortal.Controllers
         private CustomerManager _userManager;
         private IAuthenticationManager _authenticationManager;
 
+        /// <summary>
+        ///     Gets the sign in manager.
+        /// </summary>
+        /// <value>
+        ///     The sign in manager.
+        /// </value>
         public CustomerSignInManager SignInManager
         {
             get { return _signInManager ?? HttpContext.GetOwinContext().Get<CustomerSignInManager>(); }
             internal set { _signInManager = value; }
         }
 
+        /// <summary>
+        ///     Gets the user manager.
+        /// </summary>
+        /// <value>
+        ///     The user manager.
+        /// </value>
         public CustomerManager UserManager
         {
             get { return _userManager ?? HttpContext.GetOwinContext().Get<CustomerManager>(); }
             internal set { _userManager = value; }
         }
 
+        /// <summary>
+        ///     Gets the authentication manager.
+        /// </summary>
+        /// <value>
+        ///     The authentication manager.
+        /// </value>
         public IAuthenticationManager AuthenticationManager
         {
             get { return _authenticationManager ?? HttpContext.GetOwinContext().Authentication; }
             internal set { _authenticationManager = value; }
         }
 
+        /// <summary>
+        ///     Returns the Login view.
+        /// </summary>
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
         }
 
+        /// <summary>
+        ///     Logs in the user.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="returnUrl">The return URL.</param>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
@@ -67,18 +95,35 @@ namespace BankingSystem.WebPortal.Controllers
             }
         }
 
+        /// <summary>
+        ///     Logs off the user.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        ///     Logs in with an externals login.
+        /// </summary>
+        /// <param name="provider">The provider.</param>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns></returns>
+        [AllowAnonymous]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
             // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", new {ReturnUrl = returnUrl}));
         }
 
+        /// <summary>
+        ///     Logs in with an externals login.
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns></returns>
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
@@ -105,6 +150,11 @@ namespace BankingSystem.WebPortal.Controllers
             }
         }
 
+        /// <summary>
+        ///     Returns a view which allows to manage user logins.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
         public async Task<ActionResult> Manage()
         {
             var userId = User.Identity.GetUserId<int>();
@@ -116,6 +166,11 @@ namespace BankingSystem.WebPortal.Controllers
             return View(model);
         }
 
+        /// <summary>
+        ///     Manages the logins.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        [Authorize]
         public async Task<ActionResult> ManageLogins(string message)
         {
             ViewBag.StatusMessage = message;
@@ -132,7 +187,13 @@ namespace BankingSystem.WebPortal.Controllers
                 });
         }
 
+        /// <summary>
+        ///     Removes the user's login.
+        /// </summary>
+        /// <param name="loginProvider">The login provider.</param>
+        /// <param name="providerKey">The provider key.</param>
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
@@ -152,12 +213,15 @@ namespace BankingSystem.WebPortal.Controllers
             {
                 message = "An error has occurred.";
             }
-            return RedirectToAction("ManageLogins", new { Message = message });
+            return RedirectToAction("ManageLogins", new {Message = message});
         }
 
-        //
-        // POST: /Manage/LinkLogin
+        /// <summary>
+        ///     Links the user's login.
+        /// </summary>
+        /// <param name="provider">The provider.</param>
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
         {
@@ -165,17 +229,19 @@ namespace BankingSystem.WebPortal.Controllers
             return new ChallengeResult(provider, Url.Action("LinkLoginCallback"), User.Identity.GetUserId());
         }
 
-        //
-        // GET: /Manage/LinkLoginCallback
+        /// <summary>
+        ///     Links the user's login.
+        /// </summary>
+        [Authorize]
         public async Task<ActionResult> LinkLoginCallback()
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
             if (loginInfo == null)
             {
-                return RedirectToAction("ManageLogins", new { Message = "An error has occurred" });
+                return RedirectToAction("ManageLogins", new {Message = "An error has occurred"});
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId<int>(), loginInfo.Login);
-            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = "An error has occurred" });
+            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new {Message = "An error has occurred"});
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
@@ -213,7 +279,7 @@ namespace BankingSystem.WebPortal.Controllers
 
             public override void ExecuteResult(ControllerContext context)
             {
-                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
+                var properties = new AuthenticationProperties {RedirectUri = RedirectUri};
                 if (UserId != null)
                 {
                     properties.Dictionary[XsrfKey] = UserId;

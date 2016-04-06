@@ -14,6 +14,7 @@ namespace BankingSystem.DAL.Mappings
         public BankBalanceMap()
         {
             Table("BankBalance");
+            Id(x => x.Id);
             Map(x => x.TotalBalance).Not.Nullable();
         }
     }

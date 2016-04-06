@@ -62,7 +62,7 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="ISessionFactoryHolder.cs" />
     <Compile Include="Mappings\AccountMap.cs" />
-    <Compile Include="Mappings\BankBalance.cs" />
+    <Compile Include="Mappings\BankBalanceMap.cs" />
     <Compile Include="Mappings\BankCardMap.cs" />
     <Compile Include="Mappings\CustomerMap.cs" />
     <Compile Include="Mappings\LoginInfoMap.cs" />

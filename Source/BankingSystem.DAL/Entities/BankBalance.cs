@@ -8,6 +8,14 @@ namespace BankingSystem.DAL.Entities
     public class BankBalance : IBankBalance
     {
         /// <summary>
+        ///     Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        ///     The identifier.
+        /// </value>
+        public virtual int Id { get; protected set; }
+
+        /// <summary>
         ///     Gets or sets the tatal balance.
         /// </summary>
         /// <value>
