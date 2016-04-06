@@ -1052,10 +1052,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Views\Default\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BankingSystem.DAL\BankingSystem.DAL.csproj">
       <Project>{90a6529c-62ff-4580-8f96-e15d69b4a020}</Project>
