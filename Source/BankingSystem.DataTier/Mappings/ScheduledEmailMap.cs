@@ -19,6 +19,7 @@ namespace BankingSystem.DataTier.Mappings
             Map(x => x.ScheduledDateTime).Not.Nullable();
             Map(x => x.Subject).Not.Nullable();
             Map(x => x.Body).Not.Nullable();
+            Map(x => x.FailureReason).Nullable();
         }
     }
 }

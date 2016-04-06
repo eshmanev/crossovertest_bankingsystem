@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Mail;
 using BankingSystem.Common.Data;
 using BankingSystem.DataTier;
 using BankingSystem.DataTier.Entities;
@@ -43,10 +45,53 @@ namespace BankingSystem.LogicTier.Impl
         }
 
         /// <summary>
+        ///     Delivers the scheduled emails using the given smtp settings.
+        /// </summary>
+        /// <param name="settings">The settings.</param>
+        public void DeliverEmails(SmtpSettings settings)
+        {
+            using (var client = new SmtpClient(settings.SmtpHost, settings.SmtpPort))
+            {
+                client.EnableSsl = settings.EnableSsl;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(settings.SmtpUser, settings.SmtpPassword);
+
+                foreach (var email in _databaseContext.ScheduledEmails.GetAll())
+                {
+                    bool delivered;
+
+                    try
+                    {
+                        using (var message = new MailMessage(new MailAddress(settings.FromAddress), new MailAddress(email.RecipientAddress)))
+                        {
+                            message.Subject = email.Subject;
+                            message.Body = email.Body;
+                            message.IsBodyHtml = false;
+                            client.Send(message);
+                            delivered = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        email.FailureReason = ex.ToString();
+                        _databaseContext.ScheduledEmails.Update(email);
+                        delivered = false;
+                    }
+
+                    if (delivered)
+                    {
+                        EmailDelivered(email);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         ///     Changes the state of the given email to delivered.
         /// </summary>
         /// <param name="email">The email.</param>
-        public void EmailDelivered(IScheduledEmail email)
+        private void EmailDelivered(IScheduledEmail email)
         {
             // delete the email from scheduled store and move it to delivered store.
             var deliveredEmail = new DeliveredEmail {RecipientAddress = email.RecipientAddress, DeliveredDateTime = DateTime.UtcNow, Subject = email.Subject, Body = email.Body};

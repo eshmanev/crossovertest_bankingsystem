@@ -3,9 +3,9 @@ GO
 
 -- 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08   SHA256 hash for 'test'
 INSERT INTO dbo.Customers(Id, UserName, Email, FirstName, LastName, PasswordHash)
-    SELECT 1, 'bill.gates', 'bill.gates@test.com', 'Bill', 'Gates', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
+    SELECT 1, 'evgeny.shmanev', 'evgeny.shmanev@aurea.com', 'Bill', 'Gates', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
     UNION ALL
-    SELECT 2, 'ivan.ivanov', 'ivan.ivanov@test.com', 'Ivan', 'Ivanov', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
+    SELECT 2, 'ivan.ivanov', 'eshmanev@gmail.com', 'Ivan', 'Ivanov', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
     UNION ALL
     SELECT 3, 'joseph.fill', 'joseph.fill@test.com', 'Joseph', 'Fill', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
     UNION ALL
@@ -14,7 +14,7 @@ INSERT INTO dbo.Customers(Id, UserName, Email, FirstName, LastName, PasswordHash
     SELECT 5, 'anatoly.green', 'anatoly.green@test.com', 'Anatoly', 'Green', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
 GO
 
-INSERT INTO dbo.Accounts(Id, AccountNumber, Currency, Balance, CustomerId)
+INSERT INTO dbo.Accounts(Id, AccountNumber, Currency, Balance, Customer_id)
     -- bill.gates
     SELECT 1, '451233157789211', 'USD', '602700', 1
     UNION ALL

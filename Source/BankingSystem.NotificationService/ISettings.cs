@@ -1,4 +1,6 @@
-﻿namespace BankingSystem.NotificationService
+﻿using BankingSystem.LogicTier;
+
+namespace BankingSystem.NotificationService
 {
     /// <summary>
     ///     Defines application settings.
@@ -12,5 +14,13 @@
         ///     The hub URL.
         /// </value>
         string HubUrl { get; }
+
+        /// <summary>
+        /// Gets the SMTP settings.
+        /// </summary>
+        /// <value>
+        /// The SMTP settings.
+        /// </value>
+        SmtpSettings SmtpSettings { get; }
     }
 }

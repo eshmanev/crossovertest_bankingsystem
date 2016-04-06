@@ -1,6 +1,5 @@
 ﻿using BankingSystem.Common.Messages;
 using BankingSystem.LogicTier.Unity;
-using BankingSystem.NotificationService.Controls;
 using BankingSystem.NotificationService.Handlers;
 using Microsoft.Practices.Unity;
 using Topshelf;
@@ -32,15 +31,8 @@ namespace BankingSystem.NotificationService
                 // configure container
                 x.UseUnityContainer(BuildContainer());
 
-                // configure services
-                x.Service<NotificationServiceControl>(s =>
-                {
-                    s.ConstructUsingUnityContainer();
-                    s.WhenStarted((service, control) => service.Start(control));
-                    s.WhenStopped((service, control) => service.Stop(control));
-                });
-
-                x.Service<HubServiceControl>(s =>
+                // configure service
+                x.Service<ProgramControl>(s =>
                 {
                     s.ConstructUsingUnityContainer();
                     s.WhenStarted((service, control) => service.Start(control));

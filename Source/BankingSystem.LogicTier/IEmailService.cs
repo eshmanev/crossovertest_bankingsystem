@@ -17,9 +17,9 @@ namespace BankingSystem.LogicTier
         IScheduledEmail ScheduleEmail(string recipient, string subject, string body);
 
         /// <summary>
-        ///     Changes the state of the given email to delivered.
+        ///     Delivers the scheduled emails using the given smtp settings.
         /// </summary>
-        /// <param name="email">The email.</param>
-        void EmailDelivered(IScheduledEmail email);
+        /// <param name="settings">The settings.</param>
+        void DeliverEmails(SmtpSettings settings);
     }
 }

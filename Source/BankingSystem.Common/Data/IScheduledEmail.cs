@@ -38,5 +38,13 @@ namespace BankingSystem.Common.Data
         ///     The body.
         /// </value>
         string Body { get; }
+
+        /// <summary>
+        ///     Gets or sets the last failure reason.
+        /// </summary>
+        /// <value>
+        ///     The failure reason.
+        /// </value>
+        string FailureReason { get; set; }
     }
 }

@@ -48,5 +48,13 @@ namespace BankingSystem.DataTier.Entities
         ///     The body.
         /// </value>
         public virtual string Body { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the last failure reason.
+        /// </summary>
+        /// <value>
+        ///     The failure reason.
+        /// </value>
+        public virtual string FailureReason { get; set; }
     }
 }

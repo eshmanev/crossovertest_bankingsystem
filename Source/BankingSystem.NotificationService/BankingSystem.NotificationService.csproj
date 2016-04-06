@@ -76,11 +76,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\HubServiceControl.cs" />
+    <Compile Include="ProgramControl.cs" />
     <Compile Include="Handlers\AccountHandler.cs" />
     <Compile Include="Handlers\IHandler.cs" />
     <Compile Include="ISettings.cs" />
-    <Compile Include="Controls\NotificationServiceControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
