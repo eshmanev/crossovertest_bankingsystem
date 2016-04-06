@@ -38,6 +38,14 @@
         decimal Balance { get; set; }
 
         /// <summary>
+        ///     Gets the customer.
+        /// </summary>
+        /// <value>
+        ///     The customer.
+        /// </value>
+        ICustomer Customer { get; }
+
+        /// <summary>
         ///     Gets the assigned bank card.
         /// </summary>
         /// <value>

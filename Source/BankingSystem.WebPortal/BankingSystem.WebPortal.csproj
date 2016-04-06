@@ -1019,6 +1019,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Hubs\AccountHub.cs" />
     <Compile Include="Hubs\HubNames.cs" />
+    <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\ControllerExtensions.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -1054,10 +1055,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\BankingSystem.DataTier\BankingSystem.DataTier.csproj">
-      <Project>{90a6529c-62ff-4580-8f96-e15d69b4a020}</Project>
-      <Name>BankingSystem.DataTier</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BankingSystem.Common\BankingSystem.Common.csproj">
       <Project>{df97f91d-79e7-4526-8586-5cda82664fcf}</Project>
       <Name>BankingSystem.Common</Name>

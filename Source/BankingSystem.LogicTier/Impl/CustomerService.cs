@@ -187,7 +187,7 @@ namespace BankingSystem.LogicTier.Impl
         /// <param name="email">The email.</param>
         public void UpdateCustomerEmail(int userId, string email)
         {
-            var customer = FindCustomerById(userId);
+            var customer = _databaseContext.Customers.GetById(userId);
             if (customer == null)
                 return;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
+using NHibernate;
 using NHibernate.Linq;
 
 namespace BankingSystem.DataTier.Session
@@ -52,6 +53,20 @@ namespace BankingSystem.DataTier.Session
         public IList<T> Filter(Expression<Func<T, bool>> predicate)
         {
             return Query(x => x.Where(predicate).ToList());
+        }
+
+        /// <summary>
+        ///     Queries using the given query over.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <param name="action">The action.</param>
+        /// <returns>
+        ///     A result.
+        /// </returns>
+        public TResult QueryOver<TResult>(Func<IQueryOver<T, T>, TResult> action)
+        {
+            var query = _databaseContext.GetSession().QueryOver<T>();
+            return action(query);
         }
 
         /// <summary>

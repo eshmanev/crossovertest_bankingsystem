@@ -50,6 +50,22 @@ namespace BankingSystem.DataTier
         IRepository<IBankBalance> BankBalances { get; }
 
         /// <summary>
+        ///     Gets the repository of scheduled emails.
+        /// </summary>
+        /// <value>
+        ///     The repository of scheduled emails.
+        /// </value>
+        IRepository<IScheduledEmail> ScheduledEmails { get; }
+
+        /// <summary>
+        ///     Gets the repository of delivered emails.
+        /// </summary>
+        /// <value>
+        ///     The repository of delivered emails.
+        /// </value>
+        IRepository<IDeliveredEmail> DeliveredEmails { get; }
+
+        /// <summary>
         ///     Gets the current session.
         /// </summary>
         /// <returns>The session</returns>

@@ -69,7 +69,8 @@ namespace BankingSystem.WebPortal.Controllers
         {
             var userId = User.Identity.GetUserId<int>();
             var customer = _customerService.FindCustomerById(userId);
-            return Json(customer.Accounts, JsonRequestBehavior.AllowGet);
+            var model = customer.Accounts.Select(x => new AccountViewModel {AccountNumber = x.AccountNumber, Currency = x.Currency, Balance = x.Balance});
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

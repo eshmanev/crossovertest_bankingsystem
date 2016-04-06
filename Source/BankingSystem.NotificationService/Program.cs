@@ -1,4 +1,7 @@
-﻿using BankingSystem.NotificationService.Controls;
+﻿using BankingSystem.Common.Messages;
+using BankingSystem.LogicTier.Unity;
+using BankingSystem.NotificationService.Controls;
+using BankingSystem.NotificationService.Handlers;
 using Microsoft.Practices.Unity;
 using Topshelf;
 using Topshelf.Unity;
@@ -46,10 +49,19 @@ namespace BankingSystem.NotificationService
             });
         }
 
+        /// <summary>
+        ///     Builds the container.
+        /// </summary>
+        /// <returns>An instance of <see cref="IUnityContainer"/>.</returns>
         private static IUnityContainer BuildContainer()
         {
             var container = new UnityContainer();
             container.RegisterType<ISettings, Settings>();
+            container.ConfigureServices(() => new ContainerControlledLifetimeManager());
+
+            // handlers
+            container.RegisterType<IHandler<BalanceChangedMessage>, AccountHandler>();
+
             return container;
         }
     }

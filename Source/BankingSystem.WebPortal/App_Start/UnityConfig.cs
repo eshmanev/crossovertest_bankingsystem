@@ -1,9 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using BankingSystem.DataTier;
-using BankingSystem.DataTier.Session;
-using BankingSystem.LogicTier;
-using BankingSystem.LogicTier.Impl;
+using BankingSystem.LogicTier.Unity;
 using BankingSystem.WebPortal.Hubs;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -42,15 +39,7 @@ namespace BankingSystem.WebPortal
         private static IUnityContainer BuildUnityContainer()
         {
             var container = new UnityContainer();
-            container.RegisterType<IDatabaseContext, DatabaseContext>(new PerRequestLifetimeManager());
-            container.RegisterType(typeof (IRepository<>), typeof (Repository<>), new PerRequestLifetimeManager());
-            container.RegisterType<ISessionFactoryHolder, SessionFactoryHolder>(new ContainerControlledLifetimeManager());
-
-            // services
-            container.RegisterType<ICustomerService, CustomerService>();
-            container.RegisterType<IAccountService, AccountService>();
-            container.RegisterType<IExchangeRateService, ExchangeRateService>();
-            container.RegisterType<IBankBalanceService, BankBalanceService>();
+            container.ConfigureServices(() => new PerRequestLifetimeManager());
 
             // hubs
             container.RegisterInstance(GlobalHost.ConnectionManager);

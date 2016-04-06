@@ -17,9 +17,10 @@ namespace BankingSystem.DataTier.Mappings
             Table("Accounts");
             Id(x => x.Id).GeneratedBy.HiLo<Account>();
             Map(x => x.AccountNumber).Unique();
-            Map(x => x.Currency);
-            Map(x => x.Balance);
+            Map(x => x.Currency).Not.Nullable();
+            Map(x => x.Balance).Not.Nullable();
             HasOne(x => x.BankCard).Class<BankCard>();
+            References(x => x.Customer).Class<Customer>();
         }
     }
 }

@@ -41,6 +41,14 @@ namespace BankingSystem.DataTier.Entities
         public virtual decimal Balance { get; set; }
 
         /// <summary>
+        ///     Gets the customer.
+        /// </summary>
+        /// <value>
+        ///     The customer.
+        /// </value>
+        public virtual ICustomer Customer { get; protected set; }
+
+        /// <summary>
         ///     Gets the assigned bank card.
         /// </summary>
         /// <value>

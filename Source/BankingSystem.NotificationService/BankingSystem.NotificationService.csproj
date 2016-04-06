@@ -77,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\HubServiceControl.cs" />
+    <Compile Include="Handlers\AccountHandler.cs" />
+    <Compile Include="Handlers\IHandler.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="Controls\NotificationServiceControl.cs" />
     <Compile Include="Program.cs" />
@@ -91,6 +93,10 @@
     <ProjectReference Include="..\BankingSystem.Common\BankingSystem.Common.csproj">
       <Project>{DF97F91D-79E7-4526-8586-5CDA82664FCF}</Project>
       <Name>BankingSystem.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BankingSystem.LogicTier\BankingSystem.LogicTier.csproj">
+      <Project>{2a3c0e00-88a4-471e-b9d8-26de7925b831}</Project>
+      <Name>BankingSystem.LogicTier</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

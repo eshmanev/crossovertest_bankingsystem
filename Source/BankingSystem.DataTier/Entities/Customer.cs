@@ -69,7 +69,7 @@ namespace BankingSystem.DataTier.Entities
         public virtual IEnumerable<IAccount> Accounts
         {
             get { return _accounts; }
-            set { _accounts = (IList<Account>) value; }
+            protected set { _accounts = (IList<Account>) value; }
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace BankingSystem.DataTier.Entities
         public virtual IEnumerable<ILoginInfo> Logins
         {
             get { return _logins; }
-            set { _logins = (IList<LoginInfo>) value; }
+            protected set { _logins = (IList<LoginInfo>) value; }
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The subject.
         /// </value>
-        public virtual string Subject { get; }
+        public virtual string Subject { get; set; }
 
         /// <summary>
         ///     Gets the body.
@@ -47,6 +47,6 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The body.
         /// </value>
-        public virtual string Body { get; }
+        public virtual string Body { get; set; }
     }
 }

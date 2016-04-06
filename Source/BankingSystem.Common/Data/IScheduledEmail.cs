@@ -13,7 +13,7 @@ namespace BankingSystem.Common.Data
         /// <value>
         ///     The recipient address.
         /// </value>
-        string RecipientAddress { get; set; }
+        string RecipientAddress { get; }
 
         /// <summary>
         ///     Gets or sets the scheduled date time.
@@ -21,7 +21,7 @@ namespace BankingSystem.Common.Data
         /// <value>
         ///     The scheduled date time.
         /// </value>
-        DateTime ScheduledDateTime { get; set; }
+        DateTime ScheduledDateTime { get; }
 
         /// <summary>
         ///     Gets the subject.

@@ -14,7 +14,7 @@ INSERT INTO dbo.Customers(Id, UserName, Email, FirstName, LastName, PasswordHash
     SELECT 5, 'anatoly.green', 'anatoly.green@test.com', 'Anatoly', 'Green', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
 GO
 
-INSERT INTO dbo.Accounts(Id, AccountNumber, Currency, Balance, Customer_id)
+INSERT INTO dbo.Accounts(Id, AccountNumber, Currency, Balance, CustomerId)
     -- bill.gates
     SELECT 1, '451233157789211', 'USD', '602700', 1
     UNION ALL

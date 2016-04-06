@@ -74,6 +74,22 @@ namespace BankingSystem.DataTier.Session
         public IRepository<IBankBalance> BankBalances => GetRepository<IBankBalance>();
 
         /// <summary>
+        ///     Gets the repository of scheduled emails.
+        /// </summary>
+        /// <value>
+        ///     The repository of scheduled emails.
+        /// </value>
+        public IRepository<IScheduledEmail> ScheduledEmails => GetRepository<IScheduledEmail>();
+
+        /// <summary>
+        ///     Gets the repository of delivered emails.
+        /// </summary>
+        /// <value>
+        ///     The repository of delivered emails.
+        /// </value>
+        public IRepository<IDeliveredEmail> DeliveredEmails => GetRepository<IDeliveredEmail>();
+
+        /// <summary>
         ///     Gets the session.
         /// </summary>
         /// <returns></returns>
@@ -88,13 +104,13 @@ namespace BankingSystem.DataTier.Session
         public IDatabaseTransaction DemandTransaction()
         {
             var transaction = GetCurrentTransaction();
-            return transaction == null 
+            return transaction == null
                 ? new DatabaseTransaction(this, GetSession().BeginTransaction())
                 : new TransactionScope(this, transaction);
         }
 
         /// <summary>
-        /// Commits the transaction if it was started.
+        ///     Commits the transaction if it was started.
         /// </summary>
         public void CommitTransaction()
         {
@@ -108,7 +124,7 @@ namespace BankingSystem.DataTier.Session
         }
 
         /// <summary>
-        /// Rollbacks the transaction if it was started.
+        ///     Rollbacks the transaction if it was started.
         /// </summary>
         public void RollbackTransaction()
         {
@@ -227,7 +243,7 @@ namespace BankingSystem.DataTier.Session
         {
             private readonly ITransaction _transaction;
 
-            public DatabaseTransaction(DatabaseContext context, ITransaction transaction) 
+            public DatabaseTransaction(DatabaseContext context, ITransaction transaction)
                 : base(context, null)
             {
                 _transaction = transaction;

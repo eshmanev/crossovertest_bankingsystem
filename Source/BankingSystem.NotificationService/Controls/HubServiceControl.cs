@@ -1,6 +1,6 @@
 using System;
-using BankingSystem.Common.Data;
 using BankingSystem.Common.Messages;
+using BankingSystem.NotificationService.Handlers;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.Practices.ObjectBuilder2;
 using Topshelf;
@@ -13,19 +13,25 @@ namespace BankingSystem.NotificationService.Controls
     public class HubServiceControl : ServiceControl
     {
         private readonly ISettings _settings;
+        private readonly IHandler<BalanceChangedMessage> _balanceChangedHandler;
         private IDisposable[] _disposables;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="HubServiceControl" /> class.
         /// </summary>
         /// <param name="settings">The settings.</param>
-        /// <exception cref="System.ArgumentNullException"></exception>
-        public HubServiceControl(ISettings settings)
+        /// <param name="balanceChangedHandler">The balance changed handler.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// </exception>
+        public HubServiceControl(ISettings settings, IHandler<BalanceChangedMessage> balanceChangedHandler)
         {
             if (settings == null)
                 throw new ArgumentNullException(nameof(settings));
+            if (balanceChangedHandler == null)
+                throw new ArgumentNullException(nameof(balanceChangedHandler));
 
             _settings = settings;
+            _balanceChangedHandler = balanceChangedHandler;
         }
 
         /// <summary>
@@ -42,10 +48,7 @@ namespace BankingSystem.NotificationService.Controls
             var accountHub = hubConnection.CreateHubProxy("AccountHub");
             _disposables = new[]
             {
-                accountHub.On<BalanceChangedMessage>("onBalanceChanged", message =>
-                {
-                    
-                })
+                accountHub.On<BalanceChangedMessage>("onBalanceChanged", _balanceChangedHandler.Handle)
             };
             hubConnection.Start().Wait();
             return true;
