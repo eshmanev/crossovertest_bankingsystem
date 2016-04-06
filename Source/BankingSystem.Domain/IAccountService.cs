@@ -15,5 +15,12 @@ namespace BankingSystem.Domain
         /// <param name="destAccount">The dest account.</param>
         /// <param name="amount">The amount to transfer.</param>
         Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount);
+
+        /// <summary>
+        /// Searches for account by its number.
+        /// </summary>
+        /// <param name="accountNumber">The account number.</param>
+        /// <returns>An account or null.</returns>
+        IAccount FindAccount(string accountNumber);
     }
 }

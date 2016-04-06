@@ -67,6 +67,7 @@ namespace BankingSystem.WebPortal
                 ClientId = "409477153620-7eq2ke1tpfhb32p168lcmo1815vdmh0e.apps.googleusercontent.com",
                 ClientSecret = "nK-vsKE-bjtXd6gwbO1OIAWC"
             });
+            app.MapSignalR();
         }
     }
 }

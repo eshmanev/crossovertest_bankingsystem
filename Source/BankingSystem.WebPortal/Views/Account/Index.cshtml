@@ -1,68 +1,98 @@
 ﻿@model dynamic
 
-<div ng-app="AccountModule">
-    <div ng-controller="AccountController as ctrl">
+<div ng-controller="AccountController as ctrl">
 
-        <!-- Internal account-to-account transfer window template -->
-        <script type="text/ng-template" id="internalTransfer.html">
-            <div class="modal-header">
-                <h3 class="modal-title">Internal account-to-account transfer</h3>
+    <!-- Internal account-to-account transfer window template -->
+    <script type="text/ng-template" id="internalTransfer.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Internal account-to-account transfer</h3>
+        </div>
+        <div class="modal-body">
+            <span class="help-block" ng-bind="errors.Summary"></span>
+            <div class="form-group" ng-class="{ 'has-error': errors.SourceAccount }">
+                <label>Select a source account:</label>
+                <select class="form-control" ng-model="selectedSourceAccount" ng-change="updateDestAccounts()">
+                    <option ng-repeat="x in sourceAccounts" value="{{x.AccountNumber}}">{{x.AccountNumber}} ({{x.Currency}} - {{x.Balance}})</option>
+                </select>
+                <span class="help-block" ng-bind="errors.SourceAccount"></span>
             </div>
-            <div class="modal-body">
-                <span class="help-block" ng-bind="errors.Summary"></span>
-                <div class="form-group" ng-class="{ 'has-error': errors.SourceAccount }">
-                    <label>Select a source account:</label>
-                    <select class="form-control" ng-model="selectedSourceAccount" ng-change="updateDestAccounts()">
-                        <option ng-repeat="x in sourceAccounts" value="{{x.AccountNumber}}">{{x.AccountNumber}} ({{x.Currency}} - {{x.Balance}})</option>
-                    </select>
-                    <span class="help-block" ng-bind="errors.SourceAccount"></span>
-                </div>
-                <div class="form-group" ng-class="{ 'has-error': errors.DestAccount }">
-                    <label>Select a destination account:</label>
-                    <select class="form-control" ng-model="selectedDestAccount">
-                        <option ng-repeat="x in destAccounts" value="{{x.AccountNumber}}">{{x.AccountNumber}} ({{x.Currency}} - {{x.Balance}})</option>
-                    </select>
-                    <span class="help-block" ng-bind="errors.DestAccount"></span>
-                </div>
-                <div class="form-group" ng-class="{ 'has-error': errors.Amount }">
-                    <label>Amout to transfer</label>
-                    <input type="number" class="form-control has-error" ng-model="amountToTransfer" />
-                    <span class="help-block" ng-bind="errors.Amount"></span>
-                </div>
+            <div class="form-group" ng-class="{ 'has-error': errors.DestAccount }">
+                <label>Select a destination account:</label>
+                <select class="form-control" ng-model="selectedDestAccount">
+                    <option ng-repeat="x in destAccounts" value="{{x.AccountNumber}}">{{x.AccountNumber}} ({{x.Currency}} - {{x.Balance}})</option>
+                </select>
+                <span class="help-block" ng-bind="errors.DestAccount"></span>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" type="button" ng-click="transfer()">Transfer</button>
-                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-            </div>
-        </script>
-
-        <div class="col-sm-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Actions</div>
-                <div class="list-group">
-                    <a href="#" class="list-group-item" ng-click="ctrl.makeInternalTransfer()">Internal transfers</a>
-                    <a href="#" class="list-group-item" ng-click="ctrl.makeSpecialStransfer()">Transfer to a specified account</a>
-                </div>
+            <div class="form-group" ng-class="{ 'has-error': errors.Amount }">
+                <label>Amout to transfer</label>
+                <input type="number" class="form-control" ng-model="amountToTransfer" />
+                <span class="help-block" ng-bind="errors.Amount"></span>
             </div>
         </div>
-        <div class="col-sm-9">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Account Number</th>
-                        <th>Currency</th>
-                        <th>Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="x in ctrl.accounts">
-                        <td>{{x.AccountNumber}}</td>
-                        <td>{{x.Currency}}</td>
-                        <td>{{x.Balance}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="transfer()">Transfer</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
         </div>
+    </script>
+
+    <!-- External account-to-account transfer window template -->
+    <script type="text/ng-template" id="externalTransfer.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Transfer by account number</h3>
+        </div>
+        <div class="modal-body">
+            <span class="help-block" ng-bind="errors.Summary"></span>
+            <div class="form-group" ng-class="{ 'has-error': errors.SourceAccount }">
+                <label>Select a source account:</label>
+                <select class="form-control" ng-model="selectedSourceAccount" ng-change="updateDestAccounts()">
+                    <option ng-repeat="x in sourceAccounts" value="{{x.AccountNumber}}">{{x.AccountNumber}} ({{x.Currency}} - {{x.Balance}})</option>
+                </select>
+                <span class="help-block" ng-bind="errors.SourceAccount"></span>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error': errors.DestAccount }">
+                <label>Enter a number of the destination account:</label>
+                <input type="text" ng-model="destAccountNumber" class="form-control"/>
+                <span class="help-block" ng-bind="errors.DestAccount"></span>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error': errors.Amount }">
+                <label>Amout to transfer</label>
+                <input type="number" class="form-control" ng-model="amountToTransfer" />
+                <span class="help-block" ng-bind="errors.Amount"></span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="transfer()">Transfer</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <!-- list of user's accounts -->
+    <div class="col-sm-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Actions</div>
+            <div class="list-group">
+                <a href="#" class="list-group-item" ng-click="ctrl.makeInternalTransfer()">Internal transfers</a>
+                <a href="#" class="list-group-item" ng-click="ctrl.makeSpecialStransfer()">Transfer to a specified account</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Account Number</th>
+                <th>Currency</th>
+                <th>Balance</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="x in ctrl.accounts">
+                <td>{{x.AccountNumber}}</td>
+                <td>{{x.Currency}}</td>
+                <td>{{x.Balance}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 

@@ -27,10 +27,13 @@ namespace BankingSystem.WebPortal
                 "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
-                "~/Scripts/angular.js",
-                "~/Scripts/angular-resource.js",
+                "~/Scripts/angular/angular.js",
+                "~/Scripts/angular/angular-resource.js",
                 "~/Scripts/angular-ui/ui-bootstrap.js",
                 "~/Scripts/angular-ui/ui-bootstrap-tpls.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
+                "~/Scripts/jquery.signalR-2.2.0.js"));
         }
     }
 }

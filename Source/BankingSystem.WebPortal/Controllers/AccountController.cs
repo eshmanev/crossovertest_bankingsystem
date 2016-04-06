@@ -2,21 +2,41 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using BankingSystem.Data;
 using BankingSystem.Domain;
+using BankingSystem.WebPortal.Hubs;
 using BankingSystem.WebPortal.Models;
 using log4net;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.Practices.Unity;
 
 namespace BankingSystem.WebPortal.Controllers
 {
+    /// <summary>
+    ///     Represents an account controller.
+    /// </summary>
+    /// <seealso cref="System.Web.Mvc.Controller" />
     [Authorize]
     public class AccountController : Controller
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof (AccountController));
         private readonly ICustomerService _customerService;
         private readonly IAccountService _accountService;
+        private readonly IHubConnectionContext<dynamic> _hubContext;
 
-        public AccountController(ICustomerService customerService, IAccountService accountService)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AccountController" /> class.
+        /// </summary>
+        /// <param name="customerService">The customer service.</param>
+        /// <param name="accountService">The account service.</param>
+        /// <param name="hubContext">The hub context.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// </exception>
+        public AccountController(
+            ICustomerService customerService,
+            IAccountService accountService,
+            [Dependency(HubNames.AccountHub)] IHubConnectionContext<dynamic> hubContext)
         {
             if (customerService == null)
                 throw new ArgumentNullException(nameof(customerService));
@@ -24,15 +44,26 @@ namespace BankingSystem.WebPortal.Controllers
             if (accountService == null)
                 throw new ArgumentNullException(nameof(accountService));
 
+            if (hubContext == null)
+                throw new ArgumentNullException(nameof(hubContext));
+
             _customerService = customerService;
             _accountService = accountService;
+            _hubContext = hubContext;
         }
 
+
+        /// <summary>
+        ///     Returns the Accounts view.
+        /// </summary>
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        ///     Returns a list of accounts for the current user.
+        /// </summary>
         public JsonResult Get()
         {
             var userId = User.Identity.GetUserId<int>();
@@ -40,14 +71,40 @@ namespace BankingSystem.WebPortal.Controllers
             return Json(customer.Accounts, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> Transfer(TransferViewModel viewModel)
+        /// <summary>
+        ///     Makes an account-to-account transfer.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        public async Task<JsonResult> TransferToMyAccount(TransferViewModel viewModel)
         {
             var userId = User.Identity.GetUserId<int>();
             var customer = _customerService.FindCustomerById(userId);
 
+            // search for logged user's accounts.
             var sourceAccount = customer.Accounts.SingleOrDefault(x => x.AccountNumber == viewModel.SourceAccount);
             var destAccount = customer.Accounts.SingleOrDefault(x => x.AccountNumber == viewModel.DestAccount);
 
+            return await MakeTransfer(viewModel, sourceAccount, destAccount);
+        }
+
+        /// <summary>
+        ///     Makes an account-to-account transfer.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        public async Task<JsonResult> TransferToOtherAccount(TransferViewModel viewModel)
+        {
+            var userId = User.Identity.GetUserId<int>();
+            var customer = _customerService.FindCustomerById(userId);
+
+            // search fo logged user's account and other customer's account.
+            var sourceAccount = customer.Accounts.SingleOrDefault(x => x.AccountNumber == viewModel.SourceAccount);
+            var destAccount = _accountService.FindAccount(viewModel.DestAccount);
+
+            return await MakeTransfer(viewModel, sourceAccount, destAccount);
+        }
+
+        private async Task<JsonResult> MakeTransfer(TransferViewModel viewModel, IAccount sourceAccount, IAccount destAccount)
+        {
             if (sourceAccount == null)
                 ModelState.AddModelError("SourceAccount", "Invalid source account");
 
@@ -66,6 +123,8 @@ namespace BankingSystem.WebPortal.Controllers
             try
             {
                 await _accountService.TransferMoney(sourceAccount, destAccount, viewModel.Amount);
+                _hubContext.All.onAccountChanged(sourceAccount);
+                _hubContext.All.onAccountChanged(destAccount);
                 return this.JsonSuccess();
             }
             catch (Exception ex)

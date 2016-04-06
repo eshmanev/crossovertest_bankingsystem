@@ -3,6 +3,9 @@ using System.Web.Mvc;
 using BankingSystem.DAL;
 using BankingSystem.DAL.Session;
 using BankingSystem.Domain;
+using BankingSystem.WebPortal.Hubs;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Mvc;
 
@@ -42,11 +45,22 @@ namespace BankingSystem.WebPortal
             container.RegisterType(typeof (IRepository<>), typeof (Repository<>), new PerRequestLifetimeManager());
             container.RegisterType<ISessionFactoryHolder, SessionFactoryHolder>(new ContainerControlledLifetimeManager());
 
+            // services
             container.RegisterType<ICustomerService, CustomerService>();
             container.RegisterType<IAccountService, AccountService>();
             container.RegisterType<IExchangeRateService, ExchangeRateService>();
             container.RegisterType<IBankBalanceService, BankBalanceService>();
+
+            // hubs
+            container.RegisterInstance(GlobalHost.ConnectionManager);
+            container.RegisterHubContext<AccountHub>(HubNames.AccountHub);
+
             return container;
+        }
+
+        private static void RegisterHubContext<T>(this IUnityContainer container, string hubName) where T : IHub
+        {
+            container.RegisterType<IHubConnectionContext<dynamic>>(hubName, new InjectionFactory(_ => GlobalHost.ConnectionManager.GetHubContext<T>().Clients));
         }
     }
 }

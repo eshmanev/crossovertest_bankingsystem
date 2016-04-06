@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content" ng-app="AppModule">
         @RenderBody()
         <hr />
         <footer>
@@ -39,7 +39,10 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/signalr")
     @Scripts.Render("~/bundles/angular")
+    <script type="text/javascript" src="~/Scripts/site/app.js"></script>
+    <script type="text/javascript" src="~/Scripts/site/services.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

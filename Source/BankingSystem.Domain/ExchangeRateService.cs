@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -26,32 +25,49 @@ namespace BankingSystem.Domain
         {
             using (var client = new HttpClient())
             {
-                // Login to https://currencylayer.com/dashboard
+                // For more information login to https://currencylayer.com/dashboard
                 // Credentials 
                 //   email: evgeny.shmanev@aurea.com
                 //   pass: testevgeny
+                //   AccessKey = "53d94b7170f4fa9ed81dea1f28c28bf0"
+
                 client.BaseAddress = new Uri("http://www.apilayer.net/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = await client.GetAsync($"api/live?access_key={AccessKey}&format=1&currencies={sourceCurrency},{destCurrency}");
+                var response = await client.GetAsync($"api/live?access_key={AccessKey}&format=1&source={sourceCurrency}&currencies={destCurrency}");
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content.ReadAsStringAsync();
-                var quotesResponse = JsonConvert.DeserializeObject<ApiResponse>(content);
+                var quotesResponse = JsonConvert.DeserializeObject<QuotesDto>(content);
 
                 var key = sourceCurrency + destCurrency;
                 return quotesResponse.Quotes[key];
             }
         }
 
-        private class ApiResponse
+        /// <summary>
+        ///     Represents a DTO with quotes.
+        /// </summary>
+        private class QuotesDto
         {
+            /// <summary>
+            ///     Gets or sets the source currency.
+            /// </summary>
+            /// <value>
+            ///     The source.
+            /// </value>
             [JsonProperty("source")]
             public string Source { get; set; }
 
+            /// <summary>
+            ///     Gets or sets the quotes.
+            /// </summary>
+            /// <value>
+            ///     The quotes.
+            /// </value>
             [JsonProperty("quotes")]
-            public Dictionary<string, decimal> Quotes { get; set; } 
+            public Dictionary<string, decimal> Quotes { get; set; }
         }
     }
 }

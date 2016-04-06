@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using BankingSystem.Data;
 using BankingSystem.DAL;
@@ -79,7 +80,7 @@ namespace BankingSystem.Domain
                     }
 
                     // create a new operation entry
-                    var commission = amount * commissionPercent;
+                    var commission = amount*commissionPercent;
                     var operation = new Operation(
                         DateTime.UtcNow,
                         amount,
@@ -92,7 +93,7 @@ namespace BankingSystem.Domain
                     _databaseContext.Accounts.Update(sourceAccount);
 
                     // update dest account
-                    destAccount.Balance += exhangeRate * (amount - commission);
+                    destAccount.Balance += exhangeRate*(amount - commission);
                     _databaseContext.Accounts.Update(destAccount);
 
                     // update revenues
@@ -108,7 +109,18 @@ namespace BankingSystem.Domain
                     throw new BankingServiceException(message, ex);
                 }
             }
-            
+        }
+
+        /// <summary>
+        ///     Searches for account by its number.
+        /// </summary>
+        /// <param name="accountNumber">The account number.</param>
+        /// <returns>
+        ///     An account or null.
+        /// </returns>
+        public IAccount FindAccount(string accountNumber)
+        {
+            return _databaseContext.Accounts.Filter(x => x.AccountNumber == accountNumber).FirstOrDefault();
         }
     }
 }
