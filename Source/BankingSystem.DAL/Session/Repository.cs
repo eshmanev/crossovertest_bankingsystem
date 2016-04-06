@@ -79,8 +79,11 @@ namespace BankingSystem.DAL.Session
         /// <param name="entity">The entity.</param>
         public void Insert(T entity)
         {
-            _databaseContext.DemandTransactionScope();
-            _databaseContext.GetSession().SaveOrUpdate(entity);
+            using (var transaction = _databaseContext.DemandTransaction())
+            {
+                _databaseContext.GetSession().SaveOrUpdate(entity);
+                transaction.Commit();
+            }
         }
 
         /// <summary>
@@ -89,8 +92,11 @@ namespace BankingSystem.DAL.Session
         /// <param name="entity">The entity.</param>
         public void Update(T entity)
         {
-            _databaseContext.DemandTransactionScope();
-            _databaseContext.GetSession().Update(entity);
+            using (var transaction = _databaseContext.DemandTransaction())
+            {
+                _databaseContext.GetSession().Update(entity);
+                transaction.Commit();
+            }
         }
 
         /// <summary>
@@ -99,8 +105,11 @@ namespace BankingSystem.DAL.Session
         /// <param name="entity">The entity.</param>
         public void Delete(T entity)
         {
-            _databaseContext.DemandTransactionScope();
-            _databaseContext.GetSession().Delete(entity);
+            using (var transaction = _databaseContext.DemandTransaction())
+            {
+                _databaseContext.GetSession().Delete(entity);
+                transaction.Commit();
+            }
         }
 
         private TResult Query<TResult>(Func<IQueryable<T>, TResult> action)

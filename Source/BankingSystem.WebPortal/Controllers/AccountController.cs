@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using BankingSystem.Domain;
 using BankingSystem.WebPortal.Models;
@@ -39,7 +40,7 @@ namespace BankingSystem.WebPortal.Controllers
             return Json(customer.Accounts, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Transfer(TransferViewModel viewModel)
+        public async Task<JsonResult> Transfer(TransferViewModel viewModel)
         {
             var userId = User.Identity.GetUserId<int>();
             var customer = _customerService.FindCustomerById(userId);
@@ -64,7 +65,7 @@ namespace BankingSystem.WebPortal.Controllers
 
             try
             {
-                _accountService.TransferMoney(sourceAccount, destAccount, viewModel.Amount);
+                await _accountService.TransferMoney(sourceAccount, destAccount, viewModel.Amount);
                 return this.JsonSuccess();
             }
             catch (Exception ex)

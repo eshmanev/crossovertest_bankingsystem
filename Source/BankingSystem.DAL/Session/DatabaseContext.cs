@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using BankingSystem.Data;
 using NHibernate;
-using NHibernate.Transaction;
 
 namespace BankingSystem.DAL.Session
 {
@@ -15,7 +13,7 @@ namespace BankingSystem.DAL.Session
     {
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
         private readonly ISessionFactoryHolder _sessionFactoryHolder;
-        private readonly Stack<ITransaction> _transactions = new Stack<ITransaction>();
+        private readonly Stack<IDatabaseTransaction> _transactions = new Stack<IDatabaseTransaction>();
         private ISession _session;
 
         /// <summary>
@@ -85,19 +83,20 @@ namespace BankingSystem.DAL.Session
         }
 
         /// <summary>
-        ///     Demands the transaction scope.
+        ///     Demands the transaction.
         /// </summary>
-        public void DemandTransactionScope()
+        public IDatabaseTransaction DemandTransaction()
         {
             var transaction = GetCurrentTransaction();
-            transaction = transaction == null ? GetSession().BeginTransaction() : new TransactionWrapper(transaction);
-            _transactions.Push(transaction);
+            return transaction == null 
+                ? new DatabaseTransaction(this, GetSession().BeginTransaction())
+                : new TransactionScope(this, transaction);
         }
 
         /// <summary>
-        /// Commits the transaction scope if it was started.
+        /// Commits the transaction if it was started.
         /// </summary>
-        public void CommitTransactionScope()
+        public void CommitTransaction()
         {
             if (!IsInTransaction)
             {
@@ -109,9 +108,9 @@ namespace BankingSystem.DAL.Session
         }
 
         /// <summary>
-        /// Rollbacks the transaction scope if it was started.
+        /// Rollbacks the transaction if it was started.
         /// </summary>
-        public void RollbackTransactionScope()
+        public void RollbackTransaction()
         {
             if (!IsInTransaction)
             {
@@ -146,7 +145,7 @@ namespace BankingSystem.DAL.Session
             _transactions.Pop().Dispose();
         }
 
-        private ITransaction GetCurrentTransaction()
+        private IDatabaseTransaction GetCurrentTransaction()
         {
             return _transactions.Count > 0 ? _transactions.Peek() : null;
         }
@@ -164,49 +163,93 @@ namespace BankingSystem.DAL.Session
             return (IRepository<T>) repository;
         }
 
-        private class TransactionWrapper : ITransaction
+        private class TransactionScope : IDatabaseTransaction
         {
-            private readonly ITransaction _parentScope;
+            private readonly DatabaseContext _context;
+            private readonly IDatabaseTransaction _parentScope;
+            private bool _wasRolledBack;
+            private bool _wasCommitted;
+            private bool _isDisposed;
 
-            public TransactionWrapper(ITransaction parentScope)
+            public TransactionScope(DatabaseContext context, IDatabaseTransaction parentScope)
             {
+                _context = context;
                 _parentScope = parentScope;
+                _context._transactions.Push(this);
             }
 
             public void Dispose()
             {
-            }
-
-            public void Begin()
-            {
-            }
-
-            public void Begin(IsolationLevel isolationLevel)
-            {
+                if (!_isDisposed)
+                {
+                    DisposeCore();
+                    _isDisposed = true;
+                }
             }
 
             public void Commit()
             {
-                WasCommitted = true;
+                if (!_wasRolledBack && !_wasCommitted)
+                {
+                    CommitCore();
+                    _wasCommitted = true;
+                }
             }
 
             public void Rollback()
             {
-                WasRolledBack = true;
-                _parentScope.Rollback();
+                if (!_wasRolledBack && !_wasCommitted)
+                {
+                    RollbackCore();
+                    _wasRolledBack = true;
+                }
             }
 
-            public void Enlist(IDbCommand command)
+            protected virtual void DisposeCore()
+            {
+                if (!_wasRolledBack && !_wasCommitted)
+                    Rollback();
+
+                _context._transactions.Pop();
+            }
+
+            protected virtual void CommitCore()
             {
             }
 
-            public void RegisterSynchronization(ISynchronization synchronization)
+            protected virtual void RollbackCore()
             {
+                _parentScope?.Rollback();
+            }
+        }
+
+        private class DatabaseTransaction : TransactionScope
+        {
+            private readonly ITransaction _transaction;
+
+            public DatabaseTransaction(DatabaseContext context, ITransaction transaction) 
+                : base(context, null)
+            {
+                _transaction = transaction;
             }
 
-            public bool IsActive => true;
-            public bool WasRolledBack { get; private set; }
-            public bool WasCommitted { get; private set; }
+            protected override void DisposeCore()
+            {
+                base.DisposeCore();
+                _transaction.Dispose();
+            }
+
+            protected override void CommitCore()
+            {
+                base.CommitCore();
+                _transaction.Commit();
+            }
+
+            protected override void RollbackCore()
+            {
+                base.RollbackCore();
+                _transaction.Rollback();
+            }
         }
     }
 }

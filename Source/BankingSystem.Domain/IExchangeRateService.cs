@@ -1,4 +1,6 @@
-﻿namespace BankingSystem.Domain
+﻿using System.Threading.Tasks;
+
+namespace BankingSystem.Domain
 {
     /// <summary>
     ///     Defines a service of exchange rates.
@@ -11,6 +13,6 @@
         /// <param name="sourceCurrency">The source currency.</param>
         /// <param name="destCurrency">The dest currency.</param>
         /// <returns></returns>
-        decimal GetExhangeRate(string sourceCurrency, string destCurrency);
+        Task<decimal> GetExhangeRateAsync(string sourceCurrency, string destCurrency);
     }
 }

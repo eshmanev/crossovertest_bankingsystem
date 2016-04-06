@@ -32,16 +32,20 @@ namespace BankingSystem.Domain
         /// <param name="description">The description.</param>
         public void AddRevenue(decimal amount, string description)
         {
-            try
+            using (var transaction = _databaseContext.DemandTransaction())
             {
-                var balance = GetOrCreateBalance();
-                balance.TotalBalance += amount;
-                _databaseContext.CommitTransactionScope();
-            }
-            catch
-            {
-                _databaseContext.RollbackTransactionScope();
-                throw;
+                try
+                {
+                    var balance = GetOrCreateBalance();
+                    balance.TotalBalance += amount;
+                    _databaseContext.BankBalances.Update(balance);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
             }
         }
 
@@ -52,17 +56,21 @@ namespace BankingSystem.Domain
         /// <param name="description">The description.</param>
         public void AddExpences(decimal amount, string description)
         {
-            try
+            using (var transaction = _databaseContext.DemandTransaction())
             {
-                var balance = GetOrCreateBalance();
-                balance.TotalBalance -= amount;
-                _databaseContext.CommitTransactionScope();
-            }
-            catch
-            {
-                _databaseContext.RollbackTransactionScope();
-                throw;
-            }
+                try
+                {
+                    var balance = GetOrCreateBalance();
+                    balance.TotalBalance -= amount;
+                    _databaseContext.BankBalances.Update(balance);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }  
         }
 
         private IBankBalance GetOrCreateBalance()

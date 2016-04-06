@@ -1,4 +1,5 @@
-﻿using BankingSystem.Data;
+﻿using System.Threading.Tasks;
+using BankingSystem.Data;
 
 namespace BankingSystem.Domain
 {
@@ -13,6 +14,6 @@ namespace BankingSystem.Domain
         /// <param name="sourceAccount">The source account.</param>
         /// <param name="destAccount">The dest account.</param>
         /// <param name="amount">The amount to transfer.</param>
-        void TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount);
+        Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount);
     }
 }

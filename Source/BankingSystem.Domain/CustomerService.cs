@@ -94,11 +94,14 @@ namespace BankingSystem.Domain
             if (customer == null)
                 throw new ArgumentException("Invalid user identifier", nameof(userId));
 
-            var loginInfo = new LoginInfo(providerName, loginKey);
-            customer.AddLogin(loginInfo);
-            _databaseContext.Customers.Update(customer);
-            _databaseContext.CommitTransactionScope();
-            return loginInfo;
+            using (var transaction = _databaseContext.DemandTransaction())
+            {
+                var loginInfo = new LoginInfo(providerName, loginKey);
+                customer.AddLogin(loginInfo);
+                _databaseContext.Customers.Update(customer);
+                transaction.Commit();
+                return loginInfo;
+            }
         }
 
         /// <summary>
@@ -120,9 +123,12 @@ namespace BankingSystem.Domain
             var loginInfo = customer.Logins.FirstOrDefault(x => x.ProviderName == providerName && x.LoginKey == loginKey);
             if (loginInfo != null)
             {
-                customer.RemoveLogin(loginInfo);
-                _databaseContext.Customers.Update(customer);
-                _databaseContext.CommitTransactionScope();
+                using (var transaction = _databaseContext.DemandTransaction())
+                {
+                    customer.RemoveLogin(loginInfo);
+                    _databaseContext.Customers.Update(customer);
+                    transaction.Commit();
+                }
             }
 
             return loginInfo;
@@ -185,9 +191,12 @@ namespace BankingSystem.Domain
             if (customer == null)
                 return;
 
-            customer.Email = email;
-            _databaseContext.Customers.Update(customer);
-            _databaseContext.CommitTransactionScope();
+            using (var transaction = _databaseContext.DemandTransaction())
+            {
+                customer.Email = email;
+                _databaseContext.Customers.Update(customer);
+                transaction.Commit();
+            }
         }
     }
 }

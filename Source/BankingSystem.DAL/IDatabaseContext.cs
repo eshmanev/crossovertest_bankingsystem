@@ -56,18 +56,8 @@ namespace BankingSystem.DAL
         ISession GetSession();
 
         /// <summary>
-        ///     Demands the transaction scope.
+        ///     Demands the transaction.
         /// </summary>
-        void DemandTransactionScope();
-
-        /// <summary>
-        ///     Commits the transaction scope if it was started.
-        /// </summary>
-        void CommitTransactionScope();
-
-        /// <summary>
-        ///     Rollbacks the transaction scope if it was started.
-        /// </summary>
-        void RollbackTransactionScope();
+        IDatabaseTransaction DemandTransaction();
     }
 }

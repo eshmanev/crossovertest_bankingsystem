@@ -59,6 +59,7 @@
     <Compile Include="Entities\LoginInfo.cs" />
     <Compile Include="Entities\Operation.cs" />
     <Compile Include="IDatabaseContext.cs" />
+    <Compile Include="IDatabaseTransaction.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISessionFactoryHolder.cs" />
     <Compile Include="Mappings\AccountMap.cs" />

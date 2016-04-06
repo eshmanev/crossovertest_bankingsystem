@@ -58,9 +58,9 @@ namespace BankingSystem.DAL.Session
             script.AppendLine("CREATE NONCLUSTERED INDEX IX_HiLo_Entity ON HiLo (Entity ASC);");
             script.AppendLine("GO");
 
-            foreach (var tableName in configuration.ClassMappings.Select(m => m.Table.Name).Distinct())
+            foreach (var name in configuration.ClassMappings.Select(m => m.EntityName).Distinct())
             {
-                script.AppendLine($"INSERT INTO [HiLo] (Entity, NextHi) VALUES ('{tableName}',1);");
+                script.AppendLine($"INSERT INTO [HiLo] (Entity, NextHi) VALUES ('{name}',1);");
             }
 
             configuration.AddAuxiliaryDatabaseObject(

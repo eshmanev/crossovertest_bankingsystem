@@ -16,7 +16,7 @@ namespace BankingSystem.DAL.Mappings
         public static IdentityPart HiLo<TEntity>(this IdentityGenerationStrategyBuilder<IdentityPart> generatedBy)
             where TEntity : class
         {
-            return generatedBy.HiLo("HiLo", "NextHi", "100", $"Entity = '{typeof(TEntity).Name}'");
+            return generatedBy.HiLo("HiLo", "NextHi", "100", $"Entity = '{typeof(TEntity).FullName}'");
         }
     }
 }

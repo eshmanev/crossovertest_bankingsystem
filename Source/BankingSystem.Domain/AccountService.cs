@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using BankingSystem.Data;
 using BankingSystem.DAL;
 using BankingSystem.DAL.Entities;
@@ -45,7 +46,7 @@ namespace BankingSystem.Domain
         /// <param name="destAccount">The dest account.</param>
         /// <param name="amount">The amount to transfer.</param>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount)
+        public async Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount)
         {
             if (sourceAccount == null)
                 throw new ArgumentNullException(nameof(sourceAccount));
@@ -58,52 +59,56 @@ namespace BankingSystem.Domain
 
             if (sourceAccount.Balance < amount)
                 throw new BankingServiceException("The account does not have enough amount of money");
+
+            using (var transaction = _databaseContext.DemandTransaction())
+            {
+                try
+                {
+                    // get exchange rates and commissions
+                    decimal exhangeRate;
+                    decimal commissionPercent;
+                    if (string.Equals(sourceAccount.Currency, destAccount.Currency, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        exhangeRate = 1.0m;
+                        commissionPercent = 0.0m;
+                    }
+                    else
+                    {
+                        exhangeRate = await _exchangeRateService.GetExhangeRateAsync(sourceAccount.Currency, destAccount.Currency);
+                        commissionPercent = DefaultCommission;
+                    }
+
+                    // create a new operation entry
+                    var commission = amount * commissionPercent;
+                    var operation = new Operation(
+                        DateTime.UtcNow,
+                        amount,
+                        commission,
+                        $"Money transfer from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}");
+                    _databaseContext.Operations.Insert(operation);
+
+                    // update source account
+                    sourceAccount.Balance -= amount;
+                    _databaseContext.Accounts.Update(sourceAccount);
+
+                    // update dest account
+                    destAccount.Balance += exhangeRate * (amount - commission);
+                    _databaseContext.Accounts.Update(destAccount);
+
+                    // update revenues
+                    _bankBalanceService.AddRevenue(commission, $"A commission for money transfer from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}");
+
+                    // commit transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    var message = $"An error has occurred while transferring money from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}";
+                    throw new BankingServiceException(message, ex);
+                }
+            }
             
-            try
-            {
-                // get exchange rates and commissions
-                decimal exhangeRate;
-                decimal commissionPercent;
-                if (string.Equals(sourceAccount.Currency, destAccount.Currency, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    exhangeRate = 1.0m;
-                    commissionPercent = 0.0m;
-                }
-                else
-                {
-                    exhangeRate = _exchangeRateService.GetExhangeRate(sourceAccount.Currency, destAccount.Currency);
-                    commissionPercent = DefaultCommission;
-                }
-
-                // create a new operation entry
-                var commission = amount*commissionPercent;
-                var operation = new Operation(
-                    DateTime.UtcNow,
-                    amount,
-                    commission,
-                    $"Money transfer from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}");
-                _databaseContext.Operations.Insert(operation);
-
-                // update source account
-                sourceAccount.Balance -= amount;
-                _databaseContext.Accounts.Update(sourceAccount);
-
-                // update dest account
-                destAccount.Balance += exhangeRate*(amount - commission);
-                _databaseContext.Accounts.Update(destAccount);
-
-                // update revenues
-                _bankBalanceService.AddRevenue(commission, $"A commission for money transfer from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}");
-
-                // commit transaction
-                _databaseContext.CommitTransactionScope();
-            }
-            catch (Exception ex)
-            {
-                _databaseContext.RollbackTransactionScope();
-                var message = $"An error has occurred while transferring money from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}";
-                throw new BankingServiceException(message, ex);
-            }
         }
     }
 }
