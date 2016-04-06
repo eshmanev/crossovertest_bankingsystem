@@ -36,7 +36,7 @@ namespace BankingSystem.LogicTier.Impl
         /// <exception cref="System.NotImplementedException"></exception>
         public ICustomer FindCustomerByName(string userName)
         {
-            return _databaseContext.Customers.Filter(x => x.UserName == userName).FirstOrDefault();
+            return _databaseContext.Customers.FindByUserName(userName);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace BankingSystem.LogicTier.Impl
         /// <exception cref="System.NotImplementedException"></exception>
         public ICustomer FindCustomerByEmail(string email)
         {
-            return _databaseContext.Customers.Filter(x => x.Email == email).FirstOrDefault();
+            return _databaseContext.Customers.FindByEmail(email);
         }
 
         /// <summary>
@@ -144,10 +144,7 @@ namespace BankingSystem.LogicTier.Impl
         /// </returns>
         public ICustomer FindCustomerByLogin(string providerName, string loginKey)
         {
-            var info = _databaseContext.LoginInfos
-                .Filter(x => x.ProviderName == providerName && x.LoginKey == loginKey)
-                .FirstOrDefault();
-
+            var info = _databaseContext.LoginInfos.FindByProviderAndLogin(providerName, loginKey);
             return info?.Customer;
         }
 

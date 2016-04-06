@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
-using NHibernate;
 using NHibernate.Linq;
 
-namespace BankingSystem.DataTier.Session
+namespace BankingSystem.DataTier.Repositories
 {
     /// <summary>
     ///     Represents a generic repository.
@@ -44,31 +43,7 @@ namespace BankingSystem.DataTier.Session
         {
             return _databaseContext.GetSession().Get<T>(id);
         }
-
-        /// <summary>
-        ///     Fetches all entities which match the given predicate.
-        /// </summary>
-        /// <param name="predicate">A function which specifies a condition.</param>
-        /// <returns>A list of entities.</returns>
-        public IList<T> Filter(Expression<Func<T, bool>> predicate)
-        {
-            return Query(x => x.Where(predicate).ToList());
-        }
-
-        /// <summary>
-        ///     Queries using the given query over.
-        /// </summary>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="action">The action.</param>
-        /// <returns>
-        ///     A result.
-        /// </returns>
-        public TResult QueryOver<TResult>(Func<IQueryOver<T, T>, TResult> action)
-        {
-            var query = _databaseContext.GetSession().QueryOver<T>();
-            return action(query);
-        }
-
+        
         /// <summary>
         ///     Returns a number of entities in repository.
         /// </summary>
@@ -76,16 +51,6 @@ namespace BankingSystem.DataTier.Session
         public int GetCount()
         {
             return Query(x => x.Count());
-        }
-
-        /// <summary>
-        ///     Returns a number of entities which matche the given predicate.
-        /// </summary>
-        /// <param name="predicate">A function which specifies a condition.</param>
-        /// <returns>A number of entities.</returns>
-        public int GetCount(Expression<Func<T, bool>> predicate)
-        {
-            return Query(x => x.Where(predicate).Count());
         }
 
         /// <summary>
@@ -125,6 +90,16 @@ namespace BankingSystem.DataTier.Session
                 _databaseContext.GetSession().Delete(entity);
                 transaction.Commit();
             }
+        }
+
+        /// <summary>
+        ///     Fetches all entities which match the given predicate.
+        /// </summary>
+        /// <param name="predicate">A function which specifies a condition.</param>
+        /// <returns>A list of entities.</returns>
+        protected IList<T> Filter(Expression<Func<T, bool>> predicate)
+        {
+            return Query(x => x.Where(predicate).ToList());
         }
 
         private TResult Query<TResult>(Func<IQueryable<T>, TResult> action)

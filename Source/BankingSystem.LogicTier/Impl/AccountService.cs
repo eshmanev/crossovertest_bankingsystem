@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using BankingSystem.Common.Data;
 using BankingSystem.DataTier;
@@ -120,7 +119,7 @@ namespace BankingSystem.LogicTier.Impl
         /// </returns>
         public IAccount FindAccount(string accountNumber)
         {
-            return _databaseContext.Accounts.Filter(x => x.AccountNumber == accountNumber).FirstOrDefault();
+            return _databaseContext.Accounts.FindAccount(accountNumber);
         }
     }
 }

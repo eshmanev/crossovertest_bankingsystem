@@ -1,5 +1,5 @@
 ﻿using System;
-using BankingSystem.Common.Data;
+using BankingSystem.DataTier.Repositories;
 using NHibernate;
 
 namespace BankingSystem.DataTier
@@ -15,7 +15,7 @@ namespace BankingSystem.DataTier
         /// <value>
         ///     The repository of customers.
         /// </value>
-        IRepository<ICustomer> Customers { get; }
+        ICustomerRepository Customers { get; }
 
         /// <summary>
         ///     Gets the repository of login information.
@@ -23,7 +23,7 @@ namespace BankingSystem.DataTier
         /// <value>
         ///     The repository of login information.
         /// </value>
-        IRepository<ILoginInfo> LoginInfos { get; }
+        ILoginInfoRepository LoginInfos { get; }
 
         /// <summary>
         ///     Gets the repository of operations.
@@ -31,7 +31,7 @@ namespace BankingSystem.DataTier
         /// <value>
         ///     The repository of operations.
         /// </value>
-        IRepository<IOperation> Operations { get; }
+        IOperationRepository Operations { get; }
 
         /// <summary>
         ///     Gets the repository of accounts.
@@ -39,7 +39,7 @@ namespace BankingSystem.DataTier
         /// <value>
         ///     The repository of accounts.
         /// </value>
-        IRepository<IAccount> Accounts { get; }
+        IAccountRepository Accounts { get; }
 
         /// <summary>
         ///     Gets the repository of bank balances.
@@ -47,7 +47,7 @@ namespace BankingSystem.DataTier
         /// <value>
         ///     The repository of bank balances.
         /// </value>
-        IRepository<IBankBalance> BankBalances { get; }
+        IBankBalanceRepository BankBalances { get; }
 
         /// <summary>
         ///     Gets the repository of scheduled emails.
@@ -55,7 +55,7 @@ namespace BankingSystem.DataTier
         /// <value>
         ///     The repository of scheduled emails.
         /// </value>
-        IRepository<IScheduledEmail> ScheduledEmails { get; }
+        IScheduledEmailRepository ScheduledEmails { get; }
 
         /// <summary>
         ///     Gets the repository of delivered emails.
@@ -63,7 +63,7 @@ namespace BankingSystem.DataTier
         /// <value>
         ///     The repository of delivered emails.
         /// </value>
-        IRepository<IDeliveredEmail> DeliveredEmails { get; }
+        IDeliveredEmailRepository DeliveredEmails { get; }
 
         /// <summary>
         ///     Gets the current session.

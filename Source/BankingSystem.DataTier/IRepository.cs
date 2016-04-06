@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using NHibernate;
+﻿using System.Collections.Generic;
 
 namespace BankingSystem.DataTier
 {
@@ -25,32 +22,10 @@ namespace BankingSystem.DataTier
         T GetById(object id);
 
         /// <summary>
-        ///     Fetches all entities which match the given predicate.
-        /// </summary>
-        /// <param name="predicate">A function which specifies a condition.</param>
-        /// <returns>A list of entities.</returns>
-        IList<T> Filter(Expression<Func<T, bool>> predicate);
-
-        /// <summary>
-        ///     Queries using the given query over.
-        /// </summary>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="action">The action.</param>
-        /// <returns>A result.</returns>
-        TResult QueryOver<TResult>(Func<IQueryOver<T, T>, TResult> action);
-
-        /// <summary>
         ///     Returns a number of entities in repository.
         /// </summary>
         /// <returns>A number of entities.</returns>
         int GetCount();
-
-        /// <summary>
-        ///     Returns a number of entities which matche the given predicate.
-        /// </summary>
-        /// <param name="predicate">A function which specifies a condition.</param>
-        /// <returns>A number of entities.</returns>
-        int GetCount(Expression<Func<T, bool>> predicate);
 
         /// <summary>
         ///     Inserts the specified entity into repository.

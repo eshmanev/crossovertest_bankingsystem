@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BankingSystem.Common.Data;
+using BankingSystem.DataTier.Repositories;
 using NHibernate;
 
 namespace BankingSystem.DataTier.Session
@@ -39,7 +39,7 @@ namespace BankingSystem.DataTier.Session
         /// <value>
         ///     The repository of customers.
         /// </value>
-        public IRepository<ICustomer> Customers => GetRepository<ICustomer>();
+        public ICustomerRepository Customers => new CustomerRepository(this);
 
         /// <summary>
         ///     Gets the repository of login information.
@@ -47,7 +47,7 @@ namespace BankingSystem.DataTier.Session
         /// <value>
         ///     The repository of login information.
         /// </value>
-        public IRepository<ILoginInfo> LoginInfos => GetRepository<ILoginInfo>();
+        public ILoginInfoRepository LoginInfos => new LoginInfoRepository(this);
 
         /// <summary>
         ///     Gets the repository of operations.
@@ -55,7 +55,7 @@ namespace BankingSystem.DataTier.Session
         /// <value>
         ///     The repository of operations.
         /// </value>
-        public IRepository<IOperation> Operations => GetRepository<IOperation>();
+        public IOperationRepository Operations => new OperationRepository(this);
 
         /// <summary>
         ///     Gets the repository of accounts.
@@ -63,7 +63,7 @@ namespace BankingSystem.DataTier.Session
         /// <value>
         ///     The repository of accounts.
         /// </value>
-        public IRepository<IAccount> Accounts => GetRepository<IAccount>();
+        public IAccountRepository Accounts => new AccountRepository(this);
 
         /// <summary>
         ///     Gets the repository of bank balances.
@@ -71,7 +71,7 @@ namespace BankingSystem.DataTier.Session
         /// <value>
         ///     The repository of bank balances.
         /// </value>
-        public IRepository<IBankBalance> BankBalances => GetRepository<IBankBalance>();
+        public IBankBalanceRepository BankBalances => new BankBalanceRepository(this);
 
         /// <summary>
         ///     Gets the repository of scheduled emails.
@@ -79,7 +79,7 @@ namespace BankingSystem.DataTier.Session
         /// <value>
         ///     The repository of scheduled emails.
         /// </value>
-        public IRepository<IScheduledEmail> ScheduledEmails => GetRepository<IScheduledEmail>();
+        public IScheduledEmailRepository ScheduledEmails => new ScheduledEmailRepository(this);
 
         /// <summary>
         ///     Gets the repository of delivered emails.
@@ -87,7 +87,7 @@ namespace BankingSystem.DataTier.Session
         /// <value>
         ///     The repository of delivered emails.
         /// </value>
-        public IRepository<IDeliveredEmail> DeliveredEmails => GetRepository<IDeliveredEmail>();
+        public IDeliveredEmailRepository DeliveredEmails => new DeliveredEmailRepository(this);
 
         /// <summary>
         ///     Gets the session.
@@ -164,19 +164,6 @@ namespace BankingSystem.DataTier.Session
         private IDatabaseTransaction GetCurrentTransaction()
         {
             return _transactions.Count > 0 ? _transactions.Peek() : null;
-        }
-
-        private IRepository<T> GetRepository<T>()
-            where T : class
-        {
-            var type = typeof (T);
-            object repository;
-            if (!_repositories.TryGetValue(type, out repository))
-            {
-                repository = new Repository<T>(this);
-                _repositories.Add(type, repository);
-            }
-            return (IRepository<T>) repository;
         }
 
         private class TransactionScope : IDatabaseTransaction

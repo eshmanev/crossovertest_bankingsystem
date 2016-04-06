@@ -1,5 +1,6 @@
 ﻿using System;
 using BankingSystem.DataTier;
+using BankingSystem.DataTier.Repositories;
 using BankingSystem.DataTier.Session;
 using BankingSystem.LogicTier.Impl;
 using Microsoft.Practices.Unity;

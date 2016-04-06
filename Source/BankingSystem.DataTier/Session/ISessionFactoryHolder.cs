@@ -1,6 +1,6 @@
 using NHibernate;
 
-namespace BankingSystem.DataTier
+namespace BankingSystem.DataTier.Session
 {
     /// <summary>
     /// Provides a session factory.
