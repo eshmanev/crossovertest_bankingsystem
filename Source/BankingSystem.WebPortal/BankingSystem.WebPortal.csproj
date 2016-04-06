@@ -1054,17 +1054,17 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\BankingSystem.DAL\BankingSystem.DAL.csproj">
+    <ProjectReference Include="..\BankingSystem.DataTier\BankingSystem.DataTier.csproj">
       <Project>{90a6529c-62ff-4580-8f96-e15d69b4a020}</Project>
-      <Name>BankingSystem.DAL</Name>
+      <Name>BankingSystem.DataTier</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BankingSystem.Data\BankingSystem.Data.csproj">
+    <ProjectReference Include="..\BankingSystem.Common\BankingSystem.Common.csproj">
       <Project>{df97f91d-79e7-4526-8586-5cda82664fcf}</Project>
-      <Name>BankingSystem.Data</Name>
+      <Name>BankingSystem.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BankingSystem.Domain\BankingSystem.Domain.csproj">
+    <ProjectReference Include="..\BankingSystem.LogicTier\BankingSystem.LogicTier.csproj">
       <Project>{2A3C0E00-88A4-471E-B9D8-26DE7925B831}</Project>
-      <Name>BankingSystem.Domain</Name>
+      <Name>BankingSystem.LogicTier</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

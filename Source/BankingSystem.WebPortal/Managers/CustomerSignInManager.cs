@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using BankingSystem.Domain;
+using BankingSystem.LogicTier;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;

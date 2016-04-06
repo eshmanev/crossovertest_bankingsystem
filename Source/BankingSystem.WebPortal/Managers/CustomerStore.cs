@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BankingSystem.Domain;
+using BankingSystem.LogicTier;
 using Microsoft.AspNet.Identity;
 
 namespace BankingSystem.WebPortal.Managers

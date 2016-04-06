@@ -1,5 +1,5 @@
 ﻿using System;
-using BankingSystem.Domain;
+using BankingSystem.LogicTier;
 using BankingSystem.WebPortal;
 using BankingSystem.WebPortal.Managers;
 using Microsoft.AspNet.Identity;

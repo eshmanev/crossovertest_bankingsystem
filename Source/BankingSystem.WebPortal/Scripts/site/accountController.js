@@ -23,13 +23,13 @@
 
         // subsribe on messages sent by server hub
         var hub = backendHubProxy(backendHubProxy.defaultServer, 'accountHub');
-        hub.on('onAccountChanged', function (account) {
-            var index = this.accounts.findIndex(function(el) {
-                return el.AccountNumber === account.AccountNumber;
+        hub.on('onBalanceChanged', function (message) {
+            var account = this.accounts.find(function(el) {
+                return el.AccountNumber === message.AccountNumber;
             });
-            this.accounts.splice(index, 1);
-            this.accounts.splice(index, 0, account);
-            
+            if (typeof account !== "undefined" && account !== null) {
+                account.Balance = message.CurrentBalance; 
+            }
         }.bind(this));
     }
 ]);

@@ -1,4 +1,4 @@
-﻿using BankingSystem.Data;
+﻿using BankingSystem.Common.Messages;
 using Microsoft.AspNet.SignalR;
 
 namespace BankingSystem.WebPortal.Hubs
@@ -10,12 +10,12 @@ namespace BankingSystem.WebPortal.Hubs
     public class AccountHub : Hub
     {
         /// <summary>
-        ///     Delivers notification when the given account is changed.
+        ///     Delivers notification when the account's balance is changed.
         /// </summary>
-        /// <param name="account">The account.</param>
-        public void OnAccountChanged(IAccount account)
+        /// <param name="message">The message.</param>
+        public void OnBalanceChanged(BalanceChangedMessage message)
         {
-            Clients.All.onAccountChanged(account);
+            Clients.All.onBalanceChanged(message);
         }
     }
 }

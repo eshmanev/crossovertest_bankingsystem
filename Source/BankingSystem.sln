@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.Domain", "BankingSystem.Domain\BankingSystem.Domain.csproj", "{2A3C0E00-88A4-471E-B9D8-26DE7925B831}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.LogicTier", "BankingSystem.LogicTier\BankingSystem.LogicTier.csproj", "{2A3C0E00-88A4-471E-B9D8-26DE7925B831}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.DAL", "BankingSystem.DAL\BankingSystem.DAL.csproj", "{90A6529C-62FF-4580-8F96-E15D69B4A020}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.DataTier", "BankingSystem.DataTier\BankingSystem.DataTier.csproj", "{90A6529C-62FF-4580-8F96-E15D69B4A020}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.WebPortal", "BankingSystem.WebPortal\BankingSystem.WebPortal.csproj", "{9E9F43F4-37D6-4444-97E5-4FBB720DE7C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.Data", "BankingSystem.Data\BankingSystem.Data.csproj", "{DF97F91D-79E7-4526-8586-5CDA82664FCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.Common", "BankingSystem.Common\BankingSystem.Common.csproj", "{DF97F91D-79E7-4526-8586-5CDA82664FCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.NotificationService", "BankingSystem.NotificationService\BankingSystem.NotificationService.csproj", "{EBB76035-8F03-4CAB-8A32-903816107024}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DF97F91D-79E7-4526-8586-5CDA82664FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF97F91D-79E7-4526-8586-5CDA82664FCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF97F91D-79E7-4526-8586-5CDA82664FCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBB76035-8F03-4CAB-8A32-903816107024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBB76035-8F03-4CAB-8A32-903816107024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBB76035-8F03-4CAB-8A32-903816107024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBB76035-8F03-4CAB-8A32-903816107024}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

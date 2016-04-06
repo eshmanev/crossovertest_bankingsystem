@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using BankingSystem.DAL;
-using BankingSystem.DAL.Session;
-using BankingSystem.Domain;
+using BankingSystem.DataTier;
+using BankingSystem.DataTier.Session;
+using BankingSystem.LogicTier;
+using BankingSystem.LogicTier.Impl;
 using BankingSystem.WebPortal.Hubs;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;

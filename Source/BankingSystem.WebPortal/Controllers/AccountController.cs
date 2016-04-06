@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using BankingSystem.Data;
-using BankingSystem.Domain;
+using BankingSystem.Common.Data;
+using BankingSystem.Common.Messages;
+using BankingSystem.LogicTier;
 using BankingSystem.WebPortal.Hubs;
 using BankingSystem.WebPortal.Models;
 using log4net;
@@ -122,9 +123,13 @@ namespace BankingSystem.WebPortal.Controllers
 
             try
             {
+                var oldSourceBalance = sourceAccount.Balance;
+                var oldDestBalance = destAccount.Balance;
                 await _accountService.TransferMoney(sourceAccount, destAccount, viewModel.Amount);
-                _hubContext.All.onAccountChanged(sourceAccount);
-                _hubContext.All.onAccountChanged(destAccount);
+
+                _hubContext.All.onBalanceChanged(CreateBalanceChangedMessage(sourceAccount, oldSourceBalance));
+                _hubContext.All.onBalanceChanged(CreateBalanceChangedMessage(destAccount, oldDestBalance));
+
                 return this.JsonSuccess();
             }
             catch (Exception ex)
@@ -132,6 +137,23 @@ namespace BankingSystem.WebPortal.Controllers
                 Log.Error($"An unpexpected error has occurred while transferring money from account {viewModel.SourceAccount} to account {viewModel.DestAccount}", ex);
                 return this.JsonError("An unexpected error has occurred");
             }
+        }
+
+        /// <summary>
+        ///     Creates the balance changed message.
+        /// </summary>
+        /// <param name="account">The account.</param>
+        /// <param name="oldBalance">The old balance.</param>
+        /// <returns></returns>
+        private BalanceChangedMessage CreateBalanceChangedMessage(IAccount account, decimal oldBalance)
+        {
+            return new BalanceChangedMessage
+            {
+                AccountNumber = account.AccountNumber,
+                Currency = account.Currency,
+                ChangeAmount = account.Balance - oldBalance,
+                CurrentBalance = account.Balance
+            };
         }
     }
 }
