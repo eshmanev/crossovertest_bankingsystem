@@ -22,6 +22,22 @@
         string AccountNumber { get; }
 
         /// <summary>
+        ///     Gets the currency.
+        /// </summary>
+        /// <value>
+        ///     The currency.
+        /// </value>
+        string Currency { get; }
+
+        /// <summary>
+        ///     Gets the balance.
+        /// </summary>
+        /// <value>
+        ///     The balance.
+        /// </value>
+        decimal Balance { get; set; }
+
+        /// <summary>
         ///     Gets the assigned bank card.
         /// </summary>
         /// <value>

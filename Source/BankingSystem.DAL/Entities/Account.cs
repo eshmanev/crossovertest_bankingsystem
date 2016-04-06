@@ -25,6 +25,22 @@ namespace BankingSystem.DAL.Entities
         public virtual string AccountNumber { get; protected set; }
 
         /// <summary>
+        ///     Gets the currency.
+        /// </summary>
+        /// <value>
+        ///     The currency.
+        /// </value>
+        public virtual string Currency { get; protected set; }
+
+        /// <summary>
+        ///     Gets the balance.
+        /// </summary>
+        /// <value>
+        ///     The balance.
+        /// </value>
+        public virtual decimal Balance { get; set; }
+
+        /// <summary>
         ///     Gets the assigned bank card.
         /// </summary>
         /// <value>

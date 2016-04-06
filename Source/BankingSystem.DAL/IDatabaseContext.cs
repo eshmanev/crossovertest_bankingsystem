@@ -1,6 +1,5 @@
 ﻿using System;
 using BankingSystem.Data;
-using BankingSystem.DAL.Entities;
 using NHibernate;
 
 namespace BankingSystem.DAL
@@ -27,9 +26,28 @@ namespace BankingSystem.DAL
         IRepository<ILoginInfo> LoginInfos { get; }
 
         /// <summary>
-        ///     Demands the transaction.
+        ///     Gets the repository of operations.
         /// </summary>
-        void DemandTransaction();
+        /// <value>
+        ///     The repository of operations.
+        /// </value>
+        IRepository<IOperation> Operations { get; }
+
+        /// <summary>
+        ///     Gets the repository of accounts.
+        /// </summary>
+        /// <value>
+        ///     The repository of accounts.
+        /// </value>
+        IRepository<IAccount> Accounts { get; }
+
+        /// <summary>
+        ///     Gets the repository of bank balances.
+        /// </summary>
+        /// <value>
+        ///     The repository of bank balances.
+        /// </value>
+        IRepository<IBankBalance> BankBalances { get; }
 
         /// <summary>
         ///     Gets the current session.
@@ -38,13 +56,18 @@ namespace BankingSystem.DAL
         ISession GetSession();
 
         /// <summary>
-        ///     Commits the transaction if it was started.
+        ///     Demands the transaction scope.
         /// </summary>
-        void Commit();
+        void DemandTransactionScope();
 
         /// <summary>
-        ///     Rollbacks the transaction if it was started.
+        ///     Commits the transaction scope if it was started.
         /// </summary>
-        void Rollback();
+        void CommitTransactionScope();
+
+        /// <summary>
+        ///     Rollbacks the transaction scope if it was started.
+        /// </summary>
+        void RollbackTransactionScope();
     }
 }

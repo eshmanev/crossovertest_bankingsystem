@@ -43,6 +43,9 @@ namespace BankingSystem.WebPortal
             container.RegisterType<ISessionFactoryHolder, SessionFactoryHolder>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<ICustomerService, CustomerService>();
+            container.RegisterType<IAccountService, AccountService>();
+            container.RegisterType<IExchangeRateService, ExchangeRateService>();
+            container.RegisterType<IBankBalanceService, BankBalanceService>();
             return container;
         }
     }

@@ -97,7 +97,7 @@ namespace BankingSystem.Domain
             var loginInfo = new LoginInfo(providerName, loginKey);
             customer.AddLogin(loginInfo);
             _databaseContext.Customers.Update(customer);
-            _databaseContext.Commit();
+            _databaseContext.CommitTransactionScope();
             return loginInfo;
         }
 
@@ -122,7 +122,7 @@ namespace BankingSystem.Domain
             {
                 customer.RemoveLogin(loginInfo);
                 _databaseContext.Customers.Update(customer);
-                _databaseContext.Commit();
+                _databaseContext.CommitTransactionScope();
             }
 
             return loginInfo;
@@ -187,7 +187,7 @@ namespace BankingSystem.Domain
 
             customer.Email = email;
             _databaseContext.Customers.Update(customer);
-            _databaseContext.Commit();
+            _databaseContext.CommitTransactionScope();
         }
     }
 }

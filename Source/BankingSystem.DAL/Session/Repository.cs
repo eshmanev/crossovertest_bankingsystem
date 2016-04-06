@@ -79,7 +79,7 @@ namespace BankingSystem.DAL.Session
         /// <param name="entity">The entity.</param>
         public void Insert(T entity)
         {
-            _databaseContext.DemandTransaction();
+            _databaseContext.DemandTransactionScope();
             _databaseContext.GetSession().SaveOrUpdate(entity);
         }
 
@@ -89,7 +89,7 @@ namespace BankingSystem.DAL.Session
         /// <param name="entity">The entity.</param>
         public void Update(T entity)
         {
-            _databaseContext.DemandTransaction();
+            _databaseContext.DemandTransactionScope();
             _databaseContext.GetSession().Update(entity);
         }
 
@@ -99,7 +99,7 @@ namespace BankingSystem.DAL.Session
         /// <param name="entity">The entity.</param>
         public void Delete(T entity)
         {
-            _databaseContext.DemandTransaction();
+            _databaseContext.DemandTransactionScope();
             _databaseContext.GetSession().Delete(entity);
         }
 

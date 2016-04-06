@@ -17,6 +17,8 @@ namespace BankingSystem.DAL.Mappings
             Table("Accounts");
             Id(x => x.Id).GeneratedBy.HiLo<Account>();
             Map(x => x.AccountNumber).Unique();
+            Map(x => x.Currency);
+            Map(x => x.Balance);
             HasOne(x => x.BankCard).Class<BankCard>();
         }
     }

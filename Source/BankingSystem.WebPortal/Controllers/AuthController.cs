@@ -99,7 +99,6 @@ namespace BankingSystem.WebPortal.Controllers
                     return View("Lockout");
 
                 default:
-                    // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     return View("ExternalLoginCannotBeVerified");

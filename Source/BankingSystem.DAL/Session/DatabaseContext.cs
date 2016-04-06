@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using BankingSystem.Data;
-using BankingSystem.DAL.Entities;
 using NHibernate;
+using NHibernate.Transaction;
 
 namespace BankingSystem.DAL.Session
 {
     /// <summary>
-    /// Represents a database context.
+    ///     Represents a database context.
     /// </summary>
     /// <seealso cref="BankingSystem.DAL.IDatabaseContext" />
     public class DatabaseContext : IDatabaseContext
     {
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
         private readonly ISessionFactoryHolder _sessionFactoryHolder;
+        private readonly Stack<ITransaction> _transactions = new Stack<ITransaction>();
         private ISession _session;
-        private ITransaction _transaction;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="DatabaseContext" /> class.
@@ -26,7 +27,13 @@ namespace BankingSystem.DAL.Session
             _sessionFactoryHolder = sessionFactoryHolder;
         }
 
-        private bool IsInTransaction => _transaction != null;
+        /// <summary>
+        ///     Gets a value indicating whether this instance is in transaction.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if this instance is in transaction; otherwise, <c>false</c>.
+        /// </value>
+        private bool IsInTransaction => _transactions.Count > 0;
 
         /// <summary>
         ///     Gets the repository of customers.
@@ -45,15 +52,28 @@ namespace BankingSystem.DAL.Session
         public IRepository<ILoginInfo> LoginInfos => GetRepository<ILoginInfo>();
 
         /// <summary>
-        ///     Demands the transaction.
+        ///     Gets the repository of operations.
         /// </summary>
-        public void DemandTransaction()
-        {
-            if (_transaction == null)
-            {
-                _transaction = GetSession().BeginTransaction();
-            }
-        }
+        /// <value>
+        ///     The repository of operations.
+        /// </value>
+        public IRepository<IOperation> Operations => GetRepository<IOperation>();
+
+        /// <summary>
+        ///     Gets the repository of accounts.
+        /// </summary>
+        /// <value>
+        ///     The repository of accounts.
+        /// </value>
+        public IRepository<IAccount> Accounts => GetRepository<IAccount>();
+
+        /// <summary>
+        ///     Gets the repository of bank balances.
+        /// </summary>
+        /// <value>
+        ///     The repository of bank balances.
+        /// </value>
+        public IRepository<IBankBalance> BankBalances => GetRepository<IBankBalance>();
 
         /// <summary>
         ///     Gets the session.
@@ -65,30 +85,40 @@ namespace BankingSystem.DAL.Session
         }
 
         /// <summary>
-        ///     Commits this instance.
+        ///     Demands the transaction scope.
         /// </summary>
-        public void Commit()
+        public void DemandTransactionScope()
+        {
+            var transaction = GetCurrentTransaction();
+            transaction = transaction == null ? GetSession().BeginTransaction() : new TransactionWrapper(transaction);
+            _transactions.Push(transaction);
+        }
+
+        /// <summary>
+        /// Commits the transaction scope if it was started.
+        /// </summary>
+        public void CommitTransactionScope()
         {
             if (!IsInTransaction)
             {
                 return;
             }
 
-            _transaction.Commit();
+            GetCurrentTransaction().Commit();
             DisposeTransaction();
         }
 
         /// <summary>
-        ///     Rollbacks this instance.
+        /// Rollbacks the transaction scope if it was started.
         /// </summary>
-        public void Rollback()
+        public void RollbackTransactionScope()
         {
             if (!IsInTransaction)
             {
                 return;
             }
 
-            _transaction.Rollback();
+            GetCurrentTransaction().Rollback();
             DisposeTransaction();
         }
 
@@ -113,8 +143,12 @@ namespace BankingSystem.DAL.Session
                 return;
             }
 
-            _transaction.Dispose();
-            _transaction = null;
+            _transactions.Pop().Dispose();
+        }
+
+        private ITransaction GetCurrentTransaction()
+        {
+            return _transactions.Count > 0 ? _transactions.Peek() : null;
         }
 
         private IRepository<T> GetRepository<T>()
@@ -128,6 +162,51 @@ namespace BankingSystem.DAL.Session
                 _repositories.Add(type, repository);
             }
             return (IRepository<T>) repository;
+        }
+
+        private class TransactionWrapper : ITransaction
+        {
+            private readonly ITransaction _parentScope;
+
+            public TransactionWrapper(ITransaction parentScope)
+            {
+                _parentScope = parentScope;
+            }
+
+            public void Dispose()
+            {
+            }
+
+            public void Begin()
+            {
+            }
+
+            public void Begin(IsolationLevel isolationLevel)
+            {
+            }
+
+            public void Commit()
+            {
+                WasCommitted = true;
+            }
+
+            public void Rollback()
+            {
+                WasRolledBack = true;
+                _parentScope.Rollback();
+            }
+
+            public void Enlist(IDbCommand command)
+            {
+            }
+
+            public void RegisterSynchronization(ISynchronization synchronization)
+            {
+            }
+
+            public bool IsActive => true;
+            public bool WasRolledBack { get; private set; }
+            public bool WasCommitted { get; private set; }
         }
     }
 }
