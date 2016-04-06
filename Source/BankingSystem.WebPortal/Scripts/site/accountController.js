@@ -54,8 +54,9 @@ accountModule.controller('AccountInternalTransferController', [
                 function(response) {
                     
                 }.bind(this),
-                function(error) {
+                function (error) {
                     $scope.errors = error.data.Details;
+                    $scope.errors.Summary = error.data.Message;
                 }.bind(this));
         }
 

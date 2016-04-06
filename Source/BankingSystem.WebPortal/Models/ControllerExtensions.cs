@@ -18,7 +18,7 @@ namespace BankingSystem.WebPortal.Models
         {
             controller.Response.StatusCode = (int) HttpStatusCode.BadRequest;
 
-            var model = new ErrorViewModel {Details = new Dictionary<string, string>()};
+            var model = new ErrorViewModel {Message = message, Details = new Dictionary<string, string>()};
             foreach (var item in controller.ModelState)
                 foreach (var error in item.Value.Errors)
                     model.Details.Add(item.Key, error.ErrorMessage);

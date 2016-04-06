@@ -56,7 +56,7 @@ namespace BankingSystem.WebPortal.Controllers
             if (viewModel.Amount <= 0)
                 ModelState.AddModelError("Amount", "Amount must be greater than zero");
 
-            if (sourceAccount != null && viewModel.Amount < sourceAccount.Balance)
+            if (sourceAccount != null && sourceAccount.Balance < viewModel.Amount)
                 ModelState.AddModelError("Amount", "No enough money to transfer");
 
             if (!ModelState.IsValid)
