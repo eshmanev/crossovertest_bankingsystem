@@ -25,6 +25,14 @@ namespace BankingSystem.DataTier.Entities
         public virtual string CsvCode { get; protected set; }
 
         /// <summary>
+        ///     Gets or sets the pin code.
+        /// </summary>
+        /// <value>
+        ///     The pin code.
+        /// </value>
+        public virtual string PinCode { get; set; }
+
+        /// <summary>
         ///     Gets the name of the card holder.
         /// </summary>
         /// <value>

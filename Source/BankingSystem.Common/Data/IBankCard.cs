@@ -14,6 +14,14 @@
         string CsvCode { get; }
 
         /// <summary>
+        ///     Gets or sets the pin code.
+        /// </summary>
+        /// <value>
+        ///     The pin code.
+        /// </value>
+        string PinCode { get; set; }
+
+        /// <summary>
         /// Gets the name of the card holder.
         /// </summary>
         /// <value>

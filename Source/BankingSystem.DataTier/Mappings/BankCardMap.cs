@@ -16,11 +16,12 @@ namespace BankingSystem.DataTier.Mappings
         {
             Table("BankCards");
             Id(x => x.Id).GeneratedBy.HiLo<BankCard>();
-            Map(x => x.CardHolder);
-            Map(x => x.CardNumber);
-            Map(x => x.CsvCode);
-            Map(x => x.ExpirationMonth);
-            Map(x => x.ExpirationYear);
+            Map(x => x.CardHolder).Not.Nullable();
+            Map(x => x.CardNumber).Not.Nullable();
+            Map(x => x.CsvCode).Not.Nullable();
+            Map(x => x.ExpirationMonth).Not.Nullable();
+            Map(x => x.ExpirationYear).Not.Nullable();
+            Map(x => x.PinCode).Not.Nullable();
         }
     }
 }
