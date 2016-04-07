@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using System.Web.Http;
 using System.Web.Mvc;
 using BankingSystem.LogicTier.Unity;
 using BankingSystem.WebPortal.Hubs;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Mvc;
 
 namespace BankingSystem.WebPortal
 {
@@ -30,10 +30,13 @@ namespace BankingSystem.WebPortal
             // build container
             Container = BuildUnityContainer();
 
-            // extra settings
+            // MVC unity configuration
             FilterProviders.Providers.Remove(FilterProviders.Providers.OfType<FilterAttributeFilterProvider>().First());
-            FilterProviders.Providers.Add(new UnityFilterAttributeFilterProvider(Container));
-            DependencyResolver.SetResolver(new UnityDependencyResolver(Container));
+            FilterProviders.Providers.Add(new Microsoft.Practices.Unity.Mvc.UnityFilterAttributeFilterProvider(Container));
+            DependencyResolver.SetResolver(new Microsoft.Practices.Unity.Mvc.UnityDependencyResolver(Container));
+
+            // WebAPI unity configuration
+            GlobalConfiguration.Configuration.DependencyResolver = new Microsoft.Practices.Unity.WebApi.UnityDependencyResolver(Container);
         }
 
         private static IUnityContainer BuildUnityContainer()

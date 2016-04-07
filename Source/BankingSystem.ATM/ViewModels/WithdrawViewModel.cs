@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using BankingSystem.ATM.Services;
 using Prism.Commands;
@@ -93,7 +94,8 @@ namespace BankingSystem.ATM.ViewModels
                 return;
             }
 
-            string errorMessage = await _service.Withdraw(_provider.GetBankCardNumber(), _provider.CurrentPin, Amount);
+            // we should send a negative value for withdrawal.
+            var errorMessage = await _service.Withdraw(_provider.GetBankCardNumber(), _provider.CurrentPin, -Amount);
             _dispatcherAccessor.Dispatcher.Invoke(() =>
             {
                 if (!string.IsNullOrEmpty(errorMessage))
@@ -103,6 +105,12 @@ namespace BankingSystem.ATM.ViewModels
                 }
                 else
                 {
+                    // This is just to notify user of the application. Normally we should not show any message boxes, 
+                    // because hardware is reponsible for getting cache.
+                    MessageBox.Show($"You have withdrown {Amount}. Now you will be redirected on the PIN screen.");
+
+                    ErrorMessage = null;
+                    Amount = 0;
                     GlobalCommands.FinishCommand.Execute(null);
                 }
             });

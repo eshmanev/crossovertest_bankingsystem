@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using BankingSystem.Common.Messages;
 using log4net;
@@ -13,11 +15,8 @@ namespace BankingSystem.ATM.Services
     /// <seealso cref="IBankingService" />
     public class BankingServiceProxy : IBankingService
     {
-        private const string ValidatePinUrl = "";
-        private const string ChangePinUrl = "";
-        private const string WithdrawUrl = "";
-        private const string GetBalanceUrl = "";
-        private readonly ILog Log = LogManager.GetLogger(typeof (BankingServiceProxy));
+        private static readonly ILog Log = LogManager.GetLogger(typeof (BankingServiceProxy));
+        private const string BaseUrl = "api/bankcard/{0}/pin/{1}/{2}";
         private readonly ISettings _settings;
 
         /// <summary>
@@ -47,7 +46,7 @@ namespace BankingSystem.ATM.Services
             {
                 try
                 {
-                    var response = await client.PostAsync(ValidatePinUrl, new ValidatePinMessage {BankNumber = bankCardNumber, PinCode = pin});
+                    var response = await client.GetAsync(GetBaseUrl(bankCardNumber, pin));
                     response.EnsureSuccessStatusCode();
                     return true;
                 }
@@ -78,7 +77,7 @@ namespace BankingSystem.ATM.Services
             {
                 try
                 {
-                    var response = await client.PostAsync(ChangePinUrl, new ChangePinMessage {BankNumber = bankCardNumber, OldPinCode = pin, NewPinCode = newPin});
+                    var response = await client.PutAsync(GetBaseUrl(bankCardNumber, pin), new NewPinMessage {NewPin = newPin});
                     response.EnsureSuccessStatusCode();
                     return true;
                 }
@@ -109,7 +108,8 @@ namespace BankingSystem.ATM.Services
             {
                 try
                 {
-                    var response = await client.PostAsync(WithdrawUrl, new WithdrawMessage {BankNumber = bankCardNumber, PinCode = pin, Amount = amount});
+                    var url = GetBaseUrl(bankCardNumber, pin, "balance");
+                    var response = await client.PutAsync(url, new ChangeAmountMessage {Amount = amount});
                     response.EnsureSuccessStatusCode();
                     return null;
                 }
@@ -140,10 +140,10 @@ namespace BankingSystem.ATM.Services
             {
                 try
                 {
-                    var response = await client.PostAsync(GetBalanceUrl, new GetBalanceMessage {BankNumber = bankCardNumber, PinCode = pin});
+                    var url = GetBaseUrl(bankCardNumber, pin, "balance");
+                    var response = await client.GetAsync(url);
                     response.EnsureSuccessStatusCode();
-                    var responseMessage = await response.Content.ReadAs<GetBalanceResponseMessage>();
-                    return $"{responseMessage.Currency} {responseMessage.Amount}";
+                    return await response.Content.ReadAsStringAsync();
                 }
                 catch (HttpRequestException ex)
                 {
@@ -156,6 +156,18 @@ namespace BankingSystem.ATM.Services
                     return "Unexpected error";
                 }
             }
+        }
+
+        /// <summary>
+        ///     Gets the base URL.
+        /// </summary>
+        /// <param name="bankCardNumber">The bank card number.</param>
+        /// <param name="pin">The pin.</param>
+        /// <param name="relativeUrl">The relative URL.</param>
+        /// <returns></returns>
+        private string GetBaseUrl(string bankCardNumber, string pin, string relativeUrl = null)
+        {
+            return string.Format(BaseUrl, bankCardNumber, pin, relativeUrl);
         }
 
         private HttpClient CreateClient()

@@ -44,9 +44,9 @@ namespace BankingSystem.ATM
 
             // services
             Container
+                .RegisterType<ICredentialsProvider, FakeCredentialsProvider>(new ContainerControlledLifetimeManager())
                 .RegisterType<ISettings, Settings>()
                 .RegisterType<IDispatcherAccessor, DispatcherAccessor>()
-                .RegisterType<ICredentialsProvider, FakeCredentialsProvider>()
                 .RegisterType<IBankingService, BankingServiceProxy>();
         }
     }

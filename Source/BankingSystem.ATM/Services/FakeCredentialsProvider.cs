@@ -10,7 +10,16 @@
     /// <seealso cref="ICredentialsProvider" />
     public class FakeCredentialsProvider : ICredentialsProvider
     {
-        private FakeBankCardSlot _fakeSlot;
+        private readonly FakeBankCardSlot _fakeSlot;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FakeCredentialsProvider" /> class.
+        /// </summary>
+        public FakeCredentialsProvider()
+        {
+            _fakeSlot = new FakeBankCardSlot();
+            _fakeSlot.Show();
+        }
 
         /// <summary>
         ///     Gets or sets the current pin entered by the user.
@@ -29,12 +38,6 @@
         /// <exception cref="System.NotImplementedException"></exception>
         public string GetBankCardNumber()
         {
-            if (_fakeSlot == null)
-            {
-                _fakeSlot = new FakeBankCardSlot();
-                _fakeSlot.Show();
-            }
-
             return _fakeSlot.SelectedCard;
         }
     }

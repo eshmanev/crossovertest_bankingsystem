@@ -49,11 +49,8 @@
     <Compile Include="Data\ILoginInfo.cs" />
     <Compile Include="Data\IOperation.cs" />
     <Compile Include="Data\IScheduledEmail.cs" />
-    <Compile Include="Messages\ChangePinMessage.cs" />
-    <Compile Include="Messages\GetBalanceMessage.cs" />
-    <Compile Include="Messages\GetBalanceResponseMessage.cs" />
-    <Compile Include="Messages\ValidatePinMessage.cs" />
-    <Compile Include="Messages\WithdrawMessage.cs" />
+    <Compile Include="Messages\ChangeAmountMessage.cs" />
+    <Compile Include="Messages\NewPinMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

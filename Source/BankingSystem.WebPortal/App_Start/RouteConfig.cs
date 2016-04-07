@@ -3,8 +3,15 @@ using System.Web.Routing;
 
 namespace BankingSystem.WebPortal
 {
+    /// <summary>
+    ///     Defines a configuration of ASP.NET routes.
+    /// </summary>
     public class RouteConfig
     {
+        /// <summary>
+        ///     Registers the routes.
+        /// </summary>
+        /// <param name="routes">The routes.</param>
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");

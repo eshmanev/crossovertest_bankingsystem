@@ -95,6 +95,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="GlobalCommands.cs" />
+    <Compile Include="IWrappedValue.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="MainModule.cs" />
     <Compile Include="RegionName.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Views\ChangePinView.xaml.cs">
       <DependentUpon>ChangePinView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PasswordBoxConverter.cs" />
     <Compile Include="Views\CurrentBalanceView.xaml.cs">
       <DependentUpon>CurrentBalanceView.xaml</DependentUpon>
     </Compile>

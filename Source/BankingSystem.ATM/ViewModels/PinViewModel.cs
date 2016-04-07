@@ -38,7 +38,7 @@ namespace BankingSystem.ATM.ViewModels
             _provider = provider;
             _service = service;
             _dispatcherAccessor = dispatcherAccessor;
-            OkCommand = new DelegateCommand<string>(CheckPin);
+            OkCommand = new DelegateCommand<IWrappedValue<string>>(CheckPin);
         }
 
         /// <summary>
@@ -74,16 +74,24 @@ namespace BankingSystem.ATM.ViewModels
         ///     Checks the pin.
         /// </summary>
         /// <param name="pin">The pin.</param>
-        private async void CheckPin(string pin)
+        private async void CheckPin(IWrappedValue<string> pin)
         {
-            var result = await _service.ValidatePin(_provider.GetBankCardNumber(), pin);
+            var result = await _service.ValidatePin(_provider.GetBankCardNumber(), pin.Value);
 
             _dispatcherAccessor.Dispatcher.Invoke(() =>
             {
                 if (result)
                 {
-                    _provider.CurrentPin = pin;
+                    // store entered value in context.
+                    _provider.CurrentPin = pin.Value;
+
+                    // reset entered value on UI
+                    pin.Value = null;
+
+                    // navigate to actions
                     _regionManager.RequestNavigate(RegionName.MainRegion, ViewName.ActionsView);
+
+                    ErrorMessage = null;
                 }
                 else
                 {

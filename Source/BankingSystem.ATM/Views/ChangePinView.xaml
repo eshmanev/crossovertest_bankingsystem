@@ -4,14 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BankingSystem.ATM.Views"
+             xmlns:atmns="clr-namespace:BankingSystem.ATM"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="400" d:DesignWidth="400">
     <Grid>
         <Label Content="Enter New PIN" HorizontalAlignment="Center" Margin="0,-140,0,0" VerticalAlignment="Center"/>
         <Label Content="{Binding ErrorMessage, Mode=OneWay}" FontSize="20" Foreground="Red" HorizontalAlignment="Center" Margin="0,-90,0,0" VerticalAlignment="Center"/>
-        <PasswordBox Name="PinBox" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="172"/>
-        <Button Content="OK" HorizontalAlignment="Center" Margin="0,140,0,0" VerticalAlignment="Center" Width="75" 
+        <PasswordBox Name="PinBox" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="200"/>
+        <Button Content="OK" HorizontalAlignment="Center" Margin="0,140,0,0" VerticalAlignment="Center" Width="200" 
                 Command="{Binding OkCommand, Mode=OneWay}"
-                CommandParameter="{Binding Password, ElementName=PinBox}"/>
+                CommandParameter="{Binding ElementName=PinBox, Converter={StaticResource PasswordBoxConverter}}"/>
+        <Button Content="Finish" Command="{Binding Source={x:Static atmns:GlobalCommands.FinishCommand}}" HorizontalAlignment="Center" Margin="0,0,0,30" VerticalAlignment="Bottom" Width="200"/>
     </Grid>
 </UserControl>

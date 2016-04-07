@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -10,7 +11,7 @@ namespace BankingSystem.ATM.Services
     public static class HttpClientExtensions
     {
         /// <summary>
-        ///     Asynchronously oosts the given data..
+        ///     Asynchronously executes POST HTTP request with the given data.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="client">The client.</param>
@@ -20,7 +21,21 @@ namespace BankingSystem.ATM.Services
         public static Task<HttpResponseMessage> PostAsync<T>(this HttpClient client, string url, T data)
         {
             var json = JsonConvert.SerializeObject(data);
-            return client.PostAsync(url, new StringContent(json));
+            return client.PostAsync(url, new StringContent(json, Encoding.Unicode, "application/json"));
+        }
+
+        /// <summary>
+        ///     Asynchronously executes PUT HTTP request with the given data..
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="client">The client.</param>
+        /// <param name="url">The URL.</param>
+        /// <param name="data">The data.</param>
+        /// <returns>An HTTP response message.</returns>
+        public static Task<HttpResponseMessage> PutAsync<T>(this HttpClient client, string url, T data)
+        {
+            var json = JsonConvert.SerializeObject(data);
+            return client.PutAsync(url, new StringContent(json, Encoding.Unicode, "application/json"));
         }
 
         /// <summary>
