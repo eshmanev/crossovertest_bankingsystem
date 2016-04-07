@@ -3,9 +3,9 @@ GO
 
 -- 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08   SHA256 hash for 'test'
 INSERT INTO dbo.Customers(Id, UserName, Email, FirstName, LastName, PasswordHash)
-    SELECT 1, 'evgeny.shmanev', 'evgeny.shmanev@aurea.com', 'Bill', 'Gates', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
+    SELECT 1, 'evgeny.shmanev', 'evgeny.shmanev@aurea.com', 'Evgeny', 'Shmanev', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
     UNION ALL
-    SELECT 2, 'ivan.ivanov', 'eshmanev@gmail.com', 'Ivan', 'Ivanov', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
+    SELECT 2, 'eshmanev', 'eshmanev@gmail.com', 'Ivan', 'Ivanov', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
     UNION ALL
     SELECT 3, 'joseph.fill', 'joseph.fill@test.com', 'Joseph', 'Fill', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'
     UNION ALL

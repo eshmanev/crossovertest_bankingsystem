@@ -1,0 +1,13 @@
+﻿<Window x:Class="BankingSystem.ATM.Views.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:regions="http://prismlibrary.com/"
+        xmlns:atmns="clr-namespace:BankingSystem.ATM"
+        mc:Ignorable="d"
+        Title="Shell" Height="300" Width="300">
+    <Grid>
+        <ContentControl regions:RegionManager.RegionName="{Binding Source={x:Static atmns:RegionName.MainRegion}}" />
+    </Grid>
+</Window>

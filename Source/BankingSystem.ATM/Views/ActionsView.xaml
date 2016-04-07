@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="BankingSystem.ATM.Views.ActionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BankingSystem.ATM.Views"
+             xmlns:atmns="clr-namespace:BankingSystem.ATM"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400">
+    <Grid>
+        <Button Content="Check balance" Command="{Binding CheckBalanceCommand}" HorizontalAlignment="Center" Margin="0,-100,0,0" VerticalAlignment="Center" Width="200"/>
+        <Button Content="Withdraw cash" Command="{Binding WithdrawCacheCommand}" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="200"/>
+        <Button Content="Change PIN" Command="{Binding ChangePinCommand}" HorizontalAlignment="Center" Margin="0,100,0,0" VerticalAlignment="Center" Width="200"/>
+        <Button Content="Finish" Command="{Binding Source={x:Static atmns:GlobalCommands.FinishCommand}}" HorizontalAlignment="Center" Margin="0,0,0,30" VerticalAlignment="Bottom" Width="200"/>
+
+    </Grid>
+</UserControl>

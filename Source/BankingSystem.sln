@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.Common", "Ban
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.NotificationService", "BankingSystem.NotificationService\BankingSystem.NotificationService.csproj", "{EBB76035-8F03-4CAB-8A32-903816107024}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.ATM", "BankingSystem.ATM\BankingSystem.ATM.csproj", "{C1769D34-8FDA-4946-B303-5180B28DF402}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{EBB76035-8F03-4CAB-8A32-903816107024}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBB76035-8F03-4CAB-8A32-903816107024}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBB76035-8F03-4CAB-8A32-903816107024}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1769D34-8FDA-4946-B303-5180B28DF402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1769D34-8FDA-4946-B303-5180B28DF402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1769D34-8FDA-4946-B303-5180B28DF402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1769D34-8FDA-4946-B303-5180B28DF402}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
