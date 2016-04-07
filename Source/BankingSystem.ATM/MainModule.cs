@@ -1,5 +1,4 @@
-﻿using BankingSystem.ATM.Services;
-using BankingSystem.ATM.Views;
+﻿using BankingSystem.ATM.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 
@@ -34,10 +33,6 @@ namespace BankingSystem.ATM
                 .RegisterType<object, WithdrawView>(ViewName.WithdrawView)
                 .RegisterType<object, ChangePinView>(ViewName.ChangePinView)
                 .RegisterType<object, ActionsView>(ViewName.ActionsView);
-
-            // services
-            _container
-                .RegisterType<IBankingService, BankingServiceProxy>();
         }
     }
 }

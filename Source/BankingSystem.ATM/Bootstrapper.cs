@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using BankingSystem.ATM.Services;
 using BankingSystem.ATM.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
@@ -37,6 +38,16 @@ namespace BankingSystem.ATM
             var catalog = new ModuleCatalog();
             catalog.AddModule(typeof (MainModule));
             return catalog;
+        }
+
+        protected override void ConfigureContainer()
+        {
+            base.ConfigureContainer();
+
+            // services
+            Container
+                .RegisterType<ICredentialsProvider, FakeCredentialsProvider>()
+                .RegisterType<IBankingService, BankingServiceProxy>();
         }
     }
 }

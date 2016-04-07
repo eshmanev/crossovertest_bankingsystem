@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BankingSystem.ATM.Services"
         mc:Ignorable="d"
-        Title="Fake Bank Card Slot" Height="300" Width="300">
+        Title="Fake Bank Card Slot" Height="600" Width="300" WindowStartupLocation="Manual" Left="50" Top="50">
     <Grid>
         <Label Content="Select a bank card here" FontSize="10" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
         <ListBox x:Name="listBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10, 25, 10, 10"></ListBox>

@@ -17,7 +17,7 @@
         /// <exception cref="System.NotImplementedException"></exception>
         public bool ValidatePin(string bankCardNumber, string pin)
         {
-            throw new System.NotImplementedException();
+            return false;
         }
 
         /// <summary>
