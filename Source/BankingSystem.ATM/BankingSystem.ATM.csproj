@@ -88,7 +88,10 @@
     <Compile Include="GlobalCommands.cs" />
     <Compile Include="MainModule.cs" />
     <Compile Include="RegionName.cs" />
-    <Compile Include="Services\CredentialsProvider.cs" />
+    <Compile Include="Services\FakeBankCardSlot.xaml.cs">
+      <DependentUpon>FakeBankCardSlot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\FakeCredentialsProvider.cs" />
     <Compile Include="Services\BankingServiceProxy.cs" />
     <Compile Include="Services\ICredentialsProvider.cs" />
     <Compile Include="Services\IBankingService.cs" />
@@ -121,6 +124,10 @@
     <Compile Include="Views\WithdrawView.xaml.cs">
       <DependentUpon>WithdrawView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Services\FakeBankCardSlot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ActionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
