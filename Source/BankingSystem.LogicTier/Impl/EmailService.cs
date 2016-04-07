@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Net;
 using System.Net.Mail;
 using BankingSystem.Common.Data;
 using BankingSystem.DataTier;
 using BankingSystem.DataTier.Entities;
+using BankingSystem.LogicTier.Utils;
 
 namespace BankingSystem.LogicTier.Impl
 {
@@ -14,18 +14,24 @@ namespace BankingSystem.LogicTier.Impl
     public class EmailService : IEmailService
     {
         private readonly IDatabaseContext _databaseContext;
+        private readonly ISmtpFactory _smtpFactory;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailService" /> class.
         /// </summary>
         /// <param name="databaseContext">The database context.</param>
+        /// <param name="smtpFactory">The SMTP factory.</param>
         /// <exception cref="System.ArgumentNullException"></exception>
-        public EmailService(IDatabaseContext databaseContext)
+        public EmailService(IDatabaseContext databaseContext, ISmtpFactory smtpFactory)
         {
             if (databaseContext == null)
                 throw new ArgumentNullException(nameof(databaseContext));
 
+            if (smtpFactory == null)
+                throw new ArgumentNullException(nameof(smtpFactory));
+
             _databaseContext = databaseContext;
+            _smtpFactory = smtpFactory;
         }
 
         /// <summary>
@@ -50,13 +56,8 @@ namespace BankingSystem.LogicTier.Impl
         /// <param name="settings">The settings.</param>
         public void DeliverEmails(SmtpSettings settings)
         {
-            using (var client = new SmtpClient(settings.SmtpHost, settings.SmtpPort))
+            using (var client = _smtpFactory.CreateClient(settings))
             {
-                client.EnableSsl = settings.EnableSsl;
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(settings.SmtpUser, settings.SmtpPassword);
-
                 foreach (var email in _databaseContext.ScheduledEmails.GetAll())
                 {
                     bool delivered;

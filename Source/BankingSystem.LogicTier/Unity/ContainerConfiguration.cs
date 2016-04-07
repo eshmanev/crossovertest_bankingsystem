@@ -4,6 +4,7 @@ using BankingSystem.DataTier.Repositories;
 using BankingSystem.DataTier.Repositories.Impl;
 using BankingSystem.DataTier.Session;
 using BankingSystem.LogicTier.Impl;
+using BankingSystem.LogicTier.Utils;
 using Microsoft.Practices.Unity;
 
 namespace BankingSystem.LogicTier.Unity
@@ -26,6 +27,7 @@ namespace BankingSystem.LogicTier.Unity
             container.RegisterType<ISessionFactoryHolder, SessionFactoryHolder>(new ContainerControlledLifetimeManager());
 
             // logic tier
+            container.RegisterType<ISmtpFactory, SmtpFactory>();
             container.RegisterType<ICustomerService, CustomerService>();
             container.RegisterType<IAccountService, AccountService>();
             container.RegisterType<IExchangeRateService, ExchangeRateService>();

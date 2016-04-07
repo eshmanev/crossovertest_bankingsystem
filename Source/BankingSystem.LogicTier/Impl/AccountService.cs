@@ -96,7 +96,10 @@ namespace BankingSystem.LogicTier.Impl
                     _databaseContext.Accounts.Update(destAccount);
 
                     // update revenues
-                    _bankBalanceService.AddRevenue(commission, $"A commission for money transfer from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}");
+                    if (commission > 0)
+                    {
+                        _bankBalanceService.AddRevenue(commission, $"A commission for money transfer from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}");
+                    }
 
                     // commit transaction
                     transaction.Commit();

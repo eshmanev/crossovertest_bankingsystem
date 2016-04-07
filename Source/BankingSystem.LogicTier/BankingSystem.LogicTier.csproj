@@ -77,6 +77,9 @@
     <Compile Include="IAccountService.cs" />
     <Compile Include="IBankBalanceService.cs" />
     <Compile Include="IExchangeRateService.cs" />
+    <Compile Include="Utils\ISmtpClient.cs" />
+    <Compile Include="Utils\ISmtpFactory.cs" />
+    <Compile Include="Utils\SmtpFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Impl\CustomerService.cs" />
     <Compile Include="ICustomerService.cs" />

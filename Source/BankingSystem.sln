@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.NotificationS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.ATM", "BankingSystem.ATM\BankingSystem.ATM.csproj", "{C1769D34-8FDA-4946-B303-5180B28DF402}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{38F2FFB0-D886-4BF9-942A-6E74F631C1E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingSystem.UnitTests", "Tests\BankingSystem.UnitTests\BankingSystem.UnitTests.csproj", "{C338212D-CF7B-4EE0-8185-9BE92CCA74C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,8 +49,15 @@ Global
 		{C1769D34-8FDA-4946-B303-5180B28DF402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1769D34-8FDA-4946-B303-5180B28DF402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1769D34-8FDA-4946-B303-5180B28DF402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C338212D-CF7B-4EE0-8185-9BE92CCA74C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C338212D-CF7B-4EE0-8185-9BE92CCA74C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C338212D-CF7B-4EE0-8185-9BE92CCA74C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C338212D-CF7B-4EE0-8185-9BE92CCA74C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C338212D-CF7B-4EE0-8185-9BE92CCA74C1} = {38F2FFB0-D886-4BF9-942A-6E74F631C1E6}
 	EndGlobalSection
 EndGlobal

@@ -94,14 +94,10 @@ namespace BankingSystem.LogicTier.Impl
             if (customer == null)
                 throw new ArgumentException("Invalid user identifier", nameof(userId));
 
-            using (var transaction = _databaseContext.DemandTransaction())
-            {
-                var loginInfo = new LoginInfo(providerName, loginKey);
-                customer.AddLogin(loginInfo);
-                _databaseContext.Customers.Update(customer);
-                transaction.Commit();
-                return loginInfo;
-            }
+            var loginInfo = new LoginInfo(providerName, loginKey);
+            customer.AddLogin(loginInfo);
+            _databaseContext.Customers.Update(customer);
+            return loginInfo;
         }
 
         /// <summary>
@@ -123,12 +119,8 @@ namespace BankingSystem.LogicTier.Impl
             var loginInfo = customer.Logins.FirstOrDefault(x => x.ProviderName == providerName && x.LoginKey == loginKey);
             if (loginInfo != null)
             {
-                using (var transaction = _databaseContext.DemandTransaction())
-                {
-                    customer.RemoveLogin(loginInfo);
-                    _databaseContext.Customers.Update(customer);
-                    transaction.Commit();
-                }
+                customer.RemoveLogin(loginInfo);
+                _databaseContext.Customers.Update(customer);
             }
 
             return loginInfo;
@@ -188,12 +180,8 @@ namespace BankingSystem.LogicTier.Impl
             if (customer == null)
                 return;
 
-            using (var transaction = _databaseContext.DemandTransaction())
-            {
-                customer.Email = email;
-                _databaseContext.Customers.Update(customer);
-                transaction.Commit();
-            }
+            customer.Email = email;
+            _databaseContext.Customers.Update(customer);
         }
     }
 }
