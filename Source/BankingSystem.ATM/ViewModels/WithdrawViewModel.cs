@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using BankingSystem.ATM.Services;
@@ -13,6 +14,7 @@ namespace BankingSystem.ATM.ViewModels
     {
         private readonly ICredentialsProvider _provider;
         private readonly IBankingService _service;
+        private readonly IDispatcherAccessor _dispatcherAccessor;
         private string _errorMessage;
 
         /// <summary>
@@ -20,10 +22,16 @@ namespace BankingSystem.ATM.ViewModels
         /// </summary>
         /// <param name="provider">The provider.</param>
         /// <param name="service">The service.</param>
-        public WithdrawViewModel(ICredentialsProvider provider, IBankingService service)
+        /// <param name="dispatcherAccessor">The dispatcher accessor.</param>
+        public WithdrawViewModel(ICredentialsProvider provider, IBankingService service, IDispatcherAccessor dispatcherAccessor)
         {
+            if (provider == null) throw new ArgumentNullException(nameof(provider));
+            if (service == null) throw new ArgumentNullException(nameof(service));
+            if (dispatcherAccessor == null) throw new ArgumentNullException(nameof(dispatcherAccessor));
+
             _provider = provider;
             _service = service;
+            _dispatcherAccessor = dispatcherAccessor;
             GetCommand = new DelegateCommand(Withdraw);
         }
 
@@ -76,7 +84,7 @@ namespace BankingSystem.ATM.ViewModels
         /// <summary>
         ///     Withdraws the specified cache.
         /// </summary>
-        private void Withdraw()
+        private async void Withdraw()
         {
             if (Amount <= 0)
             {
@@ -85,16 +93,19 @@ namespace BankingSystem.ATM.ViewModels
                 return;
             }
 
-            string errorMessage;
-            if (!_service.Withdraw(_provider.GetBankCardNumber(), _provider.CurrentPin, Amount, out errorMessage))
+            string errorMessage = await _service.Withdraw(_provider.GetBankCardNumber(), _provider.CurrentPin, Amount);
+            _dispatcherAccessor.Dispatcher.Invoke(() =>
             {
-                ErrorMessage = errorMessage;
-                Amount = 0;
-            }
-            else
-            {
-                GlobalCommands.FinishCommand.Execute(null);
-            }
+                if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    ErrorMessage = errorMessage;
+                    Amount = 0;
+                }
+                else
+                {
+                    GlobalCommands.FinishCommand.Execute(null);
+                }
+            });
         }
     }
 }

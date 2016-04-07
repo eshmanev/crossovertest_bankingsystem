@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -51,6 +55,10 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Prism, Version=6.1.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.6.1.0\lib\net45\Prism.dll</HintPath>
       <Private>True</Private>
@@ -64,6 +72,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
@@ -86,8 +95,12 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="GlobalCommands.cs" />
+    <Compile Include="ISettings.cs" />
     <Compile Include="MainModule.cs" />
     <Compile Include="RegionName.cs" />
+    <Compile Include="Services\DispatcherAccessor.cs" />
+    <Compile Include="Services\HttpClientExtensions.cs" />
+    <Compile Include="Services\IDispatcherAccessor.cs" />
     <Compile Include="Services\FakeBankCardSlot.xaml.cs">
       <DependentUpon>FakeBankCardSlot.xaml</DependentUpon>
     </Compile>
@@ -95,6 +108,7 @@
     <Compile Include="Services\BankingServiceProxy.cs" />
     <Compile Include="Services\ICredentialsProvider.cs" />
     <Compile Include="Services\IBankingService.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\ActionsViewModel.cs" />
     <Compile Include="ViewModels\ChangePinViewModel.cs" />
     <Compile Include="ViewModels\CurrentBalanceViewModel.cs" />
@@ -181,7 +195,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BankingSystem.Common\BankingSystem.Common.csproj">
+      <Project>{DF97F91D-79E7-4526-8586-5CDA82664FCF}</Project>
+      <Name>BankingSystem.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using BankingSystem.ATM.Services;
@@ -16,6 +17,7 @@ namespace BankingSystem.ATM.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly ICredentialsProvider _provider;
         private readonly IBankingService _service;
+        private readonly IDispatcherAccessor _dispatcherAccessor;
         private string _errorMessage;
 
         /// <summary>
@@ -24,11 +26,18 @@ namespace BankingSystem.ATM.ViewModels
         /// <param name="regionManager">The region manager.</param>
         /// <param name="provider">The provider.</param>
         /// <param name="service">The service.</param>
-        public PinViewModel(IRegionManager regionManager, ICredentialsProvider provider, IBankingService service)
+        /// <param name="dispatcherAccessor">The dispatcher accessor.</param>
+        public PinViewModel(IRegionManager regionManager, ICredentialsProvider provider, IBankingService service, IDispatcherAccessor dispatcherAccessor)
         {
+            if (regionManager == null) throw new ArgumentNullException(nameof(regionManager));
+            if (provider == null) throw new ArgumentNullException(nameof(provider));
+            if (service == null) throw new ArgumentNullException(nameof(service));
+            if (dispatcherAccessor == null) throw new ArgumentNullException(nameof(dispatcherAccessor));
+
             _regionManager = regionManager;
             _provider = provider;
             _service = service;
+            _dispatcherAccessor = dispatcherAccessor;
             OkCommand = new DelegateCommand<string>(CheckPin);
         }
 
@@ -65,15 +74,22 @@ namespace BankingSystem.ATM.ViewModels
         ///     Checks the pin.
         /// </summary>
         /// <param name="pin">The pin.</param>
-        private void CheckPin(string pin)
+        private async void CheckPin(string pin)
         {
-            if (_service.ValidatePin(_provider.GetBankCardNumber(), pin))
+            var result = await _service.ValidatePin(_provider.GetBankCardNumber(), pin);
+
+            _dispatcherAccessor.Dispatcher.Invoke(() =>
             {
-                _provider.CurrentPin = pin;
-                _regionManager.RequestNavigate(RegionName.MainRegion, ViewName.ActionsView);
-            }
-            else
-                ErrorMessage = "Invalid PIN";
+                if (result)
+                {
+                    _provider.CurrentPin = pin;
+                    _regionManager.RequestNavigate(RegionName.MainRegion, ViewName.ActionsView);
+                }
+                else
+                {
+                    ErrorMessage = "Invalid PIN";
+                }
+            });
         }
 
         /// <summary>

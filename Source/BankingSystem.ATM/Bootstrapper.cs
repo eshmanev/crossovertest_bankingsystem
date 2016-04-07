@@ -15,9 +15,7 @@ namespace BankingSystem.ATM
         /// <summary>
         ///     Creates the shell or main window of the application.
         /// </summary>
-        /// <returns>
-        ///     The shell of the application.
-        /// </returns>
+        /// <returns>The shell of the application. </returns>
         protected override DependencyObject CreateShell()
         {
             var shell = Container.Resolve<Shell>();
@@ -29,10 +27,7 @@ namespace BankingSystem.ATM
         /// <summary>
         ///     Creates the <see cref="T:Prism.Modularity.IModuleCatalog" /> used by Prism.
         /// </summary>
-        /// <returns></returns>
-        /// <remarks>
-        ///     The base implementation returns a new ModuleCatalog.
-        /// </remarks>
+        /// <returns>Returns a new ModuleCatalog.</returns>
         protected override IModuleCatalog CreateModuleCatalog()
         {
             var catalog = new ModuleCatalog();
@@ -40,12 +35,17 @@ namespace BankingSystem.ATM
             return catalog;
         }
 
+        /// <summary>
+        ///     Configures the <see cref="T:Microsoft.Practices.Unity.IUnityContainer" />.
+        /// </summary>
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
 
             // services
             Container
+                .RegisterType<ISettings, Settings>()
+                .RegisterType<IDispatcherAccessor, DispatcherAccessor>()
                 .RegisterType<ICredentialsProvider, FakeCredentialsProvider>()
                 .RegisterType<IBankingService, BankingServiceProxy>();
         }
