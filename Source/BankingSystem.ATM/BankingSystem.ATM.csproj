@@ -85,10 +85,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Events\PinAccepted.cs" />
     <Compile Include="GlobalCommands.cs" />
     <Compile Include="MainModule.cs" />
     <Compile Include="RegionName.cs" />
+    <Compile Include="Services\CredentialsProvider.cs" />
+    <Compile Include="Services\BankingServiceProxy.cs" />
+    <Compile Include="Services\ICredentialsProvider.cs" />
+    <Compile Include="Services\IBankingService.cs" />
     <Compile Include="ViewModels\ActionsViewModel.cs" />
     <Compile Include="ViewModels\ChangePinViewModel.cs" />
     <Compile Include="ViewModels\CurrentBalanceViewModel.cs" />

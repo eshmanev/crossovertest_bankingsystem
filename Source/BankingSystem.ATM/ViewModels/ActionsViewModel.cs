@@ -1,15 +1,23 @@
 ﻿using System.Windows.Input;
 using Prism.Commands;
+using Prism.Regions;
 
 namespace BankingSystem.ATM.ViewModels
 {
+    /// <summary>
+    ///     Represents a view model with available actions.
+    /// </summary>
     public class ActionsViewModel
     {
-        public ActionsViewModel()
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ActionsViewModel" /> class.
+        /// </summary>
+        /// <param name="regionManager">The region manager.</param>
+        public ActionsViewModel(IRegionManager regionManager)
         {
-            CheckBalanceCommand = new DelegateCommand(CheckBalance);
-            WithdrawCacheCommand = new DelegateCommand(WithdrawCache);
-            ChangePinCommand = new DelegateCommand(ChangePin);
+            CheckBalanceCommand = new DelegateCommand(() => regionManager.RequestNavigate(RegionName.MainRegion, ViewName.CurrentBalanceView));
+            WithdrawCacheCommand = new DelegateCommand(() => regionManager.RequestNavigate(RegionName.MainRegion, ViewName.WithdrawView));
+            ChangePinCommand = new DelegateCommand(() => regionManager.RequestNavigate(RegionName.MainRegion, ViewName.ChangePinView));
         }
 
         /// <summary>
@@ -35,20 +43,5 @@ namespace BankingSystem.ATM.ViewModels
         ///     The change pin command.
         /// </value>
         public ICommand ChangePinCommand { get; }
-
-        private void ChangePin()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        private void WithdrawCache()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        private void CheckBalance()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

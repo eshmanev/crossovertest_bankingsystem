@@ -9,8 +9,8 @@
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
         <Label Content="Your balance is:" HorizontalAlignment="Center" Margin="0,-100,0,0" VerticalAlignment="Center"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center"/>
-        <Button Content="&lt; Back" HorizontalAlignment="Left" Margin="30,0,0,30" VerticalAlignment="Bottom" Width="120"/>
-        <Button Content="Finish" Command="{Binding Source={x:Static atmns:GlobalCommands.FinishCommand}}" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Width="120"/>
+        <TextBlock Text="{Binding Balance, Mode=OneWay}" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+        <Button Content="&lt; Back" Command="{Binding BackCommand, Mode=OneWay}" HorizontalAlignment="Left" Margin="30,0,0,30" VerticalAlignment="Bottom" Width="120"/>
+        <Button Content="Finish" Command="{Binding Source={x:Static atmns:GlobalCommands.FinishCommand}, Mode=OneWay}" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Width="120"/>
     </Grid>
 </UserControl>

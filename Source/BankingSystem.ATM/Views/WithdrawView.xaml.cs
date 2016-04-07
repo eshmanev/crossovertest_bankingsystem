@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Text.RegularExpressions;
+using System.Windows.Controls;
+using System.Windows.Input;
 using BankingSystem.ATM.ViewModels;
 
 namespace BankingSystem.ATM.Views
@@ -16,6 +18,12 @@ namespace BankingSystem.ATM.Views
         {
             InitializeComponent();
             DataContext = model;
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

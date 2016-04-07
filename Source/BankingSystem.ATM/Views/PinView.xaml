@@ -8,10 +8,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Label Content="Enter PIN" HorizontalAlignment="Center" Margin="0,-120,0,0" VerticalAlignment="Center"/>
+        <Label Content="Enter PIN" HorizontalAlignment="Center" Margin="0,-140,0,0" VerticalAlignment="Center"/>
+        <Label Content="{Binding ErrorMessage, Mode=TwoWay}" FontSize="20" Foreground="Red" HorizontalAlignment="Center" Margin="0,-90,0,0" VerticalAlignment="Center"/>
         <PasswordBox Name="PinBox" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="172"/>
         <Button Content="OK" HorizontalAlignment="Center" Margin="0,140,0,0" VerticalAlignment="Center" Width="75" 
-                Command="{Binding OkCommand}"
+                Command="{Binding OkCommand, Mode=OneWay}"
                 CommandParameter="{Binding Password, ElementName=PinBox}"/>
     </Grid>
 </UserControl>
