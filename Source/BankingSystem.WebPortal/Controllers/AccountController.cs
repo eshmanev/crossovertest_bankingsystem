@@ -128,8 +128,8 @@ namespace BankingSystem.WebPortal.Controllers
                 var oldDestBalance = destAccount.Balance;
                 await _accountService.TransferMoney(sourceAccount, destAccount, viewModel.Amount);
 
-                _hubContext.All.onBalanceChanged(CreateBalanceChangedMessage(sourceAccount, oldSourceBalance));
-                _hubContext.All.onBalanceChanged(CreateBalanceChangedMessage(destAccount, oldDestBalance));
+                _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(sourceAccount, oldSourceBalance));
+                _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(destAccount, oldDestBalance));
 
                 return this.JsonSuccess();
             }
@@ -140,21 +140,6 @@ namespace BankingSystem.WebPortal.Controllers
             }
         }
 
-        /// <summary>
-        ///     Creates the balance changed message.
-        /// </summary>
-        /// <param name="account">The account.</param>
-        /// <param name="oldBalance">The old balance.</param>
-        /// <returns></returns>
-        private BalanceChangedMessage CreateBalanceChangedMessage(IAccount account, decimal oldBalance)
-        {
-            return new BalanceChangedMessage
-            {
-                AccountNumber = account.AccountNumber,
-                Currency = account.Currency,
-                ChangeAmount = account.Balance - oldBalance,
-                CurrentBalance = account.Balance
-            };
-        }
+        
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BankingSystem.DataTier
+namespace BankingSystem.DataTier.Repositories
 {
     /// <summary>
     ///     Represents a generic repository.

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using BankingSystem.Common.Messages;
 using log4net;
@@ -110,13 +109,20 @@ namespace BankingSystem.ATM.Services
                 {
                     var url = GetBaseUrl(bankCardNumber, pin, "balance");
                     var response = await client.PutAsync(url, new ChangeAmountMessage {Amount = amount});
+
+                    if (response.StatusCode == HttpStatusCode.Forbidden)
+                    {
+                        var error = await response.Content.ReadAs<HttpErrorDto>();
+                        return error.Message;
+                    }
+
                     response.EnsureSuccessStatusCode();
                     return null;
                 }
                 catch (HttpRequestException ex)
                 {
                     Log.Error($"An HTTP error has occurred while withdrawing an amount, but server has not provided a message. Bank card number: {bankCardNumber}", ex);
-                    return ex.Message;
+                    return "Unexpected error";
                 }
                 catch (Exception ex)
                 {
@@ -145,10 +151,9 @@ namespace BankingSystem.ATM.Services
                     response.EnsureSuccessStatusCode();
                     return await response.Content.ReadAsStringAsync();
                 }
-                catch (HttpRequestException ex)
+                catch (HttpRequestException)
                 {
-                    Log.Error($"An HTTP error has occurred while withdrawing an amount, but server has not provided a message. Bank card number: {bankCardNumber}", ex);
-                    return ex.Message;
+                    return string.Empty;
                 }
                 catch (Exception ex)
                 {

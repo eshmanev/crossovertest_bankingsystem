@@ -60,23 +60,25 @@
     <Compile Include="Entities\LoginInfo.cs" />
     <Compile Include="Entities\Operation.cs" />
     <Compile Include="Entities\ScheduledEmail.cs" />
-    <Compile Include="Repositories\AccountRepository.cs" />
-    <Compile Include="Repositories\BankBalanceRepository.cs" />
-    <Compile Include="Repositories\CustomerRepository.cs" />
-    <Compile Include="Repositories\DeliveredEmailRepository.cs" />
+    <Compile Include="Repositories\Impl\AccountRepository.cs" />
+    <Compile Include="Repositories\Impl\BankBalanceRepository.cs" />
+    <Compile Include="Repositories\Impl\BankCardRepository.cs" />
+    <Compile Include="Repositories\Impl\CustomerRepository.cs" />
+    <Compile Include="Repositories\Impl\DeliveredEmailRepository.cs" />
     <Compile Include="Repositories\IAccountRepository.cs" />
     <Compile Include="Repositories\IAccountService.cs" />
     <Compile Include="IDatabaseContext.cs" />
     <Compile Include="IDatabaseTransaction.cs" />
-    <Compile Include="IRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IBankBalanceRepository.cs" />
+    <Compile Include="Repositories\IBankCardRepository.cs" />
     <Compile Include="Repositories\ICustomerRepository.cs" />
     <Compile Include="Repositories\IDeliveredEmailRepository.cs" />
     <Compile Include="Repositories\IOperationRepository.cs" />
     <Compile Include="Repositories\IScheduledEmailRepository.cs" />
-    <Compile Include="Repositories\LoginInfoRepository.cs" />
-    <Compile Include="Repositories\OperationRepository.cs" />
-    <Compile Include="Repositories\ScheduledEmailRepository.cs" />
+    <Compile Include="Repositories\Impl\LoginInfoRepository.cs" />
+    <Compile Include="Repositories\Impl\OperationRepository.cs" />
+    <Compile Include="Repositories\Impl\ScheduledEmailRepository.cs" />
     <Compile Include="Session\ISessionFactoryHolder.cs" />
     <Compile Include="Mappings\AccountMap.cs" />
     <Compile Include="Mappings\BankBalanceMap.cs" />
@@ -89,7 +91,7 @@
     <Compile Include="Mappings\ScheduledEmailMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\DatabaseContext.cs" />
-    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="Repositories\Impl\Repository.cs" />
     <Compile Include="Session\SessionFactoryHolder.cs" />
   </ItemGroup>
   <ItemGroup>

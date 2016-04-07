@@ -17,6 +17,14 @@ namespace BankingSystem.DataTier.Entities
         public virtual int Id { get; protected set; }
 
         /// <summary>
+        ///     Gets the account.
+        /// </summary>
+        /// <value>
+        ///     The account.
+        /// </value>
+        public virtual IAccount Account { get; protected set; }
+
+        /// <summary>
         ///     Gets the CSV security code.
         /// </summary>
         /// <value>

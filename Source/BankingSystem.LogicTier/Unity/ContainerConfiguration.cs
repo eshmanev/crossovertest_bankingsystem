@@ -1,6 +1,7 @@
 ﻿using System;
 using BankingSystem.DataTier;
 using BankingSystem.DataTier.Repositories;
+using BankingSystem.DataTier.Repositories.Impl;
 using BankingSystem.DataTier.Session;
 using BankingSystem.LogicTier.Impl;
 using Microsoft.Practices.Unity;
@@ -30,6 +31,8 @@ namespace BankingSystem.LogicTier.Unity
             container.RegisterType<IExchangeRateService, ExchangeRateService>();
             container.RegisterType<IBankBalanceService, BankBalanceService>();
             container.RegisterType<IEmailService, EmailService>();
+            container.RegisterType<IBankCardService, BankCardService>();
+
         }
     }
 }

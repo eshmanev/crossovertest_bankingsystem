@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using NHibernate.Linq;
 
-namespace BankingSystem.DataTier.Repositories
+namespace BankingSystem.DataTier.Repositories.Impl
 {
     /// <summary>
     ///     Represents a generic repository.

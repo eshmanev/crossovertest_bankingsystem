@@ -111,6 +111,22 @@ namespace BankingSystem.LogicTier.Impl
         }
 
         /// <summary>
+        ///     Updates the balance with the specified amount.
+        /// </summary>
+        /// <param name="account">The account.</param>
+        /// <param name="changeAmount">The change amount.</param>
+        /// <exception cref="BankingServiceException">Account balance exeeds limits.</exception>
+        public void UpdateBalance(IAccount account, decimal changeAmount)
+        {
+            var newBalance = account.Balance + changeAmount;
+            if (newBalance < 0)
+                throw new BankingServiceException("Account balance exeeds limits.");
+
+            account.Balance = newBalance;
+            _databaseContext.Accounts.Update(account);
+        }
+
+        /// <summary>
         ///     Searches for account by its number.
         /// </summary>
         /// <param name="accountNumber">The account number.</param>

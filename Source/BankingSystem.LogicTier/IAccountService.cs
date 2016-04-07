@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using BankingSystem.Common.Data;
+using BankingSystem.LogicTier.Impl;
 
 namespace BankingSystem.LogicTier
 {
@@ -15,6 +16,14 @@ namespace BankingSystem.LogicTier
         /// <param name="destAccount">The dest account.</param>
         /// <param name="amount">The amount to transfer.</param>
         Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount);
+
+        /// <summary>
+        ///     Updates the balance with the specified amount.
+        /// </summary>
+        /// <param name="account">The account.</param>
+        /// <param name="changeAmount">The change amount.</param>
+        /// <exception cref="BankingServiceException">Account balance exeeds limits.</exception>
+        void UpdateBalance(IAccount account, decimal changeAmount);
 
         /// <summary>
         ///     Searches for account by its number.

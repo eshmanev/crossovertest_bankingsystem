@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BankingSystem.DataTier.Repositories;
+using BankingSystem.DataTier.Repositories.Impl;
 using NHibernate;
 
 namespace BankingSystem.DataTier.Session
@@ -88,6 +89,14 @@ namespace BankingSystem.DataTier.Session
         ///     The repository of delivered emails.
         /// </value>
         public IDeliveredEmailRepository DeliveredEmails => new DeliveredEmailRepository(this);
+
+        /// <summary>
+        ///     Gets the repository of bank cards.
+        /// </summary>
+        /// <value>
+        ///     The repository of bank cards.
+        /// </value>
+        public IBankCardRepository BankCards => new BankCardRepository(this);
 
         /// <summary>
         ///     Gets the session.

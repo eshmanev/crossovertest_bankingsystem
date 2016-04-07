@@ -98,9 +98,11 @@
     <Compile Include="IWrappedValue.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="MainModule.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RegionName.cs" />
     <Compile Include="Services\DispatcherAccessor.cs" />
     <Compile Include="Services\HttpClientExtensions.cs" />
+    <Compile Include="Services\HttpErrorDto.cs" />
     <Compile Include="Services\IDispatcherAccessor.cs" />
     <Compile Include="Services\FakeBankCardSlot.xaml.cs">
       <DependentUpon>FakeBankCardSlot.xaml</DependentUpon>

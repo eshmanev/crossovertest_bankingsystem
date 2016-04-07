@@ -1034,7 +1034,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\TerminalController.cs" />
+    <Compile Include="Controllers\ApiBankCardController.cs" />
     <Compile Include="Hubs\AccountHub.cs" />
     <Compile Include="Hubs\HubNames.cs" />
     <Compile Include="Models\AccountViewModel.cs" />

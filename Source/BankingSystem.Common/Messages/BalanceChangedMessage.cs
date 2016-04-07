@@ -1,4 +1,6 @@
-﻿namespace BankingSystem.Common.Messages
+﻿using BankingSystem.Common.Data;
+
+namespace BankingSystem.Common.Messages
 {
     /// <summary>
     ///     Provides information about changes in account balance.
@@ -37,5 +39,22 @@
         ///     The currency.
         /// </value>
         public string Currency { get; set; }
+
+        /// <summary>
+        ///     Creates the balance changed message.
+        /// </summary>
+        /// <param name="account">The account.</param>
+        /// <param name="oldBalance">The old balance.</param>
+        /// <returns>A create instance.</returns>
+        public static BalanceChangedMessage Create(IAccount account, decimal oldBalance)
+        {
+            return new BalanceChangedMessage
+            {
+                AccountNumber = account.AccountNumber,
+                Currency = account.Currency,
+                ChangeAmount = account.Balance - oldBalance,
+                CurrentBalance = account.Balance
+            };
+        }
     }
 }

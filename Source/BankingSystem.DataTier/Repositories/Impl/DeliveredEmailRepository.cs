@@ -1,7 +1,6 @@
 using BankingSystem.Common.Data;
-using BankingSystem.DataTier.Session;
 
-namespace BankingSystem.DataTier.Repositories
+namespace BankingSystem.DataTier.Repositories.Impl
 {
     /// <summary>
     ///     Represents a repository of delivered emails.

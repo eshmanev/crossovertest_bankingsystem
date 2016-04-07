@@ -66,6 +66,14 @@ namespace BankingSystem.DataTier
         IDeliveredEmailRepository DeliveredEmails { get; }
 
         /// <summary>
+        ///     Gets the repository of bank cards.
+        /// </summary>
+        /// <value>
+        ///     The repository of bank cards.
+        /// </value>
+        IBankCardRepository BankCards { get; }
+
+        /// <summary>
         ///     Gets the current session.
         /// </summary>
         /// <returns>The session</returns>

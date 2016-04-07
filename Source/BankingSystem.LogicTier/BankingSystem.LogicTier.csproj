@@ -66,9 +66,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBankCardService.cs" />
     <Compile Include="IEmailService.cs" />
     <Compile Include="Impl\AccountService.cs" />
     <Compile Include="Impl\BankBalanceService.cs" />
+    <Compile Include="Impl\BankCardService.cs" />
     <Compile Include="Impl\BankingServiceException.cs" />
     <Compile Include="Impl\EmailService.cs" />
     <Compile Include="Impl\ExchangeRateService.cs" />

@@ -17,6 +17,7 @@ namespace BankingSystem.ATM.ViewModels
         private readonly IBankingService _service;
         private readonly IDispatcherAccessor _dispatcherAccessor;
         private string _errorMessage;
+        private decimal _amount;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="WithdrawViewModel" /> class.
@@ -58,7 +59,15 @@ namespace BankingSystem.ATM.ViewModels
         /// <value>
         ///     The amount.
         /// </value>
-        public decimal Amount { get; set; }
+        public decimal Amount
+        {
+            get { return _amount; }
+            set
+            {
+                _amount = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         ///     Gets or sets the get command.
