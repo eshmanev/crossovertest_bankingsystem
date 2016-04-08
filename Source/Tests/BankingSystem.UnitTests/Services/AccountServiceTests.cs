@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BankingSystem.Common.Data;
 using BankingSystem.LogicTier;
@@ -16,6 +17,7 @@ namespace BankingSystem.UnitTests.Services
         private FakeDatabaseContext _context;
         private Mock<IExchangeRateService> _exchangeRangeService;
         private Mock<IBankBalanceService> _bankBalanceService;
+        private Mock<IJournalService> _journalService;
 
         [SetUp]
         public void Setup()
@@ -23,17 +25,14 @@ namespace BankingSystem.UnitTests.Services
             _context = new FakeDatabaseContext();
             _exchangeRangeService = new Mock<IExchangeRateService>();
             _bankBalanceService = new Mock<IBankBalanceService>();
-            _service = new AccountService(_context, _exchangeRangeService.Object, _bankBalanceService.Object);
+            _journalService = new Mock<IJournalService>();
+            _service = new AccountService(_context, _exchangeRangeService.Object, _bankBalanceService.Object, _journalService.Object);
         }
 
         [Test]
         public async void ShouldTransferMoney_DifferentCurrencies()
         {
             // arrange
-            IOperation insertedOperation = null;
-            _context.Operations.Setup(x => x.Insert(It.IsAny<IOperation>()))
-                .Callback((IOperation o) => insertedOperation = o);
-
             var amount = 100m;
             var sourceAccount = new Mock<IAccount>();
             var destAccount = new Mock<IAccount>();
@@ -44,14 +43,10 @@ namespace BankingSystem.UnitTests.Services
             _exchangeRangeService.Setup(x => x.GetExhangeRateAsync("USD", "EUR")).Returns(Task.FromResult(0.8m));
 
             // act
-            await _service.TransferMoney(sourceAccount.Object, destAccount.Object, amount);
+            await _service.TransferMoney(sourceAccount.Object, destAccount.Object, amount, "description");
 
             // assert
-            insertedOperation.ShouldNotBeNull();
-            insertedOperation.DateTimeCreated.ShouldBeGreaterThan(DateTime.UtcNow.AddMinutes(-5));
-            insertedOperation.Amount.ShouldBe(amount);
-            insertedOperation.Commission.ShouldBe(Math.Round(amount*AccountService.DefaultCommission, 2));
-            insertedOperation.Description.ShouldNotBeNullOrEmpty();
+            _journalService.Verify(x => x.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "description", 2.0m));
 
             sourceAccount.VerifySet(x => x.Balance = 900m);
             destAccount.VerifySet(x => x.Balance = 2000m + 78.4m); // (100 - commission) * exhchange rate
@@ -66,28 +61,22 @@ namespace BankingSystem.UnitTests.Services
         public async void ShouldTransferMoney_SameCurrencies()
         {
             // arrange
-            IOperation insertedOperation = null;
-            _context.Operations.Setup(x => x.Insert(It.IsAny<IOperation>()))
-                .Callback((IOperation o) => insertedOperation = o);
-
             var amount = 100m;
             var sourceAccount = new Mock<IAccount>();
-            var destAccount = new Mock<IAccount>();
             sourceAccount.SetupGet(x => x.Currency).Returns("USD");
             sourceAccount.SetupGet(x => x.Balance).Returns(1000m);
+
+            var destAccount = new Mock<IAccount>();
             destAccount.SetupGet(x => x.Currency).Returns("USD");
             destAccount.SetupGet(x => x.Balance).Returns(2000m);
+
             _exchangeRangeService.Setup(x => x.GetExhangeRateAsync("USD", "USD")).Returns(Task.FromResult(0.8m));
 
             // act
-            await _service.TransferMoney(sourceAccount.Object, destAccount.Object, amount);
+            await _service.TransferMoney(sourceAccount.Object, destAccount.Object, amount, "description");
 
             // assert
-            insertedOperation.ShouldNotBeNull();
-            insertedOperation.DateTimeCreated.ShouldBeGreaterThan(DateTime.UtcNow.AddMinutes(-5));
-            insertedOperation.Amount.ShouldBe(amount);
-            insertedOperation.Commission.ShouldBe(0);
-            insertedOperation.Description.ShouldNotBeNullOrEmpty();
+            _journalService.Verify(x => x.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "description", 0m));
 
             sourceAccount.VerifySet(x => x.Balance = 900m);
             destAccount.VerifySet(x => x.Balance = 2100m);
@@ -107,7 +96,7 @@ namespace BankingSystem.UnitTests.Services
             sourceAccount.SetupGet(x => x.Balance).Returns(1000m);
 
             // act
-            _service.UpdateBalance(sourceAccount.Object, -2000m);
+            _service.UpdateBalance(sourceAccount.Object, -2000m, "description");
         }
 
         [Test]
@@ -118,11 +107,12 @@ namespace BankingSystem.UnitTests.Services
             sourceAccount.SetupGet(x => x.Balance).Returns(1000m);
 
             // act
-            _service.UpdateBalance(sourceAccount.Object, -100m);
+            _service.UpdateBalance(sourceAccount.Object, -100m, "description");
 
             // assert
             sourceAccount.VerifySet(x => x.Balance = 900m);
             _context.Accounts.Verify(x => x.Update(sourceAccount.Object));
+            _journalService.Verify(x => x.WriteJournal(sourceAccount.Object, "description"));
         }
 
         [Test]

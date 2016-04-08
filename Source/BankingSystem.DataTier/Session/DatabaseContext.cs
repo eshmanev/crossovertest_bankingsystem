@@ -54,7 +54,7 @@ namespace BankingSystem.DataTier.Session
         /// <value>
         ///     The repository of operations.
         /// </value>
-        public IOperationRepository Operations => new OperationRepository(this);
+        public IJournalRepository Journals => new JournalRepository(this);
 
         /// <summary>
         ///     Gets the repository of accounts.
@@ -95,14 +95,6 @@ namespace BankingSystem.DataTier.Session
         ///     The repository of bank cards.
         /// </value>
         public IBankCardRepository BankCards => new BankCardRepository(this);
-
-        /// <summary>
-        ///     Gets the repository of merchants.
-        /// </summary>
-        /// <value>
-        ///     The repository of merchants.
-        /// </value>
-        public IMerchantRepository Merchants => new MerchantRepository(this);
 
         /// <summary>
         ///     Gets the session.

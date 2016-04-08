@@ -12,7 +12,7 @@ namespace BankingSystem.LogicTier
         ///     Searches for a merchant by id.
         /// </summary>
         /// <param name="merchantId">The merchant identifier.</param>
-        /// <returns></returns>
+        /// <returns>A merchant or null.</returns>
         IMerchant FindMerchant(Guid merchantId);
     }
 }

@@ -108,7 +108,12 @@ namespace BankingSystem.ATM.Services
                 try
                 {
                     var url = GetBaseUrl(bankCardNumber, pin, "balance");
-                    var response = await client.PutAsync(url, new ChangeAmountMessage {Amount = amount});
+                    var response = await client.PutAsync(url, new ChangeAmountMessage
+                    {
+                        // we should send a negative value for withdrawal.
+                        Amount = -amount,
+                        Description = $"ATM withdrawal. Amount: {amount}"
+                    });
 
                     if (response.StatusCode == HttpStatusCode.Forbidden)
                     {

@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\ICustomerVisitor.cs" />
+    <Compile Include="Data\IIndividual.cs" />
     <Compile Include="Data\IMerchant.cs" />
     <Compile Include="Messages\BalanceChangedMessage.cs" />
     <Compile Include="Data\IAccount.cs" />
@@ -48,7 +50,7 @@
     <Compile Include="Data\ICustomer.cs" />
     <Compile Include="Data\IDeliveredEmail.cs" />
     <Compile Include="Data\ILoginInfo.cs" />
-    <Compile Include="Data\IOperation.cs" />
+    <Compile Include="Data\IJournal.cs" />
     <Compile Include="Data\IScheduledEmail.cs" />
     <Compile Include="Messages\ChangeAmountMessage.cs" />
     <Compile Include="Messages\NewPinMessage.cs" />

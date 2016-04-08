@@ -6,7 +6,6 @@ namespace BankingSystem.DataTier.Mappings
     /// <summary>
     ///     Defines a mapping for <see cref="Account" />
     /// </summary>
-    /// <seealso cref="FluentNHibernate.Mapping.ClassMap{BankingSystem.DAL.Entities.Account}" />
     public class AccountMap : ClassMap<Account>
     {
         /// <summary>

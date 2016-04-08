@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -21,15 +22,17 @@ namespace BankingSystem.WebPortal.Controllers
         private static readonly ILog Log = LogManager.GetLogger(typeof (AccountController));
         private readonly ICustomerService _customerService;
         private readonly IAccountService _accountService;
+        private readonly IJournalService _journalService;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AccountController" /> class.
         /// </summary>
         /// <param name="customerService">The customer service.</param>
         /// <param name="accountService">The account service.</param>
+        /// <param name="journalService">The journal service.</param>
         /// <exception cref="System.ArgumentNullException">
         /// </exception>
-        public AccountController(ICustomerService customerService, IAccountService accountService)
+        public AccountController(ICustomerService customerService, IAccountService accountService, IJournalService journalService)
         {
             if (customerService == null)
                 throw new ArgumentNullException(nameof(customerService));
@@ -37,8 +40,12 @@ namespace BankingSystem.WebPortal.Controllers
             if (accountService == null)
                 throw new ArgumentNullException(nameof(accountService));
 
+            if (journalService == null)
+                throw new ArgumentNullException(nameof(journalService));
+
             _customerService = customerService;
             _accountService = accountService;
+            _journalService = journalService;
         }
 
 
@@ -53,11 +60,33 @@ namespace BankingSystem.WebPortal.Controllers
         /// <summary>
         ///     Returns a list of accounts for the current user.
         /// </summary>
-        public JsonResult Get()
+        public JsonResult GetAccounts()
         {
-            var userId = User.Identity.GetUserId<int>();
-            var customer = _customerService.FindCustomerById(userId);
-            var model = customer.Accounts.Select(x => new AccountViewModel {AccountNumber = x.AccountNumber, Currency = x.Currency, Balance = x.Balance});
+            var customer = GetCurrentCustomer();
+            var model = customer.Accounts.Select(x => new AccountViewModel
+            {
+                AccountNumber = x.AccountNumber,
+                Currency = x.Currency,
+                Balance = x.Balance,
+                CardNumber = x.BankCard?.CardNumber,
+                CardExpiration = x.BankCard != null ? $"{x.BankCard.ExpirationMonth} / {x.BankCard.ExpirationYear}" : string.Empty,
+                CardHolder = x.BankCard?.CardHolder
+            });
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        ///     Gets a list of journals for the current user.
+        /// </summary>
+        public JsonResult GetJournals()
+        {
+            var customer = GetCurrentCustomer();
+            var journals = _journalService.GetCustomerJournals(customer.Id);
+            var model = journals.OrderByDescending(x => x.DateTimeCreated).Select(x => new JournalViewModel
+            {
+                DateCreated = x.DateTimeCreated.ToLocalTime().ToString("MM/dd/yyyy HH:mm"),
+                Description = x.Description
+            });
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
@@ -74,7 +103,7 @@ namespace BankingSystem.WebPortal.Controllers
             var sourceAccount = customer.Accounts.SingleOrDefault(x => x.AccountNumber == viewModel.SourceAccount);
             var destAccount = customer.Accounts.SingleOrDefault(x => x.AccountNumber == viewModel.DestAccount);
 
-            return await MakeTransfer(viewModel, sourceAccount, destAccount);
+            return await MakeTransfer(viewModel, sourceAccount, destAccount, true);
         }
 
         /// <summary>
@@ -90,10 +119,30 @@ namespace BankingSystem.WebPortal.Controllers
             var sourceAccount = customer.Accounts.SingleOrDefault(x => x.AccountNumber == viewModel.SourceAccount);
             var destAccount = _accountService.FindAccount(viewModel.DestAccount);
 
-            return await MakeTransfer(viewModel, sourceAccount, destAccount);
+            return await MakeTransfer(viewModel, sourceAccount, destAccount, false);
         }
 
-        private async Task<JsonResult> MakeTransfer(TransferViewModel viewModel, IAccount sourceAccount, IAccount destAccount)
+        /// <summary>
+        ///     Gets the current customer.
+        /// </summary>
+        /// <returns>A customer.</returns>
+        private ICustomer GetCurrentCustomer()
+        {
+            var userId = User.Identity.GetUserId<int>();
+            var customer = _customerService.FindCustomerById(userId);
+            Debug.Assert(customer != null);
+            return customer;
+        }
+
+        /// <summary>
+        ///     Makes the transfer.
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="sourceAccount">The source account.</param>
+        /// <param name="destAccount">The dest account.</param>
+        /// <param name="internalTransfer"><c>true</c> if it's internal transfer; otherwise false.</param>
+        /// <returns></returns>
+        private async Task<JsonResult> MakeTransfer(TransferViewModel viewModel, IAccount sourceAccount, IAccount destAccount, bool internalTransfer)
         {
             if (sourceAccount == null)
                 ModelState.AddModelError("SourceAccount", "Invalid source account");
@@ -110,9 +159,13 @@ namespace BankingSystem.WebPortal.Controllers
             if (!ModelState.IsValid)
                 return this.JsonError();
 
+            var description = internalTransfer
+                ? $"Internal transfer between your accounts from {sourceAccount.AccountNumber} to {destAccount.AccountNumber}. Amount {viewModel.Amount} {sourceAccount.Currency}"
+                : $"Extenal transfer from account {sourceAccount.AccountNumber} to account {destAccount.AccountNumber}. Amount {viewModel.Amount} {sourceAccount.Currency}";
+
             try
             {
-                await _accountService.TransferMoney(sourceAccount, destAccount, viewModel.Amount);
+                await _accountService.TransferMoney(sourceAccount, destAccount, viewModel.Amount, description);
                 return this.JsonSuccess();
             }
             catch (Exception ex)

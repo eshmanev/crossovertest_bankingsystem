@@ -39,7 +39,8 @@
 app.factory('AccountService', [
     '$resource', function($resource) {
         return $resource('/Account', null, {
-            getList: { method: 'GET', url: '/Account/Get', isArray: true },
+            getAccounts: { method: 'GET', url: '/Account/GetAccounts', isArray: true },
+            getJournals: { method: 'GET', url: '/Account/GetJournals', isArray: true },
             internalTransfer: { method: 'POST', url: '/Account/TransferToMyAccount', isArray: false },
             externalTransfer: { method: 'POST', url: '/Account/TransferToOtherAccount', isArray: false }
         });

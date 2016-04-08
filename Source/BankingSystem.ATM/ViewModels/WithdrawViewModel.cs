@@ -103,8 +103,7 @@ namespace BankingSystem.ATM.ViewModels
                 return;
             }
 
-            // we should send a negative value for withdrawal.
-            var errorMessage = await _service.Withdraw(_provider.GetBankCardNumber(), _provider.CurrentPin, -Amount);
+            var errorMessage = await _service.Withdraw(_provider.GetBankCardNumber(), _provider.CurrentPin, Amount);
             _dispatcherAccessor.Dispatcher.Invoke(() =>
             {
                 if (!string.IsNullOrEmpty(errorMessage))

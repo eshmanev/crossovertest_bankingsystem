@@ -7,7 +7,7 @@ namespace BankingSystem.DataTier.Entities
     ///     Represents a customer.
     /// </summary>
     /// <seealso cref="ICustomer" />
-    public class Customer : ICustomer
+    public abstract class CustomerBase : ICustomer
     {
         private IList<Account> _accounts = new List<Account>();
         private IList<LoginInfo> _logins = new List<LoginInfo>();
@@ -43,22 +43,6 @@ namespace BankingSystem.DataTier.Entities
         ///     The password.
         /// </value>
         public virtual string PasswordHash { get; set; }
-
-        /// <summary>
-        ///     Gets the first name.
-        /// </summary>
-        /// <value>
-        ///     The first name.
-        /// </value>
-        public virtual string FirstName { get; protected set; }
-
-        /// <summary>
-        ///     Gets the last name.
-        /// </summary>
-        /// <value>
-        ///     The last name.
-        /// </value>
-        public virtual string LastName { get; protected set; }
 
         /// <summary>
         ///     Gets a collection of the customer's accounts.
@@ -111,5 +95,11 @@ namespace BankingSystem.DataTier.Entities
                 loginInfo.Customer = null;
             }
         }
+
+        /// <summary>
+        ///     Accepts the specified visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
+        public abstract void Accept(ICustomerVisitor visitor);
     }
 }

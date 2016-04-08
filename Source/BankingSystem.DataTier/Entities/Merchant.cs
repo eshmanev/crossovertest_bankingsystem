@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using BankingSystem.Common.Data;
 
 namespace BankingSystem.DataTier.Entities
@@ -8,17 +7,15 @@ namespace BankingSystem.DataTier.Entities
     ///     Represents a merchant.
     /// </summary>
     /// <seealso cref="BankingSystem.Common.Data.IMerchant" />
-    public class Merchant : IMerchant
+    public class Merchant : CustomerBase, IMerchant
     {
-        private IList<Account> _accounts = new List<Account>();
-
         /// <summary>
         ///     Gets the identifier.
         /// </summary>
         /// <value>
         ///     The identifier.
         /// </value>
-        public virtual Guid Id { get; protected set; }
+        public virtual Guid MerchantId { get; protected set; }
 
         /// <summary>
         ///     Gets the merchant's name.
@@ -26,18 +23,23 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The name.
         /// </value>
-        public virtual string Name { get; protected set; }
+        public virtual string MerchantName { get; protected set; }
 
         /// <summary>
-        ///     Gets or sets the accounts.
+        ///     Gets the contact person.
         /// </summary>
         /// <value>
-        ///     The accounts.
+        ///     The contact person.
         /// </value>
-        public virtual IEnumerable<IAccount> Accounts
+        public virtual string ContactPerson { get; protected set; }
+
+        /// <summary>
+        ///     Accepts the specified visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
+        public override void Accept(ICustomerVisitor visitor)
         {
-            get { return _accounts; }
-            protected set { _accounts = (IList<Account>) value; }
+            visitor.Visit(this);
         }
     }
 }

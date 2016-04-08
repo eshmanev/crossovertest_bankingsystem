@@ -5,25 +5,24 @@ using FluentNHibernate.Mapping;
 namespace BankingSystem.DataTier.Mappings
 {
     /// <summary>
-    ///  Defines a mapping for <see cref="Customer"/>
+    ///     Defines a mapping for the <see cref="CustomerBase" /> class.
     /// </summary>
-    /// <seealso cref="Customer" />
-    public class CustomerMap : ClassMap<Customer>
+    public class CustomerMap : ClassMap<CustomerBase>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerMap"/> class.
+        ///     Initializes a new instance of the <see cref="CustomerMap" /> class.
         /// </summary>
         public CustomerMap()
         {
             Table("Customers");
-            Id(x => x.Id).GeneratedBy.HiLo<Customer>();
+            Id(x => x.Id).GeneratedBy.HiLo<CustomerBase>();
             Map(x => x.UserName).Unique();
             Map(x => x.Email);
-            Map(x => x.FirstName);
-            Map(x => x.LastName);
+
             Map(x => x.PasswordHash);
-            HasManyToMany<Account>(Reveal.Member<Customer>("_accounts")).Table("CustomerAccounts").Inverse().Cascade.AllDeleteOrphan();
-            HasMany<LoginInfo>(Reveal.Member<Customer>("_logins")).Inverse().Cascade.AllDeleteOrphan();
+            HasMany<Account>(Reveal.Member<CustomerBase>("_accounts")).KeyColumn("CustomerId").Inverse().Cascade.AllDeleteOrphan();
+            HasMany<LoginInfo>(Reveal.Member<CustomerBase>("_logins")).KeyColumn("CustomerId").Inverse().Cascade.AllDeleteOrphan();
+            DiscriminateSubClassesOnColumn("CustomerType");
         }
     }
 }

@@ -67,32 +67,61 @@
     </script>
 
     <!-- list of user's accounts -->
-    <div class="col-sm-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Actions</div>
-            <div class="list-group">
-                <a href="#" class="list-group-item" ng-click="ctrl.makeInternalTransfer()">Internal transfers</a>
-                <a href="#" class="list-group-item" ng-click="ctrl.makeSpecialStransfer()">Transfer to a specified account</a>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Actions</div>
+                <div class="list-group">
+                    <a href="#" class="list-group-item" ng-click="ctrl.makeInternalTransfer()">Internal transfers</a>
+                    <a href="#" class="list-group-item" ng-click="ctrl.makeSpecialStransfer()">Transfer to a specified account</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-sm-9">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Account Number</th>
-                <th>Currency</th>
-                <th>Balance</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="x in ctrl.accounts">
-                <td>{{x.AccountNumber}}</td>
-                <td>{{x.Currency}}</td>
-                <td>{{x.Balance}}</td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="col-sm-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">Your Accounts</div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Account Number</th>
+                        <th>Currency</th>
+                        <th>Balance</th>
+                        <th>Card Number</th>
+                        <th>Card Expire Date</th>
+                        <th>Card Holder</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in ctrl.accounts">
+                        <td>{{x.AccountNumber}}</td>
+                        <td>{{x.Currency}}</td>
+                        <td>{{x.Balance}}</td>
+                        <td>{{x.CardNumber}}</td>
+                        <td>{{x.CardExpiration}}</td>
+                        <td>{{x.CardHolder}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">journals</div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="x in ctrl.journals">
+                        <td>{{x.DateCreated}}</td>
+                        <td>{{x.Description}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 

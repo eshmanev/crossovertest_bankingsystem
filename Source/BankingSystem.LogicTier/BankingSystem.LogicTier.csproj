@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="IBankCardService.cs" />
     <Compile Include="IEmailService.cs" />
+    <Compile Include="IJournalService.cs" />
     <Compile Include="IMerchantService.cs" />
     <Compile Include="Impl\AccountService.cs" />
     <Compile Include="Impl\BankBalanceService.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="IAccountService.cs" />
     <Compile Include="IBankBalanceService.cs" />
     <Compile Include="IExchangeRateService.cs" />
+    <Compile Include="Impl\JournalService.cs" />
     <Compile Include="Impl\MerchantService.cs" />
     <Compile Include="Utils\ISmtpClient.cs" />
     <Compile Include="Utils\ISmtpFactory.cs" />

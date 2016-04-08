@@ -4,32 +4,30 @@ using BankingSystem.Common.Data;
 namespace BankingSystem.DataTier.Entities
 {
     /// <summary>
-    ///     Represents an operation.
+    ///     Represents an journal.
     /// </summary>
-    /// <seealso cref="IOperation" />
-    public class Operation : IOperation
+    /// <seealso cref="IJournal" />
+    public class Journal : IJournal
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Operation" /> class.
+        ///     Initializes a new instance of the <see cref="Journal" /> class.
         /// </summary>
-        protected Operation()
+        protected Journal()
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Operation" /> class.
+        ///     Initializes a new instance of the <see cref="Journal" /> class.
         /// </summary>
         /// <param name="dateTimeCreated">The date time created.</param>
-        /// <param name="amount">The amount.</param>
-        /// <param name="commission">The commission.</param>
+        /// <param name="customer">The customer.</param>
         /// <param name="description">The description.</param>
-        public Operation(DateTime dateTimeCreated, decimal amount, decimal commission, string description)
+        public Journal(DateTime dateTimeCreated, ICustomer customer, string description)
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             DateTimeCreated = dateTimeCreated;
             Description = description;
-            Amount = amount;
-            Commission = commission;
+            Customer = customer;
             // ReSharper restore DoNotCallOverridableMethodsInConstructor
         }
 
@@ -40,6 +38,14 @@ namespace BankingSystem.DataTier.Entities
         ///     The identifier.
         /// </value>
         public virtual int Id { get; protected set; }
+
+        /// <summary>
+        ///     Gets the customer.
+        /// </summary>
+        /// <value>
+        ///     The customer.
+        /// </value>
+        public virtual ICustomer Customer { get; protected set; }
 
         /// <summary>
         ///     Gets the date and time created.
@@ -56,21 +62,5 @@ namespace BankingSystem.DataTier.Entities
         ///     The description.
         /// </value>
         public virtual string Description { get; protected set; }
-
-        /// <summary>
-        ///     Gets the amount.
-        /// </summary>
-        /// <value>
-        ///     The amount.
-        /// </value>
-        public virtual decimal Amount { get; protected set; }
-
-        /// <summary>
-        ///     Gets the bank commission.
-        /// </summary>
-        /// <value>
-        ///     The bank commission.
-        /// </value>
-        public virtual decimal Commission { get; protected set; }
     }
 }

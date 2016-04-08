@@ -31,7 +31,7 @@ namespace BankingSystem.DataTier
         /// <value>
         ///     The repository of operations.
         /// </value>
-        IOperationRepository Operations { get; }
+        IJournalRepository Journals { get; }
 
         /// <summary>
         ///     Gets the repository of accounts.
@@ -72,14 +72,6 @@ namespace BankingSystem.DataTier
         ///     The repository of bank cards.
         /// </value>
         IBankCardRepository BankCards { get; }
-
-        /// <summary>
-        ///     Gets the repository of merchants.
-        /// </summary>
-        /// <value>
-        ///     The repository of merchants.
-        /// </value>
-        IMerchantRepository Merchants { get; }
 
         /// <summary>
         ///     Gets the current session.

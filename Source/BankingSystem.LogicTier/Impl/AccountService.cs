@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using BankingSystem.Common.Data;
 using BankingSystem.DataTier;
-using BankingSystem.DataTier.Entities;
+using Microsoft.Practices.ObjectBuilder2;
 
 namespace BankingSystem.LogicTier.Impl
 {
@@ -16,6 +17,7 @@ namespace BankingSystem.LogicTier.Impl
         private readonly IExchangeRateService _exchangeRateService;
         private readonly IDatabaseContext _databaseContext;
         private readonly IBankBalanceService _bankBalanceService;
+        private readonly IJournalService _journalService;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AccountService" /> class.
@@ -23,7 +25,8 @@ namespace BankingSystem.LogicTier.Impl
         /// <param name="databaseContext">The database context.</param>
         /// <param name="exchangeRateService">The exchange rate service.</param>
         /// <param name="bankBalanceService">The bank balance service.</param>
-        public AccountService(IDatabaseContext databaseContext, IExchangeRateService exchangeRateService, IBankBalanceService bankBalanceService)
+        /// <param name="journalService">The journal service.</param>
+        public AccountService(IDatabaseContext databaseContext, IExchangeRateService exchangeRateService, IBankBalanceService bankBalanceService, IJournalService journalService)
         {
             if (databaseContext == null)
                 throw new ArgumentNullException(nameof(databaseContext));
@@ -34,9 +37,13 @@ namespace BankingSystem.LogicTier.Impl
             if (bankBalanceService == null)
                 throw new ArgumentNullException(nameof(bankBalanceService));
 
+            if (journalService == null)
+                throw new ArgumentNullException(nameof(journalService));
+
             _exchangeRateService = exchangeRateService;
             _databaseContext = databaseContext;
             _bankBalanceService = bankBalanceService;
+            _journalService = journalService;
         }
 
         /// <summary>
@@ -45,8 +52,9 @@ namespace BankingSystem.LogicTier.Impl
         /// <param name="sourceAccount">The source account.</param>
         /// <param name="destAccount">The dest account.</param>
         /// <param name="amount">The amount to transfer.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public async Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount)
+        /// <param name="description">The description of the transaction.</param>
+        /// <exception cref="BankingServiceException">The account does not have enough amount of money.</exception>
+        public async Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount, string description)
         {
             if (sourceAccount == null)
                 throw new ArgumentNullException(nameof(sourceAccount));
@@ -78,37 +86,32 @@ namespace BankingSystem.LogicTier.Impl
                         commissionPercent = DefaultCommission;
                     }
 
-                    // create a new operation entry
+                    // calc bank commission and new balances
                     var commission = Math.Round(amount*commissionPercent, 2);
-                    var operation = new Operation(
-                        DateTime.UtcNow,
-                        amount,
-                        commission,
-                        $"Money transfer from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}");
-                    _databaseContext.Operations.Insert(operation);
-
-                    // update source account
                     sourceAccount.Balance = Math.Round(sourceAccount.Balance - amount, 2);
-                    _databaseContext.Accounts.Update(sourceAccount);
-
-                    // update dest account
                     destAccount.Balance = Math.Round(destAccount.Balance + exhangeRate*(amount - commission), 2);
+
+                    // update database
+                    _databaseContext.Accounts.Update(sourceAccount);
                     _databaseContext.Accounts.Update(destAccount);
 
-                    // update revenues
+                    // update bank revenues, if any
                     if (commission > 0)
-                    {
                         _bankBalanceService.AddRevenue(commission, $"A commission for money transfer from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}");
-                    }
+
+                    // write journals
+                    var journals = _journalService.WriteTransferJournal(sourceAccount, destAccount, description, commission).ToArray();
 
                     // commit transaction
                     transaction.Commit();
+
+                    // balance of each account has successfully updated
+                    journals.ForEach(OnJournalCreated);
                 }
-                catch (Exception ex)
+                catch
                 {
                     transaction.Rollback();
-                    var message = $"An error has occurred while transferring money from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}";
-                    throw new BankingServiceException(message, ex);
+                    throw;
                 }
             }
         }
@@ -118,15 +121,32 @@ namespace BankingSystem.LogicTier.Impl
         /// </summary>
         /// <param name="account">The account.</param>
         /// <param name="changeAmount">The change amount. Can be negative and positive.</param>
+        /// <param name="description">The description of the transaction.</param>
         /// <exception cref="BankingServiceException">Account balance exeeds limits.</exception>
-        public void UpdateBalance(IAccount account, decimal changeAmount)
+        public void UpdateBalance(IAccount account, decimal changeAmount, string description)
         {
             var newBalance = account.Balance + changeAmount;
             if (newBalance < 0)
                 throw new BankingServiceException("Account balance exeeds limits.");
 
-            account.Balance = newBalance;
-            _databaseContext.Accounts.Update(account);
+            using (var transaction = _databaseContext.DemandTransaction())
+            {
+                try
+                {
+                    account.Balance += changeAmount;
+                    _databaseContext.Accounts.Update(account);
+
+                    var journal = _journalService.WriteJournal(account, description);
+                    transaction.Commit();
+
+                    OnJournalCreated(journal);
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
         }
 
         /// <summary>
@@ -139,6 +159,14 @@ namespace BankingSystem.LogicTier.Impl
         public IAccount FindAccount(string accountNumber)
         {
             return _databaseContext.Accounts.FindAccount(accountNumber);
+        }
+
+        /// <summary>
+        ///     Allows an inherited class to observe created journals.
+        /// </summary>
+        /// <param name="journal">The journal.</param>
+        protected virtual void OnJournalCreated(IJournal journal)
+        {
         }
     }
 }

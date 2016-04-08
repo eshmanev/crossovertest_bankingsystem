@@ -1,17 +1,17 @@
-﻿namespace BankingSystem.Common.Messages
+﻿namespace BankingSystem.WebPortal.Models
 {
     /// <summary>
-    ///     Represents a message sent by clients to change a bank card's balance.
+    ///     Represents a journal view model.
     /// </summary>
-    public class ChangeAmountMessage
+    public class JournalViewModel
     {
         /// <summary>
-        ///     Gets or sets the amount which affects the current bank card balance. May be negative or positive.
+        ///     Gets or sets the date created.
         /// </summary>
         /// <value>
-        ///     The amount.
+        ///     The date created.
         /// </value>
-        public decimal Amount { get; set; }
+        public string DateCreated { get; set; }
 
         /// <summary>
         ///     Gets or sets the description.

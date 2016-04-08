@@ -41,19 +41,29 @@ namespace BankingSystem.Common.Messages
         public string Currency { get; set; }
 
         /// <summary>
+        ///     Gets or sets the description.
+        /// </summary>
+        /// <value>
+        ///     The description.
+        /// </value>
+        public string Description { get; set; }
+
+        /// <summary>
         ///     Creates the balance changed message.
         /// </summary>
         /// <param name="account">The account.</param>
         /// <param name="oldBalance">The old balance.</param>
+        /// <param name="description">The description.</param>
         /// <returns>A create instance.</returns>
-        public static BalanceChangedMessage Create(IAccount account, decimal oldBalance)
+        public static BalanceChangedMessage Create(IAccount account, decimal oldBalance, string description)
         {
             return new BalanceChangedMessage
             {
                 AccountNumber = account.AccountNumber,
                 Currency = account.Currency,
                 ChangeAmount = account.Balance - oldBalance,
-                CurrentBalance = account.Balance
+                CurrentBalance = account.Balance,
+                Description = description
             };
         }
     }

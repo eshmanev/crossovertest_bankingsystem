@@ -1,8 +1,8 @@
+using System;
 using System.Linq;
 using BankingSystem.Common.Data;
 using BankingSystem.DataTier.Entities;
 using FluentNHibernate;
-using NHibernate.Linq;
 
 namespace BankingSystem.DataTier.Repositories.Impl
 {
@@ -27,7 +27,7 @@ namespace BankingSystem.DataTier.Repositories.Impl
         /// <returns></returns>
         public ICustomer FindByUserName(string userName)
         {
-            return base.Filter(x => x.UserName == userName).FirstOrDefault();
+            return Filter(x => x.UserName == userName).FirstOrDefault();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace BankingSystem.DataTier.Repositories.Impl
         /// <returns></returns>
         public ICustomer FindByEmail(string email)
         {
-            return base.Filter(x => x.Email == email).FirstOrDefault();
+            return Filter(x => x.Email == email).FirstOrDefault();
         }
 
         /// <summary>
@@ -47,10 +47,20 @@ namespace BankingSystem.DataTier.Repositories.Impl
         /// <returns></returns>
         public ICustomer FindByAccount(string accountNumber)
         {
-            return GetSession().QueryOver<Customer>()
-                .Left.JoinQueryOver(Reveal.Member<Customer>("_accounts"))
+            return GetSession().QueryOver<CustomerBase>()
+                .Left.JoinQueryOver(Reveal.Member<CustomerBase>("_accounts"))
                 .WhereRestrictionOn(x => ((Account)x).AccountNumber).IsLike(accountNumber)
                 .SingleOrDefault();
+        }
+
+        /// <summary>
+        ///     Searches for a merchant with the given merchant identifier.
+        /// </summary>
+        /// <param name="merchantId">The merchant identifier.</param>
+        /// <returns>A merchant or null.</returns>
+        public IMerchant FindByMerchantId(Guid merchantId)
+        {
+            return Filter(x => ((IMerchant) x).MerchantId == merchantId).Cast<IMerchant>().FirstOrDefault();
         }
     }
 }

@@ -41,14 +41,17 @@ namespace BankingSystem.WebPortal.Services
         /// <param name="sourceAccount">The source account.</param>
         /// <param name="destAccount">The dest account.</param>
         /// <param name="amount">The amount to transfer.</param>
-        /// <returns></returns>
-        public async Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount)
+        /// <param name="description">The description of the transaction.</param>
+        /// <returns>
+        ///     The operation.
+        /// </returns>
+        public async Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount, string description)
         {
             var oldSourceBalance = sourceAccount.Balance;
             var oldDestBalance = destAccount.Balance;
-            await _original.TransferMoney(sourceAccount, destAccount, amount);
-            _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(sourceAccount, oldSourceBalance));
-            _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(destAccount, oldDestBalance));
+            await _original.TransferMoney(sourceAccount, destAccount, amount, description);
+            _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(sourceAccount, oldSourceBalance, description));
+            _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(destAccount, oldDestBalance, description));
         }
 
         /// <summary>
@@ -56,11 +59,12 @@ namespace BankingSystem.WebPortal.Services
         /// </summary>
         /// <param name="account">The account.</param>
         /// <param name="changeAmount">The change amount. Can be negative and positive.</param>
-        public void UpdateBalance(IAccount account, decimal changeAmount)
+        /// <param name="description">The description of the transaction.</param>
+        public void UpdateBalance(IAccount account, decimal changeAmount, string description)
         {
             var oldBalance = account.Balance;
-            _original.UpdateBalance(account, changeAmount);
-            _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(account, oldBalance));
+            _original.UpdateBalance(account, changeAmount, description);
+            _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(account, oldBalance, description));
         }
 
         /// <summary>

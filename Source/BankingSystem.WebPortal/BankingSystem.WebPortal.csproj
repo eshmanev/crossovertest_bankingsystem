@@ -1029,7 +1029,6 @@
   <ItemGroup>
     <Compile Include="App_Start\ApiRouteConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\DecoratorContainerExtension.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
@@ -1054,6 +1053,7 @@
     <Compile Include="Models\ExternalLoginListViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\OnlinePaymentViewModel.cs" />
+    <Compile Include="Models\JournalViewModel.cs" />
     <Compile Include="Models\SuccessViewModel.cs" />
     <Compile Include="Models\TransferViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

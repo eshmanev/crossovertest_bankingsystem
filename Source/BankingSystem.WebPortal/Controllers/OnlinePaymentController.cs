@@ -115,19 +115,22 @@ namespace BankingSystem.WebPortal.Controllers
             if (ModelState.IsValid)
                 ValidateBankCard(viewModel, out bankCard);
 
+            IMerchant merchant = null;
             IAccount merchantAccount = null;
             if (ModelState.IsValid)
-                ValidateMerchant(viewModel, out merchantAccount);
+                ValidateMerchant(viewModel, out merchant, out merchantAccount);
 
             if (!ModelState.IsValid)
                 return View(viewModel);
 
             Debug.Assert(bankCard != null);
+            Debug.Assert(merchant != null);
             Debug.Assert(merchantAccount != null);
 
             try
             {
-                _accountService.TransferMoney(bankCard.Account, merchantAccount, viewModel.Amount);
+                var description = $"Online payment on {merchant.MerchantName}. Sum {viewModel.Amount} {bankCard.Account.Currency}";
+                _accountService.TransferMoney(bankCard.Account, merchantAccount, viewModel.Amount, description);
             }
             catch (BankingServiceException ex)
             {
@@ -147,9 +150,9 @@ namespace BankingSystem.WebPortal.Controllers
             return Redirect(url);
         }
 
-        private void ValidateMerchant(OnlinePaymentViewModel viewModel, out IAccount merchantAccount)
+        private void ValidateMerchant(OnlinePaymentViewModel viewModel, out IMerchant merchant, out IAccount merchantAccount)
         {
-            var merchant = _merchantService.FindMerchant(viewModel.MerchantId);
+            merchant = _merchantService.FindMerchant(viewModel.MerchantId);
             if (merchant == null)
             {
                 merchantAccount = null;

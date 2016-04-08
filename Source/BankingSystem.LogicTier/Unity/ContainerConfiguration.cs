@@ -35,6 +35,7 @@ namespace BankingSystem.LogicTier.Unity
             container.RegisterType<IEmailService, EmailService>();
             container.RegisterType<IBankCardService, BankCardService>();
             container.RegisterType<IMerchantService, MerchantService>();
+            container.RegisterType<IJournalService, JournalService>();
         }
     }
 }

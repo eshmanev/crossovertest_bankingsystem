@@ -123,7 +123,7 @@ namespace BankingSystem.WebPortal.Controllers
                 if (bankCard == null)
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bank card cannot be found");
 
-                _accountService.UpdateBalance(bankCard.Account, message.Amount);
+                _accountService.UpdateBalance(bankCard.Account, message.Amount, message.Description);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (BankingServiceException ex)

@@ -53,12 +53,12 @@ namespace BankingSystem.WebPortal
 
             // configure app
             var appContainer = serviceContainer.CreateChildContainer();
-            appContainer.RegisterType<IAccountService>(
-                new InjectionFactory(c => new AccountServiceWithNotificationsDecorator(serviceContainer.Resolve<IAccountService>(), c.Resolve<IHubConnectionContext<dynamic>>())));
-
-            // hubs
             appContainer.RegisterInstance(GlobalHost.ConnectionManager);
             appContainer.RegisterHubContext<AccountHub>(HubNames.AccountHub);
+
+            // override account service registration
+            appContainer.RegisterType<IAccountService, AccountServiceWithNotificationsDecorator>(
+                new InjectionFactory(c => new AccountServiceWithNotificationsDecorator(serviceContainer.Resolve<IAccountService>(), c.Resolve<IHubConnectionContext<dynamic>>(HubNames.AccountHub))));
 
             return appContainer;
         }

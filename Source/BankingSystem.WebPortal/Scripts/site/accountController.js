@@ -1,6 +1,7 @@
 ﻿app.controller('AccountController', [
     'AccountService', '$uibModal', 'backendHubProxy', function (accountService, $uibModal, backendHubProxy) {
-        this.accounts = accountService.getList();
+        this.accounts = accountService.getAccounts();
+        this.journals = accountService.getJournals();
 
         this.makeTransfer = function(templateName, controllerName) {
             var accounts = this.accounts;

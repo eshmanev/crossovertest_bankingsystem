@@ -5,8 +5,16 @@ namespace BankingSystem.Common.Data
     /// <summary>
     ///     Defines an operation.
     /// </summary>
-    public interface IOperation
+    public interface IJournal
     {
+        /// <summary>
+        ///     Gets the customer.
+        /// </summary>
+        /// <value>
+        ///     The customer.
+        /// </value>
+        ICustomer Customer { get; }
+
         /// <summary>
         ///     Gets the date and time created.
         /// </summary>
@@ -22,21 +30,5 @@ namespace BankingSystem.Common.Data
         ///     The description.
         /// </value>
         string Description { get; }
-
-        /// <summary>
-        ///     Gets the amount.
-        /// </summary>
-        /// <value>
-        ///     The amount.
-        /// </value>
-        decimal Amount { get; }
-
-        /// <summary>
-        ///     Gets the bank commission.
-        /// </summary>
-        /// <value>
-        ///     The bank commission.
-        /// </value>
-        decimal Commission { get; }
     }
 }

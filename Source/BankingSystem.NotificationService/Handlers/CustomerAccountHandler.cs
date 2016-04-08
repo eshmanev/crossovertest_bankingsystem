@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Text;
 using BankingSystem.Common.Messages;
 using BankingSystem.LogicTier;
 
@@ -16,7 +15,7 @@ namespace BankingSystem.NotificationService.Handlers
         private readonly ICustomerService _customerService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerAccountHandler"/> class.
+        ///     Initializes a new instance of the <see cref="CustomerAccountHandler" /> class.
         /// </summary>
         /// <param name="accountService">The account service.</param>
         /// <param name="emailService">The email service.</param>
@@ -48,26 +47,15 @@ namespace BankingSystem.NotificationService.Handlers
             var account = _accountService.FindAccount(message.AccountNumber);
             var customer = _customerService.FindCustomerByAccount(message.AccountNumber);
 
-            // it's not a customer account (i.e. merchant)
-            if (customer == null)
-                return;
-
             Debug.Assert(account != null);
-            
-            // build message body
-            var builder = new StringBuilder();
-            builder.AppendLine($"Dear {customer.FirstName} {customer.LastName},");
-            builder.AppendLine();
-            builder.AppendLine($"Balance of your account {account.AccountNumber} ({account.Currency}) has changed");
-            builder.AppendLine(
-                message.ChangeAmount > 0 ?
-                    $"Total income is {message.ChangeAmount} {message.Currency}" :
-                    $"Total outcome is {Math.Abs(message.ChangeAmount)} {message.Currency}");
-            builder.AppendLine();
-            builder.AppendLine("Best regards.");
+            Debug.Assert(customer != null);
+
+            // build body and subject
+            var visitor = new NotificationCustomerVisitor(account, message);
+            customer.Accept(visitor);
 
             // schedule the email
-            _emailService.ScheduleEmail(customer.Email, "Balance of your account has changed", builder.ToString());
+            _emailService.ScheduleEmail(customer.Email, visitor.Subject, visitor.Body);
         }
     }
 }

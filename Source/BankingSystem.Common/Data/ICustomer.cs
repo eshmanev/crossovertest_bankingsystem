@@ -40,22 +40,6 @@ namespace BankingSystem.Common.Data
         string PasswordHash { get; }
 
         /// <summary>
-        ///     Gets the first name.
-        /// </summary>
-        /// <value>
-        ///     The first name.
-        /// </value>
-        string FirstName { get; }
-
-        /// <summary>
-        ///     Gets the last name.
-        /// </summary>
-        /// <value>
-        ///     The last name.
-        /// </value>
-        string LastName { get; }
-
-        /// <summary>
         ///     Gets a collection of the customer's accounts.
         /// </summary>
         /// <value>
@@ -82,5 +66,11 @@ namespace BankingSystem.Common.Data
         /// </summary>
         /// <param name="login">The login.</param>
         void RemoveLogin(ILoginInfo login);
+
+        /// <summary>
+        ///     Accepts the specified visitor.
+        /// </summary>
+        /// <param name="visitor">The visitor.</param>
+        void Accept(ICustomerVisitor visitor);
     }
 }

@@ -1,35 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace BankingSystem.Common.Data
 {
     /// <summary>
     ///     Defines a merchant
     /// </summary>
-    public interface IMerchant
+    public interface IMerchant : ICustomer
     {
         /// <summary>
-        ///     Gets the identifier.
+        ///     Gets the merchant identifier.
         /// </summary>
         /// <value>
         ///     The identifier.
         /// </value>
-        Guid Id { get; }
+        Guid MerchantId { get; }
 
         /// <summary>
-        ///     Gets the merchant's name.
+        ///     Gets the organization name.
         /// </summary>
         /// <value>
-        ///     The name.
+        ///     The organization name.
         /// </value>
-        string Name { get; }
+        string MerchantName { get; }
 
         /// <summary>
-        ///     Gets the merchant's accounts.
+        ///     Gets the contact person.
         /// </summary>
         /// <value>
-        ///     The accounts.
+        ///     The contact person.
         /// </value>
-        IEnumerable<IAccount> Accounts { get; }
+        string ContactPerson { get; }
     }
 }

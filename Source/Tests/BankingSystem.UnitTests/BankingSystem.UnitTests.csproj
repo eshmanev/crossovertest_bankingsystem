@@ -73,6 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmailServiceTests.cs" />
     <Compile Include="Services\ExchangeRateServiceTests.cs" />
+    <Compile Include="Services\JournalServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

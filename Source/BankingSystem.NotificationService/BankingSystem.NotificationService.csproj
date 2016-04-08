@@ -76,6 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\CustomerVisitor.cs" />
     <Compile Include="ProgramControl.cs" />
     <Compile Include="Handlers\CustomerAccountHandler.cs" />
     <Compile Include="Handlers\IHandler.cs" />

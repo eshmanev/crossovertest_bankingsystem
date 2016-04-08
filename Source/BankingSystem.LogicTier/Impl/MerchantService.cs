@@ -29,10 +29,10 @@ namespace BankingSystem.LogicTier.Impl
         ///     Searches for a merchant by id.
         /// </summary>
         /// <param name="merchantId">The merchant identifier.</param>
-        /// <returns></returns>
+        /// <returns>A merchant or null.</returns>
         public IMerchant FindMerchant(Guid merchantId)
         {
-            return _databaseContext.Merchants.GetById(merchantId);
+            return _databaseContext.Customers.FindByMerchantId(merchantId);
         }
     }
 }
