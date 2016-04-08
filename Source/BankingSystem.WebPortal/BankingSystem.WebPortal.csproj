@@ -1037,6 +1037,7 @@
     <Compile Include="Controllers\ApiBankCardController.cs" />
     <Compile Include="Controllers\OnlinePaymentController.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
+    <Compile Include="Hubs\TokenAuthorizeAttribute.cs" />
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\ControllerExtensions.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />

@@ -7,7 +7,7 @@ namespace BankingSystem.WebPortal.Hubs
     ///     Represents a hub of notifications.
     /// </summary>
     /// <seealso cref="Microsoft.AspNet.SignalR.Hub" />
-    // [Authorize]
+    [TokenAuthorize]
     public class NotificationHub : Hub
     {
         /// <summary>

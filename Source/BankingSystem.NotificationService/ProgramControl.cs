@@ -3,6 +3,7 @@ using System.Timers;
 using BankingSystem.Common.Messages;
 using BankingSystem.LogicTier;
 using BankingSystem.NotificationService.Handlers;
+using log4net;
 using Microsoft.AspNet.SignalR.Client;
 using Microsoft.Practices.ObjectBuilder2;
 using Topshelf;
@@ -18,7 +19,7 @@ namespace BankingSystem.NotificationService
         ///     The default interval. 1 minute.
         /// </summary>
         private const int DefaultInterval = 1 * 60 * 1000;
-
+        private readonly ILog Log = LogManager.GetLogger(typeof (ProgramControl));
         private readonly IEmailService _emailService;
         private readonly ISettings _settings;
         private readonly IHandler<BalanceChangedMessage> _balanceChangedHandler;
@@ -58,17 +59,29 @@ namespace BankingSystem.NotificationService
         /// <returns></returns>
         public bool Start(HostControl hostControl)
         {
-            var hubConnection = new HubConnection(_settings.HubUrl);
-            hubConnection.TraceLevel = TraceLevels.All;
-            hubConnection.TraceWriter = Console.Out;
-            var accountHub = hubConnection.CreateHubProxy("NotificationHub");
-            _disposables = new[]
+            try
             {
-                accountHub.On<BalanceChangedMessage>("onBalanceChanged", _balanceChangedHandler.Handle)
-            };
-            hubConnection.Start().Wait();
-            _timer.Start();
-            return true;
+                var hubConnection = new HubConnection(_settings.HubUrl);
+                hubConnection.TraceLevel = TraceLevels.All;
+                hubConnection.TraceWriter = Console.Out;
+                
+                // Note: in real world we should provide this token from server.
+                hubConnection.Headers.Add("SuperDuperSecretToken", "{3E663BA0-66A3-4E76-A1AE-3FB754042EDE}");
+
+                var accountHub = hubConnection.CreateHubProxy("NotificationHub");
+                _disposables = new[]
+                {
+                    accountHub.On<BalanceChangedMessage>("onBalanceChanged", _balanceChangedHandler.Handle)
+                };
+                hubConnection.Start().Wait();
+                _timer.Start();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Cannot start.", ex);
+                return false;
+            }
         }
 
         /// <summary>

@@ -16,6 +16,8 @@ namespace BankingSystem.WebPortal
         /// </summary>
         protected void Application_Start()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(ApiRouteConfig.RegisterRoutes);
             UnityConfig.ConfigureContainer();

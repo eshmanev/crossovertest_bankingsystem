@@ -18,6 +18,8 @@ namespace BankingSystem.NotificationService
         /// <param name="args">The arguments.</param>
         private static void Main()
         {
+            log4net.Config.XmlConfigurator.Configure();
+
             HostFactory.Run(x =>
             {
                 // configure recovery
