@@ -61,7 +61,7 @@ namespace BankingSystem.NotificationService
             var hubConnection = new HubConnection(_settings.HubUrl);
             hubConnection.TraceLevel = TraceLevels.All;
             hubConnection.TraceWriter = Console.Out;
-            var accountHub = hubConnection.CreateHubProxy("AccountHub");
+            var accountHub = hubConnection.CreateHubProxy("NotificationHub");
             _disposables = new[]
             {
                 accountHub.On<BalanceChangedMessage>("onBalanceChanged", _balanceChangedHandler.Handle)

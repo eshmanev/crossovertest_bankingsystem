@@ -1036,8 +1036,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ApiBankCardController.cs" />
     <Compile Include="Controllers\OnlinePaymentController.cs" />
-    <Compile Include="Hubs\AccountHub.cs" />
-    <Compile Include="Hubs\HubNames.cs" />
+    <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\ControllerExtensions.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
@@ -1057,7 +1056,8 @@
     <Compile Include="Models\SuccessViewModel.cs" />
     <Compile Include="Models\TransferViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AccountServiceWithNotificationsDecorator.cs" />
+    <Compile Include="Services\AccountServiceWithDecorator.cs" />
+    <Compile Include="Services\JournalServiceDecorator.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

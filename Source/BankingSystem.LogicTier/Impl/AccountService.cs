@@ -100,13 +100,10 @@ namespace BankingSystem.LogicTier.Impl
                         _bankBalanceService.AddRevenue(commission, $"A commission for money transfer from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}");
 
                     // write journals
-                    var journals = _journalService.WriteTransferJournal(sourceAccount, destAccount, description, commission).ToArray();
+                    _journalService.WriteTransferJournal(sourceAccount, destAccount, description, commission);
 
                     // commit transaction
                     transaction.Commit();
-
-                    // balance of each account has successfully updated
-                    journals.ForEach(OnJournalCreated);
                 }
                 catch
                 {
@@ -136,10 +133,8 @@ namespace BankingSystem.LogicTier.Impl
                     account.Balance += changeAmount;
                     _databaseContext.Accounts.Update(account);
 
-                    var journal = _journalService.WriteJournal(account, description);
+                    _journalService.WriteJournal(account, description);
                     transaction.Commit();
-
-                    OnJournalCreated(journal);
                 }
                 catch
                 {
@@ -159,14 +154,6 @@ namespace BankingSystem.LogicTier.Impl
         public IAccount FindAccount(string accountNumber)
         {
             return _databaseContext.Accounts.FindAccount(accountNumber);
-        }
-
-        /// <summary>
-        ///     Allows an inherited class to observe created journals.
-        /// </summary>
-        /// <param name="journal">The journal.</param>
-        protected virtual void OnJournalCreated(IJournal journal)
-        {
         }
     }
 }

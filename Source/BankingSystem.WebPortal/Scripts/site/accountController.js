@@ -23,7 +23,7 @@
         }
 
         // subsribe on messages sent by server hub
-        var hub = backendHubProxy(backendHubProxy.defaultServer, 'accountHub');
+        var hub = backendHubProxy(backendHubProxy.defaultServer, 'notificationHub');
         hub.on('onBalanceChanged', function (message) {
             var account = this.accounts.find(function(el) {
                 return el.AccountNumber === message.AccountNumber;
@@ -31,6 +31,10 @@
             if (typeof account !== "undefined" && account !== null) {
                 account.Balance = message.CurrentBalance; 
             }
+        }.bind(this));
+
+        hub.on('onJournalCreated', function (message) {
+            this.journals.splice(0, 0, message);
         }.bind(this));
     }
 ]);

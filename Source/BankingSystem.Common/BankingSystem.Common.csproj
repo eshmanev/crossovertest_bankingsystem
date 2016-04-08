@@ -53,6 +53,7 @@
     <Compile Include="Data\IJournal.cs" />
     <Compile Include="Data\IScheduledEmail.cs" />
     <Compile Include="Messages\ChangeAmountMessage.cs" />
+    <Compile Include="Messages\JournalCreatedMessage.cs" />
     <Compile Include="Messages\NewPinMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

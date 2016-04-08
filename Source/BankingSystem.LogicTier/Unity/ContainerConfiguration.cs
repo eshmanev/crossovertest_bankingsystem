@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using BankingSystem.DataTier;
 using BankingSystem.DataTier.Repositories;
 using BankingSystem.DataTier.Repositories.Impl;
@@ -36,6 +38,26 @@ namespace BankingSystem.LogicTier.Unity
             container.RegisterType<IBankCardService, BankCardService>();
             container.RegisterType<IMerchantService, MerchantService>();
             container.RegisterType<IJournalService, JournalService>();
+        }
+
+        private static void RegisterOptional<TFrom, TTo>(this IUnityContainer container) where TTo : TFrom
+        {
+            if (container.IsRegistered<TFrom>())
+                return;
+            container.RegisterType<TFrom, TTo>();
+        }
+
+        private static bool IsRegistered<T>(this IUnityContainer container)
+        {
+            var typeToCheck = typeof (T);
+            var genericTypeToCheck = typeToCheck.GetTypeInfo().IsGenericType
+                         ? typeToCheck.GetGenericTypeDefinition()
+                         : null;
+
+            var registration = container.Registrations.Where(r => (r.RegisteredType.GetTypeInfo().IsGenericTypeDefinition
+                ? r.RegisteredType == genericTypeToCheck
+                : r.RegisteredType == typeToCheck));
+            return registration.FirstOrDefault() != null;
         }
     }
 }

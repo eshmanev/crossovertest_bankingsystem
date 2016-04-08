@@ -43,7 +43,7 @@ namespace BankingSystem.LogicTier.Impl
         /// <param name="description">The description.</param>
         /// <param name="commission">The commission.</param>
         /// <returns></returns>
-        public IEnumerable<IJournal> WriteTransferJournal(IAccount sourceAccount, IAccount destAccount, string description, decimal commission)
+        public IJournal[] WriteTransferJournal(IAccount sourceAccount, IAccount destAccount, string description, decimal commission)
         {
             // write journals
             var sourceCustomer = _databaseContext.Customers.FindByAccount(sourceAccount.AccountNumber);
@@ -52,15 +52,17 @@ namespace BankingSystem.LogicTier.Impl
             // in case of commission, source description should include it
             var sourceDescription = commission > 0 ? $"{description} (Bank commission {commission.ToString("N2")} {sourceAccount.Currency})" : description;
 
+            var journals = new List<IJournal>();
             if (sourceCustomer == destCustomer)
             {
-                yield return WriteJournal(sourceCustomer, sourceDescription);
+                journals.Add(WriteJournal(sourceCustomer, sourceDescription));
             }
             else
             {
-                yield return WriteJournal(sourceCustomer, sourceDescription);
-                yield return WriteJournal(destCustomer, description);
+                journals.Add(WriteJournal(sourceCustomer, sourceDescription));
+                journals.Add(WriteJournal(destCustomer, description));
             }
+            return journals.ToArray();
         }
 
         /// <summary>
