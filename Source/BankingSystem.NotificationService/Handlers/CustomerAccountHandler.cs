@@ -7,23 +7,23 @@ using BankingSystem.LogicTier;
 namespace BankingSystem.NotificationService.Handlers
 {
     /// <summary>
-    ///     Represents a handler of account-specific messages.
+    ///     Represents a handler of customer account-specific messages.
     /// </summary>
-    public class AccountHandler : IHandler<BalanceChangedMessage>
+    public class CustomerAccountHandler : IHandler<BalanceChangedMessage>
     {
         private readonly IAccountService _accountService;
         private readonly IEmailService _emailService;
         private readonly ICustomerService _customerService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccountHandler"/> class.
+        /// Initializes a new instance of the <see cref="CustomerAccountHandler"/> class.
         /// </summary>
         /// <param name="accountService">The account service.</param>
         /// <param name="emailService">The email service.</param>
         /// <param name="customerService">The customer service.</param>
         /// <exception cref="System.ArgumentNullException">
         /// </exception>
-        public AccountHandler(IAccountService accountService, IEmailService emailService, ICustomerService customerService)
+        public CustomerAccountHandler(IAccountService accountService, IEmailService emailService, ICustomerService customerService)
         {
             if (accountService == null)
                 throw new ArgumentNullException(nameof(accountService));
@@ -47,9 +47,13 @@ namespace BankingSystem.NotificationService.Handlers
         {
             var account = _accountService.FindAccount(message.AccountNumber);
             var customer = _customerService.FindCustomerByAccount(message.AccountNumber);
-            Debug.Assert(account != null);
-            Debug.Assert(customer != null);
 
+            // it's not a customer account (i.e. merchant)
+            if (customer == null)
+                return;
+
+            Debug.Assert(account != null);
+            
             // build message body
             var builder = new StringBuilder();
             builder.AppendLine($"Dear {customer.FirstName} {customer.LastName},");

@@ -117,7 +117,7 @@ namespace BankingSystem.LogicTier.Impl
         ///     Updates the balance with the specified amount.
         /// </summary>
         /// <param name="account">The account.</param>
-        /// <param name="changeAmount">The change amount.</param>
+        /// <param name="changeAmount">The change amount. Can be negative and positive.</param>
         /// <exception cref="BankingServiceException">Account balance exeeds limits.</exception>
         public void UpdateBalance(IAccount account, decimal changeAmount)
         {

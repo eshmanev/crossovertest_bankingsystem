@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProgramControl.cs" />
-    <Compile Include="Handlers\AccountHandler.cs" />
+    <Compile Include="Handlers\CustomerAccountHandler.cs" />
     <Compile Include="Handlers\IHandler.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="Program.cs" />

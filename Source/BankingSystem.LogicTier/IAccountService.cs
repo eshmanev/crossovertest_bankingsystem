@@ -15,13 +15,14 @@ namespace BankingSystem.LogicTier
         /// <param name="sourceAccount">The source account.</param>
         /// <param name="destAccount">The dest account.</param>
         /// <param name="amount">The amount to transfer.</param>
+        /// <exception cref="BankingServiceException">The source account does not have enough amount of money.</exception>
         Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount);
 
         /// <summary>
         ///     Updates the balance with the specified amount.
         /// </summary>
         /// <param name="account">The account.</param>
-        /// <param name="changeAmount">The change amount.</param>
+        /// <param name="changeAmount">The change amount. Can be negative and positive.</param>
         /// <exception cref="BankingServiceException">Account balance exeeds limits.</exception>
         void UpdateBalance(IAccount account, decimal changeAmount);
 

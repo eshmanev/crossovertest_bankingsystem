@@ -18,6 +18,7 @@ namespace BankingSystem.UnitTests.Services
             ScheduledEmails = new Mock<IScheduledEmailRepository>();
             DeliveredEmails = new Mock<IDeliveredEmailRepository>();
             BankCards = new Mock<IBankCardRepository>();
+            Merchants = new Mock<IMerchantRepository>();
             Session = new Mock<ISession>();
             Transaction = new Mock<IDatabaseTransaction>();
         }
@@ -30,6 +31,7 @@ namespace BankingSystem.UnitTests.Services
         public Mock<IScheduledEmailRepository> ScheduledEmails { get; }
         public Mock<IDeliveredEmailRepository> DeliveredEmails { get; }
         public Mock<IBankCardRepository> BankCards { get; }
+        public Mock<IMerchantRepository> Merchants { get; }
         public Mock<ISession> Session { get; }
         public Mock<IDatabaseTransaction> Transaction { get; }
 
@@ -41,6 +43,7 @@ namespace BankingSystem.UnitTests.Services
         IScheduledEmailRepository IDatabaseContext.ScheduledEmails => ScheduledEmails.Object;
         IDeliveredEmailRepository IDatabaseContext.DeliveredEmails => DeliveredEmails.Object;
         IBankCardRepository IDatabaseContext.BankCards => BankCards.Object;
+        IMerchantRepository IDatabaseContext.Merchants => Merchants.Object;
 
         ISession IDatabaseContext.GetSession()
         {

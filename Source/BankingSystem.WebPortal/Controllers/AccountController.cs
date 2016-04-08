@@ -3,41 +3,33 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using BankingSystem.Common.Data;
-using BankingSystem.Common.Messages;
 using BankingSystem.LogicTier;
-using BankingSystem.WebPortal.Hubs;
 using BankingSystem.WebPortal.Models;
 using log4net;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.SignalR.Hubs;
-using Microsoft.Practices.Unity;
 
 namespace BankingSystem.WebPortal.Controllers
 {
     /// <summary>
-    ///     Represents an account controller.
+    ///     Represents an controller which provides functionality for a page with user's accounts.
     /// </summary>
     /// <seealso cref="System.Web.Mvc.Controller" />
     [Authorize]
+    [RequireHttps]
     public class AccountController : Controller
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof (AccountController));
         private readonly ICustomerService _customerService;
         private readonly IAccountService _accountService;
-        private readonly IHubConnectionContext<dynamic> _hubContext;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AccountController" /> class.
         /// </summary>
         /// <param name="customerService">The customer service.</param>
         /// <param name="accountService">The account service.</param>
-        /// <param name="hubContext">The hub context.</param>
         /// <exception cref="System.ArgumentNullException">
         /// </exception>
-        public AccountController(
-            ICustomerService customerService,
-            IAccountService accountService,
-            [Dependency(HubNames.AccountHub)] IHubConnectionContext<dynamic> hubContext)
+        public AccountController(ICustomerService customerService, IAccountService accountService)
         {
             if (customerService == null)
                 throw new ArgumentNullException(nameof(customerService));
@@ -45,12 +37,8 @@ namespace BankingSystem.WebPortal.Controllers
             if (accountService == null)
                 throw new ArgumentNullException(nameof(accountService));
 
-            if (hubContext == null)
-                throw new ArgumentNullException(nameof(hubContext));
-
             _customerService = customerService;
             _accountService = accountService;
-            _hubContext = hubContext;
         }
 
 
@@ -124,13 +112,7 @@ namespace BankingSystem.WebPortal.Controllers
 
             try
             {
-                var oldSourceBalance = sourceAccount.Balance;
-                var oldDestBalance = destAccount.Balance;
                 await _accountService.TransferMoney(sourceAccount, destAccount, viewModel.Amount);
-
-                _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(sourceAccount, oldSourceBalance));
-                _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(destAccount, oldDestBalance));
-
                 return this.JsonSuccess();
             }
             catch (Exception ex)
@@ -139,7 +121,5 @@ namespace BankingSystem.WebPortal.Controllers
                 return this.JsonError("An unexpected error has occurred");
             }
         }
-
-        
     }
 }

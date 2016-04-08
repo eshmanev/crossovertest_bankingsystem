@@ -74,6 +74,14 @@ namespace BankingSystem.DataTier
         IBankCardRepository BankCards { get; }
 
         /// <summary>
+        ///     Gets the repository of merchants.
+        /// </summary>
+        /// <value>
+        ///     The repository of merchants.
+        /// </value>
+        IMerchantRepository Merchants { get; }
+
+        /// <summary>
         ///     Gets the current session.
         /// </summary>
         /// <returns>The session</returns>

@@ -17,6 +17,16 @@ namespace BankingSystem.WebPortal
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "OnlinePaymentEntryPoint",
+                url: "onlinepayment/{merchant}/{currency}/{sum}",
+                defaults: new {controller = "OnlinePayment", action = "Index"});
+
+            routes.MapRoute(
+               name: "OnlinePaymentProcessing",
+               url: "onlinepayment",
+               defaults: new { controller = "OnlinePayment", action = "Payment" });
+
+            routes.MapRoute(
                 name: "Login",
                 url: "Account/Login",
                 defaults: new {controller = "Auth", action = "Login"});

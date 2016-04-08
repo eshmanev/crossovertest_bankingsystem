@@ -10,6 +10,9 @@ using Microsoft.Owin.Security;
 
 namespace BankingSystem.WebPortal.Controllers
 {
+    /// <summary>
+    ///     Represents a controller responsible for user authentication.
+    /// </summary>
     [RequireHttps]
     public class AuthController : Controller
     {

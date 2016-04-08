@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace BankingSystem.WebPortal.Controllers
 {
+    /// <summary>
+    ///     Represents a controller which redirects users to a specific home page depending on authentication state.
+    /// </summary>
+    /// <seealso cref="System.Web.Mvc.Controller" />
+    [RequireHttps]
     public class HomeController : Controller
     {
+        /// <summary>
+        ///     Redirects to a home page.
+        /// </summary>
         public ActionResult Index()
         {
             return !User.Identity.IsAuthenticated

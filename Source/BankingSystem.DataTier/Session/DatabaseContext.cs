@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BankingSystem.DataTier.Repositories;
 using BankingSystem.DataTier.Repositories.Impl;
 using NHibernate;
@@ -12,7 +11,6 @@ namespace BankingSystem.DataTier.Session
     /// <seealso cref="IDatabaseContext" />
     public class DatabaseContext : IDatabaseContext
     {
-        private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
         private readonly ISessionFactoryHolder _sessionFactoryHolder;
         private readonly Stack<IDatabaseTransaction> _transactions = new Stack<IDatabaseTransaction>();
         private ISession _session;
@@ -97,6 +95,14 @@ namespace BankingSystem.DataTier.Session
         ///     The repository of bank cards.
         /// </value>
         public IBankCardRepository BankCards => new BankCardRepository(this);
+
+        /// <summary>
+        ///     Gets the repository of merchants.
+        /// </summary>
+        /// <value>
+        ///     The repository of merchants.
+        /// </value>
+        public IMerchantRepository Merchants => new MerchantRepository(this);
 
         /// <summary>
         ///     Gets the session.

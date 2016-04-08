@@ -52,7 +52,7 @@ namespace BankingSystem.NotificationService
             container.ConfigureServices(() => new ContainerControlledLifetimeManager());
 
             // handlers
-            container.RegisterType<IHandler<BalanceChangedMessage>, AccountHandler>();
+            container.RegisterType<IHandler<BalanceChangedMessage>, CustomerAccountHandler>();
 
             return container;
         }

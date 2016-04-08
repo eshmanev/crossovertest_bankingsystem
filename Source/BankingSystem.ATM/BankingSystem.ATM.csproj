@@ -98,7 +98,6 @@
     <Compile Include="IWrappedValue.cs" />
     <Compile Include="ISettings.cs" />
     <Compile Include="MainModule.cs" />
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RegionName.cs" />
     <Compile Include="Services\DispatcherAccessor.cs" />
     <Compile Include="Services\HttpClientExtensions.cs" />
