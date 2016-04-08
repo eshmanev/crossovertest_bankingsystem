@@ -1,5 +1,8 @@
 using System.Linq;
 using BankingSystem.Common.Data;
+using BankingSystem.DataTier.Entities;
+using FluentNHibernate;
+using NHibernate.Linq;
 
 namespace BankingSystem.DataTier.Repositories.Impl
 {
@@ -35,6 +38,19 @@ namespace BankingSystem.DataTier.Repositories.Impl
         public ICustomer FindByEmail(string email)
         {
             return base.Filter(x => x.Email == email).FirstOrDefault();
+        }
+
+        /// <summary>
+        ///     Searches for a customer who has the specified account.
+        /// </summary>
+        /// <param name="accountNumber">The account number.</param>
+        /// <returns></returns>
+        public ICustomer FindByAccount(string accountNumber)
+        {
+            return GetSession().QueryOver<Customer>()
+                .Left.JoinQueryOver(Reveal.Member<Customer>("_accounts"))
+                .WhereRestrictionOn(x => ((Account)x).AccountNumber).IsLike(accountNumber)
+                .SingleOrDefault();
         }
     }
 }

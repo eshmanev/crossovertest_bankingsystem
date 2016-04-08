@@ -20,5 +20,12 @@ namespace BankingSystem.DataTier.Repositories
         /// <param name="email">The email.</param>
         /// <returns></returns>
         ICustomer FindByEmail(string email);
+
+        /// <summary>
+        ///     Searches for a customer who has the specified account.
+        /// </summary>
+        /// <param name="accountNumber">The account number.</param>
+        /// <returns></returns>
+        ICustomer FindByAccount(string accountNumber);
     }
 }

@@ -63,6 +63,20 @@ namespace BankingSystem.UnitTests.Services
         }
 
         [Test]
+        public void ShouldFindCustomerByAccount()
+        {
+            // arrange
+            var customer = Mock.Of<ICustomer>();
+            _context.Customers.Setup(x => x.FindByAccount("12345")).Returns(customer);
+
+            // act
+            var result = _service.FindCustomerByAccount("12345");
+
+            // assert
+            result.ShouldBe(customer);
+        }
+
+        [Test]
         public void ShouldGetAvailableLogins_Fail()
         {
             // act

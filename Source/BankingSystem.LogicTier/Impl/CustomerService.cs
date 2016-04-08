@@ -66,6 +66,18 @@ namespace BankingSystem.LogicTier.Impl
         }
 
         /// <summary>
+        ///     Searches for a customer who has the specified account.
+        /// </summary>
+        /// <param name="accountNumber">The account number.</param>
+        /// <returns>
+        ///     An instance of the <see cref="ICustomer" /> or null.
+        /// </returns>
+        public ICustomer FindCustomerByAccount(string accountNumber)
+        {
+            return _databaseContext.Customers.FindByAccount(accountNumber);
+        }
+
+        /// <summary>
         ///     Gets a list of the available logins for the specified user.
         /// </summary>
         /// <param name="userId">The user identifier.</param>

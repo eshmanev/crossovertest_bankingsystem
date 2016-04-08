@@ -20,7 +20,6 @@ namespace BankingSystem.DataTier.Mappings
             Map(x => x.Currency).Not.Nullable();
             Map(x => x.Balance).Not.Nullable();
             HasOne(x => x.BankCard).Class<BankCard>();
-            References(x => x.Customer).Class<Customer>();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace BankingSystem.DataTier.Mappings
             Map(x => x.FirstName);
             Map(x => x.LastName);
             Map(x => x.PasswordHash);
-            HasMany<Account>(Reveal.Member<Customer>("_accounts")).Inverse().Cascade.AllDeleteOrphan();
+            HasManyToMany<Account>(Reveal.Member<Customer>("_accounts")).Table("CustomerAccounts").Inverse().Cascade.AllDeleteOrphan();
             HasMany<LoginInfo>(Reveal.Member<Customer>("_logins")).Inverse().Cascade.AllDeleteOrphan();
         }
     }

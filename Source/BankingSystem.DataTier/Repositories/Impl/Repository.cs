@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
+using NHibernate;
 using NHibernate.Linq;
 
 namespace BankingSystem.DataTier.Repositories.Impl
@@ -41,9 +42,9 @@ namespace BankingSystem.DataTier.Repositories.Impl
         /// <returns>An entity or null.</returns>
         public T GetById(object id)
         {
-            return _databaseContext.GetSession().Get<T>(id);
+            return GetSession().Get<T>(id);
         }
-        
+
         /// <summary>
         ///     Returns a number of entities in repository.
         /// </summary>
@@ -61,7 +62,7 @@ namespace BankingSystem.DataTier.Repositories.Impl
         {
             using (var transaction = _databaseContext.DemandTransaction())
             {
-                _databaseContext.GetSession().SaveOrUpdate(entity);
+                GetSession().SaveOrUpdate(entity);
                 transaction.Commit();
             }
         }
@@ -74,7 +75,7 @@ namespace BankingSystem.DataTier.Repositories.Impl
         {
             using (var transaction = _databaseContext.DemandTransaction())
             {
-                _databaseContext.GetSession().Update(entity);
+                GetSession().Update(entity);
                 transaction.Commit();
             }
         }
@@ -87,7 +88,7 @@ namespace BankingSystem.DataTier.Repositories.Impl
         {
             using (var transaction = _databaseContext.DemandTransaction())
             {
-                _databaseContext.GetSession().Delete(entity);
+                GetSession().Delete(entity);
                 transaction.Commit();
             }
         }
@@ -102,9 +103,18 @@ namespace BankingSystem.DataTier.Repositories.Impl
             return Query(x => x.Where(predicate).ToList());
         }
 
+        /// <summary>
+        ///     Gets the session.
+        /// </summary>
+        /// <returns>The session.</returns>
+        protected ISession GetSession()
+        {
+            return _databaseContext.GetSession();
+        }
+
         private TResult Query<TResult>(Func<IQueryable<T>, TResult> action)
         {
-            var query = _databaseContext.GetSession().Query<T>().Cacheable();
+            var query = GetSession().Query<T>().Cacheable();
             return action(query);
         }
     }

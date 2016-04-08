@@ -30,6 +30,13 @@ namespace BankingSystem.LogicTier
         ICustomer FindCustomerById(int userId);
 
         /// <summary>
+        ///     Searches for a customer who has the specified account.
+        /// </summary>
+        /// <param name="accountNumber">The account number.</param>
+        /// <returns>An instance of the <see cref="ICustomer" /> or null.</returns>
+        ICustomer FindCustomerByAccount(string accountNumber);
+
+        /// <summary>
         ///     Gets a list of the available logins for the specified user.
         /// </summary>
         /// <param name="userId">The user identifier.</param>

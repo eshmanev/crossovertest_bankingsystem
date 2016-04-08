@@ -58,8 +58,10 @@
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\DeliveredEmail.cs" />
     <Compile Include="Entities\LoginInfo.cs" />
+    <Compile Include="Entities\Merchant.cs" />
     <Compile Include="Entities\Operation.cs" />
     <Compile Include="Entities\ScheduledEmail.cs" />
+    <Compile Include="Mappings\MerchantMap.cs" />
     <Compile Include="Repositories\Impl\AccountRepository.cs" />
     <Compile Include="Repositories\Impl\BankBalanceRepository.cs" />
     <Compile Include="Repositories\Impl\BankCardRepository.cs" />
