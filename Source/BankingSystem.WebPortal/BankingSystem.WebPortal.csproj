@@ -1072,6 +1072,7 @@
     <Content Include="Scripts\version.json" />
     <Content Include="Views\OnlinePayment\Payment.cshtml" />
     <Content Include="Views\Error\Error.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
