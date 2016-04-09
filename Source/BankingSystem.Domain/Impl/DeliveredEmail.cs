@@ -1,13 +1,12 @@
 ﻿using System;
-using BankingSystem.Common.Data;
 
-namespace BankingSystem.DataTier.Entities
+namespace BankingSystem.Domain.Impl
 {
     /// <summary>
-    ///     Represents a scheduled email.
+    ///     Represents a delivered email.
     /// </summary>
-    /// <seealso cref="IScheduledEmail" />
-    public class ScheduledEmail : IScheduledEmail
+    /// <seealso cref="IDeliveredEmail" />
+    internal class DeliveredEmail : IDeliveredEmail
     {
         /// <summary>
         ///     Gets the identifier.
@@ -31,7 +30,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The scheduled date time.
         /// </value>
-        public virtual DateTime ScheduledDateTime { get; set; }
+        public virtual DateTime DeliveredDateTime { get; set; }
 
         /// <summary>
         ///     Gets the subject.
@@ -48,13 +47,5 @@ namespace BankingSystem.DataTier.Entities
         ///     The body.
         /// </value>
         public virtual string Body { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the last failure reason.
-        /// </summary>
-        /// <value>
-        ///     The failure reason.
-        /// </value>
-        public virtual string FailureReason { get; set; }
     }
 }

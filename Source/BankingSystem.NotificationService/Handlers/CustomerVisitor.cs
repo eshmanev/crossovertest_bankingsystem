@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Text;
-using BankingSystem.Common.Data;
-using BankingSystem.Common.Messages;
+using BankingSystem.Domain;
+using BankingSystem.Messages;
 
 namespace BankingSystem.NotificationService.Handlers
 {
     /// <summary>
     ///     Represents a customer visitor which builds notification email body.
     /// </summary>
-    /// <seealso cref="BankingSystem.Common.Data.ICustomerVisitor" />
+    /// <seealso cref="ICustomerVisitor" />
     internal class NotificationCustomerVisitor : ICustomerVisitor
     {
         private readonly IAccount _account;

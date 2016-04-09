@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using BankingSystem.Common.Data;
+using BankingSystem.Domain;
 using BankingSystem.LogicTier.Impl;
 
 namespace BankingSystem.LogicTier

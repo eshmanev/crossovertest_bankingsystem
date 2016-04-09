@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
-using BankingSystem.Common.Data;
-using BankingSystem.DataTier.Entities;
+using BankingSystem.Domain;
+using BankingSystem.Domain.Impl;
 using FluentNHibernate;
 
 namespace BankingSystem.DataTier.Repositories.Impl

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using BankingSystem.Common.Data;
+using BankingSystem.Domain;
 
 namespace BankingSystem.DataTier.Repositories.Impl
 {

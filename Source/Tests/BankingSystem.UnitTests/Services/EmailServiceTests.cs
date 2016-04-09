@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using BankingSystem.Common.Data;
+using BankingSystem.Domain;
 using BankingSystem.LogicTier;
 using BankingSystem.LogicTier.Impl;
 using BankingSystem.LogicTier.Utils;

@@ -1,5 +1,5 @@
 ﻿using System;
-using BankingSystem.Common.Data;
+using BankingSystem.Domain;
 
 namespace BankingSystem.LogicTier
 {

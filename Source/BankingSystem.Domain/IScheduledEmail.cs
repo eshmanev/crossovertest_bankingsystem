@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 
-namespace BankingSystem.Common.Data
+namespace BankingSystem.Domain
 {
     /// <summary>
-    ///     Defines a delivered email.
+    ///     Defines a scheduled email.
     /// </summary>
-    public interface IDeliveredEmail
+    public interface IScheduledEmail
     {
         /// <summary>
         ///     Gets or sets the recipient address.
@@ -21,7 +21,7 @@ namespace BankingSystem.Common.Data
         /// <value>
         ///     The scheduled date time.
         /// </value>
-        DateTime DeliveredDateTime { get; }
+        DateTime ScheduledDateTime { get; }
 
         /// <summary>
         ///     Gets the subject.
@@ -38,5 +38,13 @@ namespace BankingSystem.Common.Data
         ///     The body.
         /// </value>
         string Body { get; }
+
+        /// <summary>
+        ///     Gets or sets the last failure reason.
+        /// </summary>
+        /// <value>
+        ///     The failure reason.
+        /// </value>
+        string FailureReason { get; set; }
     }
 }

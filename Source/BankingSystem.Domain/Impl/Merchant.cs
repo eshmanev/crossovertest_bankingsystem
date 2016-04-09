@@ -1,13 +1,12 @@
 ﻿using System;
-using BankingSystem.Common.Data;
 
-namespace BankingSystem.DataTier.Entities
+namespace BankingSystem.Domain.Impl
 {
     /// <summary>
     ///     Represents a merchant.
     /// </summary>
-    /// <seealso cref="BankingSystem.Common.Data.IMerchant" />
-    public class Merchant : CustomerBase, IMerchant
+    /// <seealso cref="IMerchant" />
+    internal class Merchant : CustomerBase, IMerchant
     {
         /// <summary>
         ///     Gets the identifier.

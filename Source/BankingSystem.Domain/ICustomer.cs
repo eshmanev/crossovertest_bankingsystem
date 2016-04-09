@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BankingSystem.Common.Data
+namespace BankingSystem.Domain
 {
     /// <summary>
     ///     Defines a customer.

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using BankingSystem.Common.Data;
+using BankingSystem.Domain;
 using BankingSystem.LogicTier.Impl;
 using Moq;
 using NUnit.Framework;

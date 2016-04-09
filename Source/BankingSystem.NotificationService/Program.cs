@@ -1,5 +1,5 @@
-﻿using BankingSystem.Common.Messages;
-using BankingSystem.LogicTier.Unity;
+﻿using BankingSystem.LogicTier.Unity;
+using BankingSystem.Messages;
 using BankingSystem.NotificationService.Handlers;
 using Microsoft.Practices.Unity;
 using Topshelf;

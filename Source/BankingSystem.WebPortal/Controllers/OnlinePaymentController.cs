@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using BankingSystem.Common.Data;
+using BankingSystem.Domain;
 using BankingSystem.LogicTier;
 using BankingSystem.LogicTier.Impl;
 using BankingSystem.WebPortal.Models;

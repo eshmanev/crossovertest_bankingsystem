@@ -1,17 +1,26 @@
-﻿namespace BankingSystem.Common.Data
+﻿namespace BankingSystem.Domain.Impl
 {
     /// <summary>
-    ///     Defines a bank card.
+    ///     Represents a bank card.
     /// </summary>
-    public interface IBankCard
+    /// <seealso cref="IBankCard" />
+    internal class BankCard : IBankCard
     {
+        /// <summary>
+        ///     Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        ///     The identifier.
+        /// </value>
+        public virtual int Id { get; protected set; }
+
         /// <summary>
         ///     Gets the account.
         /// </summary>
         /// <value>
         ///     The account.
         /// </value>
-        IAccount Account { get; }
+        public virtual IAccount Account { get; protected set; }
 
         /// <summary>
         ///     Gets the CSV security code.
@@ -19,7 +28,7 @@
         /// <value>
         ///     The CSV security code.
         /// </value>
-        string CsvCode { get; }
+        public virtual string CsvCode { get; protected set; }
 
         /// <summary>
         ///     Gets or sets the pin code.
@@ -27,7 +36,7 @@
         /// <value>
         ///     The pin code.
         /// </value>
-        string PinCode { get; set; }
+        public virtual string PinCode { get; set; }
 
         /// <summary>
         ///     Gets the name of the card holder.
@@ -35,7 +44,7 @@
         /// <value>
         ///     The name of the card holder.
         /// </value>
-        string CardHolder { get; }
+        public virtual string CardHolder { get; protected set; }
 
         /// <summary>
         ///     Gets the card number.
@@ -43,7 +52,7 @@
         /// <value>
         ///     The card number.
         /// </value>
-        string CardNumber { get; }
+        public virtual string CardNumber { get; protected set; }
 
         /// <summary>
         ///     Gets the expiration month.
@@ -51,7 +60,7 @@
         /// <value>
         ///     The expiration month.
         /// </value>
-        int ExpirationMonth { get; }
+        public virtual int ExpirationMonth { get; protected set; }
 
         /// <summary>
         ///     Gets the expiration year.
@@ -59,6 +68,6 @@
         /// <value>
         ///     The expiration year.
         /// </value>
-        int ExpirationYear { get; }
+        public virtual int ExpirationYear { get; protected set; }
     }
 }

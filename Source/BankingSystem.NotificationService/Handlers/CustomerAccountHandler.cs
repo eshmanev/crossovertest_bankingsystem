@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using BankingSystem.Common.Messages;
 using BankingSystem.LogicTier;
+using BankingSystem.Messages;
 
 namespace BankingSystem.NotificationService.Handlers
 {

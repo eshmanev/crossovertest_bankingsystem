@@ -1,13 +1,12 @@
 ﻿using System;
-using BankingSystem.Common.Data;
 
-namespace BankingSystem.DataTier.Entities
+namespace BankingSystem.Domain.Impl
 {
     /// <summary>
     ///     Provides login information.
     /// </summary>
     /// <seealso cref="ILoginInfo" />
-    public class LoginInfo : ILoginInfo
+    internal class LoginInfo : ILoginInfo
     {
         protected LoginInfo()
         {

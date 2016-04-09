@@ -1,28 +1,17 @@
-﻿using BankingSystem.Common.Data;
-
-namespace BankingSystem.DataTier.Entities
+﻿namespace BankingSystem.Domain
 {
     /// <summary>
-    ///     Represents a bank card.
+    ///     Defines a bank card.
     /// </summary>
-    /// <seealso cref="IBankCard" />
-    public class BankCard : IBankCard
+    public interface IBankCard
     {
-        /// <summary>
-        ///     Gets or sets the identifier.
-        /// </summary>
-        /// <value>
-        ///     The identifier.
-        /// </value>
-        public virtual int Id { get; protected set; }
-
         /// <summary>
         ///     Gets the account.
         /// </summary>
         /// <value>
         ///     The account.
         /// </value>
-        public virtual IAccount Account { get; protected set; }
+        IAccount Account { get; }
 
         /// <summary>
         ///     Gets the CSV security code.
@@ -30,7 +19,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The CSV security code.
         /// </value>
-        public virtual string CsvCode { get; protected set; }
+        string CsvCode { get; }
 
         /// <summary>
         ///     Gets or sets the pin code.
@@ -38,7 +27,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The pin code.
         /// </value>
-        public virtual string PinCode { get; set; }
+        string PinCode { get; set; }
 
         /// <summary>
         ///     Gets the name of the card holder.
@@ -46,7 +35,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The name of the card holder.
         /// </value>
-        public virtual string CardHolder { get; protected set; }
+        string CardHolder { get; }
 
         /// <summary>
         ///     Gets the card number.
@@ -54,7 +43,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The card number.
         /// </value>
-        public virtual string CardNumber { get; protected set; }
+        string CardNumber { get; }
 
         /// <summary>
         ///     Gets the expiration month.
@@ -62,7 +51,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The expiration month.
         /// </value>
-        public virtual int ExpirationMonth { get; protected set; }
+        int ExpirationMonth { get; }
 
         /// <summary>
         ///     Gets the expiration year.
@@ -70,6 +59,6 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The expiration year.
         /// </value>
-        public virtual int ExpirationYear { get; protected set; }
+        int ExpirationYear { get; }
     }
 }

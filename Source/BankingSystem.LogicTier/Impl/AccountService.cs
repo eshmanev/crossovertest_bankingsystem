@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using BankingSystem.Common.Data;
 using BankingSystem.DataTier;
+using BankingSystem.Domain;
 
 namespace BankingSystem.LogicTier.Impl
 {

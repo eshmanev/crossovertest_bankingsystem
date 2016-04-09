@@ -1,12 +1,9 @@
-﻿using BankingSystem.Common.Data;
-
-namespace BankingSystem.DataTier.Entities
+﻿namespace BankingSystem.Domain
 {
     /// <summary>
-    ///     Represents an account.
+    ///     Defines an account.
     /// </summary>
-    /// <seealso cref="IAccount" />
-    public class Account : IAccount
+    public interface IAccount
     {
         /// <summary>
         ///     Gets the identifier.
@@ -14,7 +11,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The identifier.
         /// </value>
-        public virtual int Id { get; protected set; }
+        int Id { get; }
 
         /// <summary>
         ///     Gets the account number.
@@ -22,7 +19,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The account number.
         /// </value>
-        public virtual string AccountNumber { get; protected set; }
+        string AccountNumber { get; }
 
         /// <summary>
         ///     Gets the currency.
@@ -30,7 +27,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The currency.
         /// </value>
-        public virtual string Currency { get; protected set; }
+        string Currency { get; }
 
         /// <summary>
         ///     Gets the balance.
@@ -38,7 +35,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The balance.
         /// </value>
-        public virtual decimal Balance { get; set; }
+        decimal Balance { get; set; }
 
         /// <summary>
         ///     Gets the assigned bank card.
@@ -46,6 +43,6 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The bank card.
         /// </value>
-        public virtual IBankCard BankCard { get; protected set; }
+        IBankCard BankCard { get; }
     }
 }

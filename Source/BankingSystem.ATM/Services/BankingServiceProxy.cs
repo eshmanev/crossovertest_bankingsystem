@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using BankingSystem.Common.Messages;
+using BankingSystem.Messages;
 using log4net;
 
 namespace BankingSystem.ATM.Services

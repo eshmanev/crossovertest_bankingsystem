@@ -1,19 +1,28 @@
 ﻿using System;
 
-namespace BankingSystem.Common.Data
+namespace BankingSystem.Domain.Impl
 {
     /// <summary>
-    ///     Defines a scheduled email.
+    ///     Represents a scheduled email.
     /// </summary>
-    public interface IScheduledEmail
+    /// <seealso cref="IScheduledEmail" />
+    internal class ScheduledEmail : IScheduledEmail
     {
+        /// <summary>
+        ///     Gets the identifier.
+        /// </summary>
+        /// <value>
+        ///     The identifier.
+        /// </value>
+        public virtual int Id { get; protected set; }
+
         /// <summary>
         ///     Gets or sets the recipient address.
         /// </summary>
         /// <value>
         ///     The recipient address.
         /// </value>
-        string RecipientAddress { get; }
+        public virtual string RecipientAddress { get; set; }
 
         /// <summary>
         ///     Gets or sets the scheduled date time.
@@ -21,7 +30,7 @@ namespace BankingSystem.Common.Data
         /// <value>
         ///     The scheduled date time.
         /// </value>
-        DateTime ScheduledDateTime { get; }
+        public virtual DateTime ScheduledDateTime { get; set; }
 
         /// <summary>
         ///     Gets the subject.
@@ -29,7 +38,7 @@ namespace BankingSystem.Common.Data
         /// <value>
         ///     The subject.
         /// </value>
-        string Subject { get; }
+        public virtual string Subject { get; set; }
 
         /// <summary>
         ///     Gets the body.
@@ -37,7 +46,7 @@ namespace BankingSystem.Common.Data
         /// <value>
         ///     The body.
         /// </value>
-        string Body { get; }
+        public virtual string Body { get; set; }
 
         /// <summary>
         ///     Gets or sets the last failure reason.
@@ -45,6 +54,6 @@ namespace BankingSystem.Common.Data
         /// <value>
         ///     The failure reason.
         /// </value>
-        string FailureReason { get; set; }
+        public virtual string FailureReason { get; set; }
     }
 }

@@ -217,23 +217,14 @@ INSERT INTO dbo.BankCards(Id, CardHolder, CardNumber, CsvCode, ExpirationMonth, 
 GO
 
 INSERT INTO dbo.HiLo(NextHi, Entity)
-    SELECT 2, 'BankingSystem.DataTier.Entities.Account' 
-    UNION ALL
-    SELECT 2, 'BankingSystem.DataTier.Entities.BankBalance' 
-    UNION ALL
-    SELECT 2, 'BankingSystem.DataTier.Entities.BankCard' 
-    UNION ALL
-    SELECT 2, 'BankingSystem.DataTier.Entities.Individual' 
-    UNION ALL
-    SELECT 2, 'BankingSystem.DataTier.Entities.Merchant'
-    UNION ALL
-    SELECT 2, 'BankingSystem.DataTier.Entities.CustomerBase' 
-    UNION ALL
-    SELECT 2, 'BankingSystem.DataTier.Entities.DeliveredEmail' 
-    UNION ALL
-    SELECT 2, 'BankingSystem.DataTier.Entities.Journal' 
-    UNION ALL
-    SELECT 2, 'BankingSystem.DataTier.Entities.LoginInfo' 
-    UNION ALL
-    SELECT 2, 'BankingSystem.DataTier.Entities.ScheduledEmail'
+    SELECT 2, 'BankingSystem.Domain.Impl.Account' UNION ALL
+    SELECT 2, 'BankingSystem.Domain.Impl.BankBalance' UNION ALL
+    SELECT 2, 'BankingSystem.Domain.Impl.BankCard' UNION ALL
+    SELECT 2, 'BankingSystem.Domain.Impl.Individual' UNION ALL
+    SELECT 2, 'BankingSystem.Domain.Impl.Merchant' UNION ALL
+    SELECT 2, 'BankingSystem.Domain.Impl.CustomerBase' UNION ALL
+    SELECT 2, 'BankingSystem.Domain.Impl.DeliveredEmail' UNION ALL
+    SELECT 2, 'BankingSystem.Domain.Impl.Journal' UNION ALL
+    SELECT 2, 'BankingSystem.Domain.Impl.LoginInfo' UNION ALL
+    SELECT 2, 'BankingSystem.Domain.Impl.ScheduledEmail'
 GO

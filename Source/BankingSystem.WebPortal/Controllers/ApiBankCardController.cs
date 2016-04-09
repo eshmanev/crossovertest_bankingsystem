@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
-using BankingSystem.Common.Messages;
 using BankingSystem.LogicTier;
 using BankingSystem.LogicTier.Impl;
+using BankingSystem.Messages;
 using log4net;
 
 namespace BankingSystem.WebPortal.Controllers

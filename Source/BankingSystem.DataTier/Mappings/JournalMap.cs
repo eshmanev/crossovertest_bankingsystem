@@ -1,4 +1,4 @@
-﻿using BankingSystem.DataTier.Entities;
+﻿using BankingSystem.Domain.Impl;
 using FluentNHibernate.Mapping;
 
 namespace BankingSystem.DataTier.Mappings
@@ -6,7 +6,7 @@ namespace BankingSystem.DataTier.Mappings
     /// <summary>
     ///     Defines a mapping for <see cref="Journal" />.
     /// </summary>
-    public class JournalMap : ClassMap<Journal>
+    internal class JournalMap : ClassMap<Journal>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="JournalMap" /> class.

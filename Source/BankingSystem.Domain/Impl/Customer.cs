@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
-using BankingSystem.Common.Data;
 
-namespace BankingSystem.DataTier.Entities
+namespace BankingSystem.Domain.Impl
 {
     /// <summary>
     ///     Represents a customer.
     /// </summary>
     /// <seealso cref="ICustomer" />
-    public abstract class CustomerBase : ICustomer
+    internal abstract class CustomerBase : ICustomer
     {
         private IList<Account> _accounts = new List<Account>();
         private IList<LoginInfo> _logins = new List<LoginInfo>();

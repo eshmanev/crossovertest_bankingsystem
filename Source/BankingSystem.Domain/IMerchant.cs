@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BankingSystem.Common.Data
+namespace BankingSystem.Domain
 {
     /// <summary>
     ///     Defines a merchant

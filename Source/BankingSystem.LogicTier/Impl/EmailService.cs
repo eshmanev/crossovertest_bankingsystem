@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Mail;
-using BankingSystem.Common.Data;
 using BankingSystem.DataTier;
-using BankingSystem.DataTier.Entities;
+using BankingSystem.Domain;
+using BankingSystem.Domain.Impl;
 using BankingSystem.LogicTier.Utils;
 
 namespace BankingSystem.LogicTier.Impl

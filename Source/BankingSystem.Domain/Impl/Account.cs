@@ -1,9 +1,10 @@
-﻿namespace BankingSystem.Common.Data
+﻿namespace BankingSystem.Domain.Impl
 {
     /// <summary>
-    ///     Defines an account.
+    ///     Represents an account.
     /// </summary>
-    public interface IAccount
+    /// <seealso cref="IAccount" />
+    internal class Account : IAccount
     {
         /// <summary>
         ///     Gets the identifier.
@@ -11,7 +12,7 @@
         /// <value>
         ///     The identifier.
         /// </value>
-        int Id { get; }
+        public virtual int Id { get; protected set; }
 
         /// <summary>
         ///     Gets the account number.
@@ -19,7 +20,7 @@
         /// <value>
         ///     The account number.
         /// </value>
-        string AccountNumber { get; }
+        public virtual string AccountNumber { get; protected set; }
 
         /// <summary>
         ///     Gets the currency.
@@ -27,7 +28,7 @@
         /// <value>
         ///     The currency.
         /// </value>
-        string Currency { get; }
+        public virtual string Currency { get; protected set; }
 
         /// <summary>
         ///     Gets the balance.
@@ -35,7 +36,7 @@
         /// <value>
         ///     The balance.
         /// </value>
-        decimal Balance { get; set; }
+        public virtual decimal Balance { get; set; }
 
         /// <summary>
         ///     Gets the assigned bank card.
@@ -43,6 +44,6 @@
         /// <value>
         ///     The bank card.
         /// </value>
-        IBankCard BankCard { get; }
+        public virtual IBankCard BankCard { get; protected set; }
     }
 }

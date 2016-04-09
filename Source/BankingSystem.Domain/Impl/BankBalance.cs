@@ -1,11 +1,9 @@
-﻿using BankingSystem.Common.Data;
-
-namespace BankingSystem.DataTier.Entities
+﻿namespace BankingSystem.Domain.Impl
 {
     /// <summary>
     ///     Represents a bank balance.
     /// </summary>
-    public class BankBalance : IBankBalance
+    internal class BankBalance : IBankBalance
     {
         /// <summary>
         ///     Gets or sets the identifier.

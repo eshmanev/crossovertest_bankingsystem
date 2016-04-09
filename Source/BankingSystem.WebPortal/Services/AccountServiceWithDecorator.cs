@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BankingSystem.Common.Data;
-using BankingSystem.Common.Messages;
+using BankingSystem.Domain;
 using BankingSystem.LogicTier;
+using BankingSystem.Messages;
 using Microsoft.AspNet.SignalR.Hubs;
 
 namespace BankingSystem.WebPortal.Services
@@ -50,8 +50,8 @@ namespace BankingSystem.WebPortal.Services
             var oldSourceBalance = sourceAccount.Balance;
             var oldDestBalance = destAccount.Balance;
             await _original.TransferMoney(sourceAccount, destAccount, amount, mode, description);
-            _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(sourceAccount, oldSourceBalance, description));
-            _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(destAccount, oldDestBalance, description));
+            _hubContext.All.onBalanceChanged(CreateMessage(sourceAccount, oldSourceBalance, description));
+            _hubContext.All.onBalanceChanged(CreateMessage(destAccount, oldDestBalance, description));
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace BankingSystem.WebPortal.Services
         {
             var oldBalance = account.Balance;
             _original.UpdateBalance(account, changeAmount, description);
-            _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(account, oldBalance, description));
+            _hubContext.All.onBalanceChanged(CreateMessage(account, oldBalance, description));
         }
 
         /// <summary>
@@ -77,6 +77,25 @@ namespace BankingSystem.WebPortal.Services
         public IAccount FindAccount(string accountNumber)
         {
             return _original.FindAccount(accountNumber);
+        }
+
+        /// <summary>
+        ///     Creates the balance changed message.
+        /// </summary>
+        /// <param name="account">The account.</param>
+        /// <param name="oldBalance">The old balance.</param>
+        /// <param name="description">The description.</param>
+        /// <returns>A create instance.</returns>
+        private static BalanceChangedMessage CreateMessage(IAccount account, decimal oldBalance, string description)
+        {
+            return new BalanceChangedMessage
+            {
+                AccountNumber = account.AccountNumber,
+                Currency = account.Currency,
+                ChangeAmount = account.Balance - oldBalance,
+                CurrentBalance = account.Balance,
+                Description = description
+            };
         }
     }
 }

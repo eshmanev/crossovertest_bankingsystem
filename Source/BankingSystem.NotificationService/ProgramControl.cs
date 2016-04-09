@@ -1,7 +1,7 @@
 using System;
 using System.Timers;
-using BankingSystem.Common.Messages;
 using BankingSystem.LogicTier;
+using BankingSystem.Messages;
 using BankingSystem.NotificationService.Handlers;
 using log4net;
 using Microsoft.AspNet.SignalR.Client;

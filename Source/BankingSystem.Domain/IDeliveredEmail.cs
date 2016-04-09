@@ -1,29 +1,19 @@
-﻿using System;
-using BankingSystem.Common.Data;
+using System;
 
-namespace BankingSystem.DataTier.Entities
+namespace BankingSystem.Domain
 {
     /// <summary>
-    ///     Represents a delivered email.
+    ///     Defines a delivered email.
     /// </summary>
-    /// <seealso cref="IDeliveredEmail" />
-    public class DeliveredEmail : IDeliveredEmail
+    public interface IDeliveredEmail
     {
-        /// <summary>
-        ///     Gets the identifier.
-        /// </summary>
-        /// <value>
-        ///     The identifier.
-        /// </value>
-        public virtual int Id { get; protected set; }
-
         /// <summary>
         ///     Gets or sets the recipient address.
         /// </summary>
         /// <value>
         ///     The recipient address.
         /// </value>
-        public virtual string RecipientAddress { get; set; }
+        string RecipientAddress { get; }
 
         /// <summary>
         ///     Gets or sets the scheduled date time.
@@ -31,7 +21,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The scheduled date time.
         /// </value>
-        public virtual DateTime DeliveredDateTime { get; set; }
+        DateTime DeliveredDateTime { get; }
 
         /// <summary>
         ///     Gets the subject.
@@ -39,7 +29,7 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The subject.
         /// </value>
-        public virtual string Subject { get; set; }
+        string Subject { get; }
 
         /// <summary>
         ///     Gets the body.
@@ -47,6 +37,6 @@ namespace BankingSystem.DataTier.Entities
         /// <value>
         ///     The body.
         /// </value>
-        public virtual string Body { get; set; }
+        string Body { get; }
     }
 }

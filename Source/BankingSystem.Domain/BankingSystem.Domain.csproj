@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DF97F91D-79E7-4526-8586-5CDA82664FCF}</ProjectGuid>
+    <ProjectGuid>{7238B6BA-A350-4C0C-89DC-43F78EFF2159}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BankingSystem.Common</RootNamespace>
-    <AssemblyName>BankingSystem.Common</AssemblyName>
+    <RootNamespace>BankingSystem.Domain</RootNamespace>
+    <AssemblyName>BankingSystem.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,22 +40,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\ICustomerVisitor.cs" />
-    <Compile Include="Data\IIndividual.cs" />
-    <Compile Include="Data\IMerchant.cs" />
-    <Compile Include="Messages\BalanceChangedMessage.cs" />
-    <Compile Include="Data\IAccount.cs" />
-    <Compile Include="Data\IBankBalance.cs" />
-    <Compile Include="Data\IBankCard.cs" />
-    <Compile Include="Data\ICustomer.cs" />
-    <Compile Include="Data\IDeliveredEmail.cs" />
-    <Compile Include="Data\ILoginInfo.cs" />
-    <Compile Include="Data\IJournal.cs" />
-    <Compile Include="Data\IScheduledEmail.cs" />
-    <Compile Include="Messages\ChangeAmountMessage.cs" />
-    <Compile Include="Messages\JournalCreatedMessage.cs" />
-    <Compile Include="Messages\NewPinMessage.cs" />
+    <Compile Include="IAccount.cs" />
+    <Compile Include="IBankBalance.cs" />
+    <Compile Include="IBankCard.cs" />
+    <Compile Include="ICustomer.cs" />
+    <Compile Include="ICustomerVisitor.cs" />
+    <Compile Include="IDeliveredEmail.cs" />
+    <Compile Include="IIndividual.cs" />
+    <Compile Include="IJournal.cs" />
+    <Compile Include="ILoginInfo.cs" />
+    <Compile Include="IMerchant.cs" />
+    <Compile Include="Impl\Account.cs" />
+    <Compile Include="Impl\BankBalance.cs" />
+    <Compile Include="Impl\BankCard.cs" />
+    <Compile Include="Impl\Customer.cs" />
+    <Compile Include="Impl\DeliveredEmail.cs" />
+    <Compile Include="Impl\Individual.cs" />
+    <Compile Include="Impl\Journal.cs" />
+    <Compile Include="Impl\LoginInfo.cs" />
+    <Compile Include="Impl\Merchant.cs" />
+    <Compile Include="Impl\ScheduledEmail.cs" />
+    <Compile Include="IScheduledEmail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DomainModel.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

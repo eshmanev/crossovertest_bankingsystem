@@ -1,4 +1,4 @@
-﻿using BankingSystem.DataTier.Entities;
+﻿using BankingSystem.Domain.Impl;
 using FluentNHibernate.Mapping;
 
 namespace BankingSystem.DataTier.Mappings
@@ -6,7 +6,7 @@ namespace BankingSystem.DataTier.Mappings
     /// <summary>
     ///     Defines mapping for the <see cref="ScheduledEmail" />
     /// </summary>
-    public class ScheduledEmailMap : ClassMap<ScheduledEmail>
+    internal class ScheduledEmailMap : ClassMap<ScheduledEmail>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="ScheduledEmailMap" /> class.

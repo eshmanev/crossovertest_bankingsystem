@@ -199,9 +199,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BankingSystem.Common\BankingSystem.Common.csproj">
+    <ProjectReference Include="..\BankingSystem.Messages\BankingSystem.Messages.csproj">
       <Project>{DF97F91D-79E7-4526-8586-5CDA82664FCF}</Project>
-      <Name>BankingSystem.Common</Name>
+      <Name>BankingSystem.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

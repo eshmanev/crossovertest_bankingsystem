@@ -94,9 +94,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BankingSystem.Common\BankingSystem.Common.csproj">
+    <ProjectReference Include="..\BankingSystem.Messages\BankingSystem.Messages.csproj">
       <Project>{DF97F91D-79E7-4526-8586-5CDA82664FCF}</Project>
-      <Name>BankingSystem.Common</Name>
+      <Name>BankingSystem.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BankingSystem.Domain\BankingSystem.Domain.csproj">
+      <Project>{7238b6ba-a350-4c0c-89dc-43f78eff2159}</Project>
+      <Name>BankingSystem.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\BankingSystem.LogicTier\BankingSystem.LogicTier.csproj">
       <Project>{2a3c0e00-88a4-471e-b9d8-26de7925b831}</Project>

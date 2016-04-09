@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BankingSystem.Common.Data;
-using BankingSystem.Common.Messages;
+using BankingSystem.Domain;
 using BankingSystem.LogicTier;
+using BankingSystem.Messages;
 using Microsoft.AspNet.SignalR.Hubs;
 using WebGrease.Css.Extensions;
 

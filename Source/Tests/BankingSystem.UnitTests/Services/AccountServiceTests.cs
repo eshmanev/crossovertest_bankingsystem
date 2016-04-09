@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using BankingSystem.Common.Data;
+using BankingSystem.Domain;
 using BankingSystem.LogicTier;
 using BankingSystem.LogicTier.Impl;
 using Moq;

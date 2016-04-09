@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BankingSystem.Common.Data;
 using BankingSystem.DataTier;
-using BankingSystem.DataTier.Entities;
+using BankingSystem.Domain;
+using BankingSystem.Domain.Impl;
 
 namespace BankingSystem.LogicTier.Impl
 {

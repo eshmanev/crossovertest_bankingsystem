@@ -1,4 +1,4 @@
-﻿namespace BankingSystem.Common.Data
+﻿namespace BankingSystem.Domain
 {
     /// <summary>
     /// Defines a login information used for logging in with social accounts.

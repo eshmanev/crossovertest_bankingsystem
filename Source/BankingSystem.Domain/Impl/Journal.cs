@@ -1,13 +1,12 @@
 ﻿using System;
-using BankingSystem.Common.Data;
 
-namespace BankingSystem.DataTier.Entities
+namespace BankingSystem.Domain.Impl
 {
     /// <summary>
     ///     Represents an journal.
     /// </summary>
     /// <seealso cref="IJournal" />
-    public class Journal : IJournal
+    internal class Journal : IJournal
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Journal" /> class.

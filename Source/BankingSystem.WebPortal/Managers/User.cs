@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BankingSystem.Common.Data;
+using BankingSystem.Domain;
 using Microsoft.AspNet.Identity;
 
 namespace BankingSystem.WebPortal.Managers

@@ -1,4 +1,4 @@
-﻿using BankingSystem.DataTier.Entities;
+﻿using BankingSystem.Domain.Impl;
 using FluentNHibernate.Mapping;
 
 namespace BankingSystem.DataTier.Mappings
@@ -6,7 +6,7 @@ namespace BankingSystem.DataTier.Mappings
     /// <summary>
     ///     Defines a mapping for the <see cref="Merchant" />
     /// </summary>
-    public class MerchantMap : SubclassMap<Merchant>
+    internal class MerchantMap : SubclassMap<Merchant>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MerchantMap" /> class.

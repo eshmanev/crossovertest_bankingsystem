@@ -1,4 +1,4 @@
-﻿namespace BankingSystem.Common.Messages
+﻿namespace BankingSystem.Messages
 {
     /// <summary>
     ///     Represents a message sent by clients to change a bank card's balance.

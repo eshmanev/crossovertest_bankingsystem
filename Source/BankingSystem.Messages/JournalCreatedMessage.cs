@@ -1,4 +1,4 @@
-﻿namespace BankingSystem.Common.Messages
+﻿namespace BankingSystem.Messages
 {
     /// <summary>
     ///     Provides information about new journal entry.

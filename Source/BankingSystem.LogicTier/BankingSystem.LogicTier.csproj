@@ -96,9 +96,9 @@
       <Project>{90a6529c-62ff-4580-8f96-e15d69b4a020}</Project>
       <Name>BankingSystem.DataTier</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BankingSystem.Common\BankingSystem.Common.csproj">
-      <Project>{df97f91d-79e7-4526-8586-5cda82664fcf}</Project>
-      <Name>BankingSystem.Common</Name>
+    <ProjectReference Include="..\BankingSystem.Domain\BankingSystem.Domain.csproj">
+      <Project>{7238b6ba-a350-4c0c-89dc-43f78eff2159}</Project>
+      <Name>BankingSystem.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,9 @@
-using BankingSystem.Common.Data;
-
-namespace BankingSystem.DataTier.Entities
+namespace BankingSystem.Domain.Impl
 {
     /// <summary>
     ///     Represents an individual.
     /// </summary>
-    public class Individual : CustomerBase, IIndividual
+    internal class Individual : CustomerBase, IIndividual
     {
         /// <summary>
         ///     Gets the first name.

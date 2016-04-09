@@ -1,4 +1,4 @@
-﻿using BankingSystem.Common.Messages;
+﻿using BankingSystem.Messages;
 using Microsoft.AspNet.SignalR;
 
 namespace BankingSystem.WebPortal.Hubs

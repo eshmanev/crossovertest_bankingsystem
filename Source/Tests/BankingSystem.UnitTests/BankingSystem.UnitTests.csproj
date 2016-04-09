@@ -80,13 +80,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BankingSystem.Common\BankingSystem.Common.csproj">
+    <ProjectReference Include="..\..\BankingSystem.Messages\BankingSystem.Messages.csproj">
       <Project>{DF97F91D-79E7-4526-8586-5CDA82664FCF}</Project>
-      <Name>BankingSystem.Common</Name>
+      <Name>BankingSystem.Messages</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\BankingSystem.DataTier\BankingSystem.DataTier.csproj">
       <Project>{90A6529C-62FF-4580-8F96-E15D69B4A020}</Project>
       <Name>BankingSystem.DataTier</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BankingSystem.Domain\BankingSystem.Domain.csproj">
+      <Project>{7238b6ba-a350-4c0c-89dc-43f78eff2159}</Project>
+      <Name>BankingSystem.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\BankingSystem.LogicTier\BankingSystem.LogicTier.csproj">
       <Project>{2A3C0E00-88A4-471E-B9D8-26DE7925B831}</Project>
