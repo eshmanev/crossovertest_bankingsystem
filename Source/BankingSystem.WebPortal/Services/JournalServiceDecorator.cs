@@ -48,14 +48,14 @@ namespace BankingSystem.WebPortal.Services
         /// </summary>
         /// <param name="sourceAccount">The source account.</param>
         /// <param name="destAccount">The dest account.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="commission">The commission.</param>
+        /// <param name="sourceDescription">The source description.</param>
+        /// <param name="destDescription">The dest description</param>
         /// <returns>
         ///     An array of created journals.
         /// </returns>
-        public IJournal[] WriteTransferJournal(IAccount sourceAccount, IAccount destAccount, string description, decimal commission)
+        public IJournal[] WriteTransferJournal(IAccount sourceAccount, IAccount destAccount, string sourceDescription, string destDescription)
         {
-            var journals = _original.WriteTransferJournal(sourceAccount, destAccount, description, commission);
+            var journals = _original.WriteTransferJournal(sourceAccount, destAccount, sourceDescription, destDescription);
             journals.ForEach(SendJournal);
             return journals;
         }
@@ -94,6 +94,7 @@ namespace BankingSystem.WebPortal.Services
         {
             _hubContext.All.onJournalCreated(new JournalCreatedMessage
             {
+                CustomerId = journal.Customer.Id,
                 DateCreated = journal.DateTimeCreated.ToLocalTime().ToString("MM/dd/yyyy HH:mm"),
                 Description = journal.Description
             });

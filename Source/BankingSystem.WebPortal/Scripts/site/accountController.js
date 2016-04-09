@@ -3,6 +3,10 @@
         this.accounts = accountService.getAccounts();
         this.journals = accountService.getJournals();
 
+        this.init = function(customerId) {
+            this.customerId = customerId;
+        }
+
         this.makeTransfer = function(templateName, controllerName) {
             var accounts = this.accounts;
             $uibModal.open({
@@ -34,7 +38,9 @@
         }.bind(this));
 
         hub.on('onJournalCreated', function (message) {
-            this.journals.splice(0, 0, message);
+            if (message.CustomerId === this.customerId) {
+                this.journals.splice(0, 0, message);
+            }
         }.bind(this));
     }
 ]);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using BankingSystem.LogicTier;
 using BankingSystem.WebPortal;
 using BankingSystem.WebPortal.Managers;
@@ -58,14 +59,13 @@ namespace BankingSystem.WebPortal
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
-            app.UseFacebookAuthentication(appId: "473903399469595", appSecret: "7e4adda0d43e0e1438f8e453a45743ba");
-            app.UseLinkedInAuthentication(clientId: "77odrj1h7nmx5g", clientSecret: "2YwB0LFyKTyGnEK3");
-            app.UseTwitterAuthentication(consumerKey: "DRbZmgJnVqhxOLHRgR8bISyW9",
-                consumerSecret: "NSysx9rCf6zyYdPOm4kwIneu4O1PfKZ1pbMkbratB8PbaBPPhD");
+            app.UseFacebookAuthentication(appId: ConfigurationManager.AppSettings["FacebookAppId"], appSecret: ConfigurationManager.AppSettings["FacebookSecret"]);
+            app.UseLinkedInAuthentication(clientId: ConfigurationManager.AppSettings["LinkedinClientId"], clientSecret: ConfigurationManager.AppSettings["LinkedinSecret"]);
+            app.UseTwitterAuthentication(consumerKey: ConfigurationManager.AppSettings["TwitterConsumerKey"], consumerSecret: ConfigurationManager.AppSettings["TwitterConsumerSecret"]);
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
             {
-                ClientId = "409477153620-7eq2ke1tpfhb32p168lcmo1815vdmh0e.apps.googleusercontent.com",
-                ClientSecret = "nK-vsKE-bjtXd6gwbO1OIAWC"
+                ClientId = ConfigurationManager.AppSettings["GoogleClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["GoogleSecret"]
             });
             app.MapSignalR();
         }

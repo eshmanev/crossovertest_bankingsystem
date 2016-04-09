@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BankingSystem.Common.Data;
 using BankingSystem.LogicTier;
 using BankingSystem.LogicTier.Impl;
@@ -43,13 +41,41 @@ namespace BankingSystem.UnitTests.Services
             _exchangeRangeService.Setup(x => x.GetExhangeRateAsync("USD", "EUR")).Returns(Task.FromResult(0.8m));
 
             // act
-            await _service.TransferMoney(sourceAccount.Object, destAccount.Object, amount, "description");
+            await _service.TransferMoney(sourceAccount.Object, destAccount.Object, amount, AmountConversionMode.SourceToTarget,  "Description.");
 
             // assert
-            _journalService.Verify(x => x.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "description", 2.0m));
+            _journalService.Verify(x => x.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "Description. Amount 100.00 USD. Bank commission 2.00 USD", "Description. Amount 78.40 EUR."));
 
             sourceAccount.VerifySet(x => x.Balance = 900m);
             destAccount.VerifySet(x => x.Balance = 2000m + 78.4m); // (100 - commission) * exhchange rate
+
+            _context.Accounts.Verify(x => x.Update(sourceAccount.Object));
+            _context.Accounts.Verify(x => x.Update(destAccount.Object));
+            _bankBalanceService.Verify(x => x.AddRevenue(2m, It.IsAny<string>())); // 2 USD commission
+            _context.Transaction.Verify(x => x.Commit());
+        }
+
+        [Test]
+        public async void ShouldTransferMoney_DifferentCurrencies_TargetToSource()
+        {
+            // arrange
+            var amount = 100m; // USD
+            var sourceAccount = new Mock<IAccount>();
+            var destAccount = new Mock<IAccount>();
+            sourceAccount.SetupGet(x => x.Currency).Returns("USD");
+            sourceAccount.SetupGet(x => x.Balance).Returns(1000m);
+            destAccount.SetupGet(x => x.Currency).Returns("EUR");
+            destAccount.SetupGet(x => x.Balance).Returns(2000m);
+            _exchangeRangeService.Setup(x => x.GetExhangeRateAsync("USD", "EUR")).Returns(Task.FromResult(0.8m));
+
+            // act
+            await _service.TransferMoney(sourceAccount.Object, destAccount.Object, amount, AmountConversionMode.TargetToSource, "Description.");
+
+            // assert
+            _journalService.Verify(x => x.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "Description. Amount 125.00 USD.", "Description. Amount 98.00 EUR. Bank commission 2.00 EUR"));
+
+            sourceAccount.VerifySet(x => x.Balance = 875m); // 125 USD equals to 100 EUR
+            destAccount.VerifySet(x => x.Balance = 2000m + 98m); // (100 - commission) * exhchange rate. Commission is 2 USD
 
             _context.Accounts.Verify(x => x.Update(sourceAccount.Object));
             _context.Accounts.Verify(x => x.Update(destAccount.Object));
@@ -73,10 +99,10 @@ namespace BankingSystem.UnitTests.Services
             _exchangeRangeService.Setup(x => x.GetExhangeRateAsync("USD", "USD")).Returns(Task.FromResult(0.8m));
 
             // act
-            await _service.TransferMoney(sourceAccount.Object, destAccount.Object, amount, "description");
+            await _service.TransferMoney(sourceAccount.Object, destAccount.Object, amount, AmountConversionMode.SourceToTarget,  "Description.");
 
             // assert
-            _journalService.Verify(x => x.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "description", 0m));
+            _journalService.Verify(x => x.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "Description. Amount 100.00 USD.", "Description. Amount 100.00 USD."));
 
             sourceAccount.VerifySet(x => x.Balance = 900m);
             destAccount.VerifySet(x => x.Balance = 2100m);

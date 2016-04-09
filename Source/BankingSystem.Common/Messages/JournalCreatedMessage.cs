@@ -6,6 +6,14 @@
     public class JournalCreatedMessage
     {
         /// <summary>
+        ///     Gets or sets the customer identifier.
+        /// </summary>
+        /// <value>
+        ///     The customer identifier.
+        /// </value>
+        public int CustomerId { get; set; }
+
+        /// <summary>
         ///     Gets or sets the date created.
         /// </summary>
         /// <value>

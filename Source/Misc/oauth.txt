@@ -1,0 +1,15 @@
+LinkedIn: https://www.linkedin.com/developer/apps/4375383/auth
+  ClientId   77odrj1h7nmx5g
+  Secret     2YwB0LFyKTyGnEK3
+
+Twitter: https://apps.twitter.com/app/12184018/settings
+  Consumer Key (API Key)	DRbZmgJnVqhxOLHRgR8bISyW9
+  Consumer Secret (API Secret)	NSysx9rCf6zyYdPOm4kwIneu4O1PfKZ1pbMkbratB8PbaBPPhD
+
+Google: https://console.developers.google.com/apis/credentials?project=bankingsystem-1272
+  ClientId   409477153620-7eq2ke1tpfhb32p168lcmo1815vdmh0e.apps.googleusercontent.com
+  Secret     nK-vsKE-bjtXd6gwbO1OIAWC
+
+Facebook: https://developers.facebook.com/apps
+  AppId   473903399469595
+  Secret  7e4adda0d43e0e1438f8e453a45743ba

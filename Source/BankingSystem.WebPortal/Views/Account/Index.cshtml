@@ -1,7 +1,10 @@
-﻿@model dynamic
+﻿@using Microsoft.AspNet.Identity
+@model dynamic
+@{
+    var customerId = base.User.Identity.GetUserId<int>();
+}
 
-<div ng-controller="AccountController as ctrl">
-
+<div ng-controller="AccountController as ctrl" ng-init="ctrl.init(@customerId)">
     <!-- Internal account-to-account transfer window template -->
     <script type="text/ng-template" id="internalTransfer.html">
         <div class="modal-header">

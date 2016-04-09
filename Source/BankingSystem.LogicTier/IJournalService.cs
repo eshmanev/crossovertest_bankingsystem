@@ -20,10 +20,10 @@ namespace BankingSystem.LogicTier
         /// </summary>
         /// <param name="sourceAccount">The source account.</param>
         /// <param name="destAccount">The dest account.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="commission">The commission.</param>
+        /// <param name="sourceDescription">The source description.</param>
+        /// <param name="destDescription">The dest description</param>
         /// <returns>An array of created journals.</returns>
-        IJournal[] WriteTransferJournal(IAccount sourceAccount, IAccount destAccount, string description, decimal commission);
+        IJournal[] WriteTransferJournal(IAccount sourceAccount, IAccount destAccount, string sourceDescription, string destDescription);
 
         /// <summary>
         ///     Writes the journal.

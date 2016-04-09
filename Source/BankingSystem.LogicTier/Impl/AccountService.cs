@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
+using System.Globalization;
 using System.Threading.Tasks;
 using BankingSystem.Common.Data;
 using BankingSystem.DataTier;
-using Microsoft.Practices.ObjectBuilder2;
 
 namespace BankingSystem.LogicTier.Impl
 {
@@ -52,9 +51,14 @@ namespace BankingSystem.LogicTier.Impl
         /// <param name="sourceAccount">The source account.</param>
         /// <param name="destAccount">The dest account.</param>
         /// <param name="amount">The amount to transfer.</param>
+        /// <param name="mode">The conversion mode.</param>
         /// <param name="description">The description of the transaction.</param>
-        /// <exception cref="BankingServiceException">The account does not have enough amount of money.</exception>
-        public async Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount, string description)
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// </exception>
+        /// <exception cref="System.ArgumentException">Amount should be greater than 0</exception>
+        /// <exception cref="BankingServiceException">The account does not have enough amount of money</exception>
+        public async Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount, AmountConversionMode mode, string description)
         {
             if (sourceAccount == null)
                 throw new ArgumentNullException(nameof(sourceAccount));
@@ -87,9 +91,46 @@ namespace BankingSystem.LogicTier.Impl
                     }
 
                     // calc bank commission and new balances
-                    var commission = Math.Round(amount*commissionPercent, 2);
-                    sourceAccount.Balance = Math.Round(sourceAccount.Balance - amount, 2);
-                    destAccount.Balance = Math.Round(destAccount.Balance + exhangeRate*(amount - commission), 2);
+                    var commission = Math.Round(amount * commissionPercent, 2);
+                    // in case of commission, source description should include it
+                    string sourceDescription;
+                    string destDescription;
+                    switch (mode)
+                    {
+                        case AmountConversionMode.SourceToTarget:
+                            // source account is charged to pay the bank commission 
+                            var sourceAmount = amount;
+                            var destAmount = Math.Round(exhangeRate *(amount - commission), 2);
+                            sourceAccount.Balance = sourceAccount.Balance - amount;
+                            destAccount.Balance = destAccount.Balance + destAmount;
+
+                            sourceDescription = $"{description} Amount {sourceAmount.ToString("N2", CultureInfo.InvariantCulture)} {sourceAccount.Currency}.";
+                            destDescription = $"{description} Amount {destAmount.ToString("N2", CultureInfo.InvariantCulture)} {destAccount.Currency}.";
+
+                            if (commission > 0)
+                                sourceDescription += $" Bank commission {commission.ToString("N2", CultureInfo.InvariantCulture)} {sourceAccount.Currency}";
+
+                            break;
+                        case AmountConversionMode.TargetToSource:
+                            // destination account is charged to pay the bank commission
+                            sourceAmount = Math.Round(amount /exhangeRate, 2);
+                            destAmount = amount - commission;
+                            sourceAccount.Balance = sourceAccount.Balance - sourceAmount;
+                            destAccount.Balance = destAccount.Balance + destAmount;
+
+                            sourceDescription = $"{description} Amount {sourceAmount.ToString("N2", CultureInfo.InvariantCulture)} {sourceAccount.Currency}.";
+                            destDescription = $"{description} Amount {destAmount.ToString("N2", CultureInfo.InvariantCulture)} {destAccount.Currency}.";
+
+                            if (commission > 0)
+                                destDescription += $" Bank commission {commission.ToString("N2", CultureInfo.InvariantCulture)} {destAccount.Currency}";
+
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+                    }
+
+                    // write journals
+                    _journalService.WriteTransferJournal(sourceAccount, destAccount, sourceDescription, destDescription);
 
                     // update database
                     _databaseContext.Accounts.Update(sourceAccount);
@@ -98,9 +139,6 @@ namespace BankingSystem.LogicTier.Impl
                     // update bank revenues, if any
                     if (commission > 0)
                         _bankBalanceService.AddRevenue(commission, $"A commission for money transfer from the account {sourceAccount.AccountNumber} to the account {destAccount.AccountNumber}");
-
-                    // write journals
-                    _journalService.WriteTransferJournal(sourceAccount, destAccount, description, commission);
 
                     // commit transaction
                     transaction.Commit();

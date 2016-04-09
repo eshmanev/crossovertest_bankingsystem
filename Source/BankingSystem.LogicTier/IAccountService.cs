@@ -15,9 +15,10 @@ namespace BankingSystem.LogicTier
         /// <param name="sourceAccount">The source account.</param>
         /// <param name="destAccount">The dest account.</param>
         /// <param name="amount">The amount to transfer.</param>
+        /// <param name="mode">The conversion mode.</param>
         /// <param name="description">The description of the transaction.</param>
         /// <exception cref="BankingServiceException">The source account does not have enough amount of money.</exception>
-        Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount, string description);
+        Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount, AmountConversionMode mode, string description);
 
         /// <summary>
         ///     Updates the balance with the specified amount.

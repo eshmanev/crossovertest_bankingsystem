@@ -6,7 +6,7 @@
         xmlns:regions="http://prismlibrary.com/"
         xmlns:atmns="clr-namespace:BankingSystem.ATM"
         mc:Ignorable="d"
-        Title="Shell" Height="600" Width="900" WindowStartupLocation="CenterScreen">
+        Title="Shell" Height="400" Width="600" WindowStartupLocation="CenterScreen">
     <Grid>
         <ContentControl regions:RegionManager.RegionName="{Binding Source={x:Static atmns:RegionName.MainRegion}}" />
     </Grid>

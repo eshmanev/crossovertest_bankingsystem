@@ -11,6 +11,7 @@
     public class FakeCredentialsProvider : ICredentialsProvider
     {
         private readonly FakeBankCardSlot _fakeSlot;
+        private string _currentPin;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="FakeCredentialsProvider" /> class.
@@ -27,7 +28,15 @@
         /// <value>
         ///     The current pin.
         /// </value>
-        public string CurrentPin { get; set; }
+        public string CurrentPin
+        {
+            get { return _currentPin; }
+            set
+            {
+                _currentPin = value;
+                _fakeSlot.ListEnabled = string.IsNullOrWhiteSpace(_currentPin);
+            }
+        }
 
         /// <summary>
         ///     Gets the number of the current bank card in ATM.

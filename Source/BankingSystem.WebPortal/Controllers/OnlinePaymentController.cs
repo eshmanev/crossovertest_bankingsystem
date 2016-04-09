@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using BankingSystem.Common.Data;
 using BankingSystem.LogicTier;
@@ -94,7 +95,7 @@ namespace BankingSystem.WebPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Payment(OnlinePaymentViewModel viewModel)
+        public async Task<ActionResult> Payment(OnlinePaymentViewModel viewModel)
         {
             viewModel.Months = GetMonths();
             viewModel.Years = GetYears();
@@ -129,8 +130,8 @@ namespace BankingSystem.WebPortal.Controllers
 
             try
             {
-                var description = $"Online payment on {merchant.MerchantName}. Sum {viewModel.Amount} {bankCard.Account.Currency}";
-                _accountService.TransferMoney(bankCard.Account, merchantAccount, viewModel.Amount, description);
+                var description = $"Online payment on {merchant.MerchantName}.";
+                await _accountService.TransferMoney(bankCard.Account, merchantAccount, viewModel.Amount, AmountConversionMode.TargetToSource,  description);
             }
             catch (BankingServiceException ex)
             {

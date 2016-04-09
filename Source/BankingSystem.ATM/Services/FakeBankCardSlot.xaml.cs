@@ -35,5 +35,17 @@ namespace BankingSystem.ATM.Services
         ///     The selected card.
         /// </value>
         public string SelectedCard => listBox.SelectedItem as string;
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether [list enabled].
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if [list enabled]; otherwise, <c>false</c>.
+        /// </value>
+        public bool ListEnabled
+        {
+            get { return listBox.IsEnabled; }
+            set { listBox.IsEnabled = value; }
+        }
     }
 }

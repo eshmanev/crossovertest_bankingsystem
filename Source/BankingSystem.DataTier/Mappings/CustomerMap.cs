@@ -18,10 +18,18 @@ namespace BankingSystem.DataTier.Mappings
             Id(x => x.Id).GeneratedBy.HiLo<CustomerBase>();
             Map(x => x.UserName).Unique();
             Map(x => x.Email);
-
             Map(x => x.PasswordHash);
-            HasMany<Account>(Reveal.Member<CustomerBase>("_accounts")).KeyColumn("CustomerId").Inverse().Cascade.AllDeleteOrphan();
-            HasMany<LoginInfo>(Reveal.Member<CustomerBase>("_logins")).KeyColumn("CustomerId").Inverse().Cascade.AllDeleteOrphan();
+
+            HasMany<Account>(Reveal.Member<CustomerBase>("_accounts"))
+                .KeyColumn("CustomerId")
+                .ForeignKeyConstraintName("FK_Account_Customer")
+                .Inverse().Cascade.AllDeleteOrphan();
+
+            HasMany<LoginInfo>(Reveal.Member<CustomerBase>("_logins"))
+                .KeyColumn("CustomerId")
+                .ForeignKeyConstraintName("FK_LoginInfo_Customer")
+                .Inverse().Cascade.AllDeleteOrphan();
+
             DiscriminateSubClassesOnColumn("CustomerType");
         }
     }

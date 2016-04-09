@@ -40,17 +40,16 @@ namespace BankingSystem.LogicTier.Impl
         /// </summary>
         /// <param name="sourceAccount">The source account.</param>
         /// <param name="destAccount">The dest account.</param>
-        /// <param name="description">The description.</param>
-        /// <param name="commission">The commission.</param>
-        /// <returns></returns>
-        public IJournal[] WriteTransferJournal(IAccount sourceAccount, IAccount destAccount, string description, decimal commission)
+        /// <param name="sourceDescription">The source description.</param>
+        /// <param name="destDescription">The dest description</param>
+        /// <returns>
+        ///     An array of created journals.
+        /// </returns>
+        public IJournal[] WriteTransferJournal(IAccount sourceAccount, IAccount destAccount, string sourceDescription, string destDescription)
         {
             // write journals
             var sourceCustomer = _databaseContext.Customers.FindByAccount(sourceAccount.AccountNumber);
             var destCustomer = _databaseContext.Customers.FindByAccount(destAccount.AccountNumber);
-
-            // in case of commission, source description should include it
-            var sourceDescription = commission > 0 ? $"{description} (Bank commission {commission.ToString("N2")} {sourceAccount.Currency})" : description;
 
             var journals = new List<IJournal>();
             if (sourceCustomer == destCustomer)
@@ -60,7 +59,7 @@ namespace BankingSystem.LogicTier.Impl
             else
             {
                 journals.Add(WriteJournal(sourceCustomer, sourceDescription));
-                journals.Add(WriteJournal(destCustomer, description));
+                journals.Add(WriteJournal(destCustomer, destDescription));
             }
             return journals.ToArray();
         }

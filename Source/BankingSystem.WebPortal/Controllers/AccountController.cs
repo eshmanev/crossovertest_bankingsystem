@@ -160,12 +160,12 @@ namespace BankingSystem.WebPortal.Controllers
                 return this.JsonError();
 
             var description = internalTransfer
-                ? $"Internal transfer between your accounts from {sourceAccount.AccountNumber} to {destAccount.AccountNumber}. Amount {viewModel.Amount} {sourceAccount.Currency}"
-                : $"Extenal transfer from account {sourceAccount.AccountNumber} to account {destAccount.AccountNumber}. Amount {viewModel.Amount} {sourceAccount.Currency}";
+                ? $"Internal transfer between your accounts from {sourceAccount.AccountNumber} to {destAccount.AccountNumber}."
+                : $"Extenal transfer from account {sourceAccount.AccountNumber} to account {destAccount.AccountNumber}.";
 
             try
             {
-                await _accountService.TransferMoney(sourceAccount, destAccount, viewModel.Amount, description);
+                await _accountService.TransferMoney(sourceAccount, destAccount, viewModel.Amount, AmountConversionMode.SourceToTarget,  description);
                 return this.JsonSuccess();
             }
             catch (Exception ex)

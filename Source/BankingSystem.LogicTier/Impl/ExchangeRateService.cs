@@ -31,18 +31,29 @@ namespace BankingSystem.LogicTier.Impl
                 //   pass: testevgeny
                 //   AccessKey = "53d94b7170f4fa9ed81dea1f28c28bf0"
 
-                client.BaseAddress = new Uri("http://www.apilayer.net/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                try
+                {
+                    client.BaseAddress = new Uri("http://www.apilayer.net/");
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = await client.GetAsync($"api/live?access_key={AccessKey}&format=1&source={sourceCurrency}&currencies={destCurrency}");
-                response.EnsureSuccessStatusCode();
+                    var response = await client.GetAsync($"api/live?access_key={AccessKey}&format=1&source={sourceCurrency}&currencies={destCurrency}");
+                    response.EnsureSuccessStatusCode();
 
-                var content = await response.Content.ReadAsStringAsync();
-                var quotesResponse = JsonConvert.DeserializeObject<QuotesDto>(content);
+                    var content = await response.Content.ReadAsStringAsync();
+                    var quotesResponse = JsonConvert.DeserializeObject<QuotesDto>(content);
 
-                var key = sourceCurrency + destCurrency;
-                return quotesResponse.Quotes[key];
+                    var key = sourceCurrency + destCurrency;
+                    return quotesResponse.Quotes[key];
+                }
+                catch (Exception ex)
+                {
+                    throw new BankingServiceException(
+                        "Unexpected exception has occurred while getting exchange rates from http://www.apilayer.net/." +
+                        "If you try to convert from non USD, please ensure that your have prepaid Basic Plan subscription.",
+                        ex);
+                }
+               
             }
         }
 

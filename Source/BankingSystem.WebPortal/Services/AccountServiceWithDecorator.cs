@@ -3,9 +3,7 @@ using System.Threading.Tasks;
 using BankingSystem.Common.Data;
 using BankingSystem.Common.Messages;
 using BankingSystem.LogicTier;
-using BankingSystem.WebPortal.Hubs;
 using Microsoft.AspNet.SignalR.Hubs;
-using Microsoft.Practices.Unity;
 
 namespace BankingSystem.WebPortal.Services
 {
@@ -42,15 +40,16 @@ namespace BankingSystem.WebPortal.Services
         /// <param name="sourceAccount">The source account.</param>
         /// <param name="destAccount">The dest account.</param>
         /// <param name="amount">The amount to transfer.</param>
+        /// <param name="mode">The conversion mode.</param>
         /// <param name="description">The description of the transaction.</param>
         /// <returns>
         ///     The operation.
         /// </returns>
-        public async Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount, string description)
+        public async Task TransferMoney(IAccount sourceAccount, IAccount destAccount, decimal amount, AmountConversionMode mode, string description)
         {
             var oldSourceBalance = sourceAccount.Balance;
             var oldDestBalance = destAccount.Balance;
-            await _original.TransferMoney(sourceAccount, destAccount, amount, description);
+            await _original.TransferMoney(sourceAccount, destAccount, amount, mode, description);
             _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(sourceAccount, oldSourceBalance, description));
             _hubContext.All.onBalanceChanged(BalanceChangedMessage.Create(destAccount, oldDestBalance, description));
         }

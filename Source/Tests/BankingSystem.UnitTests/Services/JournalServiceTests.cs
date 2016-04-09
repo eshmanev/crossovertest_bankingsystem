@@ -34,12 +34,12 @@ namespace BankingSystem.UnitTests.Services
             destAccount.SetupGet(x => x.Currency).Returns("EUR");
 
             // act
-            var journals = _service.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "description", 2.0m).ToList();
+            var journals = _service.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "source description", "dest description").ToList();
 
             // assert
             journals.Count.ShouldBe(1);
             journals[0].DateTimeCreated.ShouldBeGreaterThan(DateTime.UtcNow.AddMinutes(-5));
-            journals[0].Description.ShouldBe("description (Bank commission 2,00 USD)");
+            journals[0].Description.ShouldBe("source description");
             journals[0].Customer.ShouldBe(customer);
         }
 
@@ -64,16 +64,16 @@ namespace BankingSystem.UnitTests.Services
             _context.Customers.Setup(x => x.FindByAccount(destAccount.Object.AccountNumber)).Returns(destCustomer);
 
             // act
-            var journals = _service.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "description", 0m).ToList();
+            var journals = _service.WriteTransferJournal(sourceAccount.Object, destAccount.Object, "source description", "dest description").ToList();
 
             // assert
             journals.Count.ShouldBe(2);
             journals[0].DateTimeCreated.ShouldBeGreaterThan(DateTime.UtcNow.AddMinutes(-5));
-            journals[0].Description.ShouldBe("description");
+            journals[0].Description.ShouldBe("source description");
             journals[0].Customer.ShouldBe(sourceCustomer);
 
             journals[1].DateTimeCreated.ShouldBeGreaterThan(DateTime.UtcNow.AddMinutes(-5));
-            journals[1].Description.ShouldBe("description");
+            journals[1].Description.ShouldBe("dest description");
             journals[1].Customer.ShouldBe(destCustomer);
         }
 

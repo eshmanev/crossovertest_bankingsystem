@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmountConversionMode.cs" />
     <Compile Include="IBankCardService.cs" />
     <Compile Include="IEmailService.cs" />
     <Compile Include="IJournalService.cs" />
