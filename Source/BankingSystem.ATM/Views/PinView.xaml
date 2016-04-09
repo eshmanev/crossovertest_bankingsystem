@@ -10,7 +10,7 @@
     <Grid>
         <Label Content="Enter PIN" HorizontalAlignment="Center" Margin="0,-140,0,0" VerticalAlignment="Center"/>
         <Label Content="{Binding ErrorMessage, Mode=OneWay}" FontSize="20" Foreground="Red" HorizontalAlignment="Center" Margin="0,-90,0,0" VerticalAlignment="Center"/>
-        <PasswordBox Name="PinBox" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="172" />
+        <PasswordBox Name="PinBox" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="172" PreviewTextInput="PinBox_OnPreviewTextInput" MaxLength="4" />
         <Button Content="OK" HorizontalAlignment="Center" Margin="0,140,0,0" VerticalAlignment="Center" Width="75" 
                 Command="{Binding OkCommand, Mode=OneWay}"
                 CommandParameter="{Binding ElementName=PinBox, Converter={StaticResource PasswordBoxConverter}}"/>

@@ -10,7 +10,7 @@ namespace BankingSystem.WebPortal.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "PasswordHash")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]

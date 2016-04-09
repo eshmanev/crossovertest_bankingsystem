@@ -11,7 +11,7 @@ namespace BankingSystem.ATM.ViewModels
     /// <summary>
     ///     Represents a view model that allows to change a PIN code.
     /// </summary>
-    public class ChangePinViewModel
+    public class ChangePinViewModel : INotifyPropertyChanged
     {
         private readonly IRegionManager _regionManager;
         private readonly ICredentialsProvider _provider;
@@ -77,6 +77,9 @@ namespace BankingSystem.ATM.ViewModels
         /// <param name="newPin">The pin.</param>
         private async void ChangePin(IWrappedValue<string> newPin)
         {
+            if (string.IsNullOrWhiteSpace(newPin.Value) || newPin.Value.Length != 4)
+                ErrorMessage = "Invalid PIN code specified";
+
             var result = await _service.ChangePin(_provider.GetBankCardNumber(), _provider.CurrentPin, newPin.Value);
             _dispatcherAccessor.Dispatcher.Invoke(
                 () =>
@@ -93,9 +96,13 @@ namespace BankingSystem.ATM.ViewModels
                         _regionManager.RequestNavigate(RegionName.MainRegion, ViewName.ActionsView);
 
                         ErrorMessage = null;
+                        newPin.Value = null;
                     }
                     else
+                    {
                         ErrorMessage = "PIN was not changed.";
+                        newPin.Value = null;
+                    }
                 });
         }
 

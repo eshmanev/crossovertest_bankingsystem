@@ -3,7 +3,7 @@
 @model LoginViewModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Login";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -28,14 +28,6 @@
                 <div class="col-md-10">
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <div class="checkbox">
-                        @Html.CheckBoxFor(m => m.RememberMe)
-                        @Html.LabelFor(m => m.RememberMe)
-                    </div>
                 </div>
             </div>
             <div class="form-group">

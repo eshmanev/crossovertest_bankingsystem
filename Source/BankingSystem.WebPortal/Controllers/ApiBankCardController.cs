@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 using System.Web.Mvc;
 using BankingSystem.LogicTier;
@@ -67,6 +68,9 @@ namespace BankingSystem.WebPortal.Controllers
         public HttpResponseMessage UpdatePin(string cardNumber, string pin, NewPinMessage message)
         {
             Validate(cardNumber, pin);
+
+            if (string.IsNullOrWhiteSpace(message.NewPin) || message.NewPin.Length != 4 || !Regex.IsMatch(message.NewPin, "[0-9]+"))
+                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "Invalid new PIN code");
 
             try
             {

@@ -122,7 +122,13 @@ namespace BankingSystem.WebPortal.Controllers
                 ValidateMerchant(viewModel, out merchant, out merchantAccount);
 
             if (!ModelState.IsValid)
+            {
+                // Optionally we can calculate a number of failures and when a limit exceeds redirect to merchant with status=failure
+                // At the moment it is out of the scope.
+                // Redirect(url + "?status=failure");
+
                 return View(viewModel);
+            }
 
             Debug.Assert(bankCard != null);
             Debug.Assert(merchant != null);
