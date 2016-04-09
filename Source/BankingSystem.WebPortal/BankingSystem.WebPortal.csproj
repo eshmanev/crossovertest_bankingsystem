@@ -1058,7 +1058,7 @@
     <Compile Include="Models\SuccessViewModel.cs" />
     <Compile Include="Models\TransferViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AccountServiceWithDecorator.cs" />
+    <Compile Include="Services\AccountServiceDecorator.cs" />
     <Compile Include="Services\JournalServiceDecorator.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

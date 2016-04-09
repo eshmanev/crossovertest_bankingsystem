@@ -11,19 +11,19 @@ namespace BankingSystem.WebPortal.Services
     ///     Represents an account service decorated with automatic notifications of account balance changes.
     /// </summary>
     /// <seealso cref="BankingSystem.LogicTier.IAccountService" />
-    public class AccountServiceWithDecorator : IAccountService
+    public class AccountServiceDecorator : IAccountService
     {
         private readonly IAccountService _original;
         private readonly IHubConnectionContext<dynamic> _hubContext;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="AccountServiceWithDecorator" /> class.
+        ///     Initializes a new instance of the <see cref="AccountServiceDecorator" /> class.
         /// </summary>
         /// <param name="original">The original.</param>
         /// <param name="hubContext">The hub context.</param>
         /// <exception cref="System.ArgumentNullException">
         /// </exception>
-        public AccountServiceWithDecorator(IAccountService original, IHubConnectionContext<dynamic> hubContext)
+        public AccountServiceDecorator(IAccountService original, IHubConnectionContext<dynamic> hubContext)
         {
             if (original == null)
                 throw new ArgumentNullException(nameof(original));

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
 using BankingSystem.LogicTier;
-using BankingSystem.LogicTier.Impl;
 using BankingSystem.LogicTier.Unity;
 using BankingSystem.WebPortal.Hubs;
 using BankingSystem.WebPortal.Services;
@@ -56,8 +55,8 @@ namespace BankingSystem.WebPortal
 
             // override service registrations
 
-            container.RegisterType<IAccountService, AccountServiceWithDecorator>(
-                container.Decorate<IAccountService>(s => new AccountServiceWithDecorator(s, container.Resolve<IHubConnectionContext<dynamic>>())));
+            container.RegisterType<IAccountService, AccountServiceDecorator>(
+                container.Decorate<IAccountService>(s => new AccountServiceDecorator(s, container.Resolve<IHubConnectionContext<dynamic>>())));
 
             container.RegisterType<IJournalService, JournalServiceDecorator>(
                 container.Decorate<IJournalService>(s => new JournalServiceDecorator(s, container.Resolve<IHubConnectionContext<dynamic>>())));
