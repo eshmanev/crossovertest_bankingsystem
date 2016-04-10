@@ -24,7 +24,7 @@ CREATE TABLE [dbo].[Accounts]
 	[AccountNumber] [nvarchar](255) NULL,
 	[Currency] [nvarchar](255) NOT NULL,
 	[Balance] [decimal](19, 5) NOT NULL,
-	[CustomerId] [int] NULL,
+	[CustomerId] [int] NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
     UNIQUE NONCLUSTERED ([AccountNumber] ASC) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
@@ -74,8 +74,8 @@ CREATE TABLE [dbo].[DeliveredEmails]
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[RecipientAddress] [nvarchar](255) NOT NULL,
 	[DeliveredDateTime] [datetime] NOT NULL,
-	[Subject] [nvarchar](255) NOT NULL,
-	[Body] [nvarchar](255) NOT NULL,
+	[Subject] [nvarchar](1000) NOT NULL,
+	[Body] [nvarchar](4000) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
@@ -96,7 +96,7 @@ CREATE TABLE [dbo].[Journals]
 (
 	[Id] [int] NOT NULL,
 	[DateTimeCreated] [datetime] NOT NULL,
-	[Description] [nvarchar](255) NOT NULL,
+	[Description] [nvarchar](4000) NOT NULL,
 	[CustomerId] [int] NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
@@ -106,7 +106,7 @@ CREATE TABLE [dbo].[LoginInfos]
 (
 	[LoginKey] [nvarchar](255) NOT NULL,
 	[ProviderName] [nvarchar](255) NOT NULL,
-	[CustomerId] [int] NULL,
+	[CustomerId] [int] NOT NULL,
     PRIMARY KEY CLUSTERED ([LoginKey] ASC, [ProviderName] ASC) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
@@ -116,8 +116,8 @@ CREATE TABLE [dbo].[ScheduledEmails]
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[RecipientAddress] [nvarchar](255) NOT NULL,
 	[ScheduledDateTime] [datetime] NOT NULL,
-	[Subject] [nvarchar](255) NOT NULL,
-	[Body] [nvarchar](255) NOT NULL,
+	[Subject] [nvarchar](1000) NOT NULL,
+	[Body] [nvarchar](4000) NOT NULL,
 	[FailureReason] [nvarchar](255) NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
@@ -125,15 +125,15 @@ GO
 
 ALTER TABLE [dbo].[Accounts]  WITH CHECK 
     ADD  CONSTRAINT [FK_Account_Customer] FOREIGN KEY([CustomerId])
-    REFERENCES [dbo].[Customers] ([Id])
+    REFERENCES [dbo].[Customers] ([Id]) ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[LoginInfos]  WITH CHECK 
     ADD  CONSTRAINT [FK_LoginInfo_Customer] FOREIGN KEY([CustomerId])
-    REFERENCES [dbo].[Customers] ([Id])
+    REFERENCES [dbo].[Customers] ([Id]) ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[Journals]  
     WITH CHECK ADD  CONSTRAINT [FK_Journal_Customer] FOREIGN KEY([CustomerId])
-    REFERENCES [dbo].[Customers] ([Id])
+    REFERENCES [dbo].[Customers] ([Id]) ON DELETE CASCADE
 GO
 
 -- 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08   SHA256 hash for 'test'

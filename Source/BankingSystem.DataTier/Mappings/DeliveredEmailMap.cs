@@ -17,8 +17,8 @@ namespace BankingSystem.DataTier.Mappings
             Id(x => x.Id);
             Map(x => x.RecipientAddress).Not.Nullable();
             Map(x => x.DeliveredDateTime).Not.Nullable();
-            Map(x => x.Subject).Not.Nullable();
-            Map(x => x.Body).Not.Nullable();
+            Map(x => x.Subject).Length(1000).Not.Nullable();
+            Map(x => x.Body).Length(4000).Not.Nullable();
         }
     }
 }

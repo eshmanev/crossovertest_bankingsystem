@@ -19,7 +19,7 @@ namespace BankingSystem.WebPortal
     public static class UnityConfig
     {
         private static Func<LifetimeManager> _perRequestManagerFactory = () => new PerRequestLifetimeManager();
-
+        
         /// <summary>
         ///     Gets the container.
         /// </summary>

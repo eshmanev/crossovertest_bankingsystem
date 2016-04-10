@@ -68,6 +68,20 @@ namespace BankingSystem.Domain
         void RemoveLogin(ILoginInfo login);
 
         /// <summary>
+        ///     Adds the account.
+        /// </summary>
+        /// <param name="accountNumber">The account number.</param>
+        /// <param name="currency">The currency.</param>
+        /// <returns></returns>
+        IAccount AddAccount(string accountNumber, string currency);
+
+        /// <summary>
+        ///     Removes the account.
+        /// </summary>
+        /// <param name="accountNumber">The account number.</param>
+        void RemoveAccount(string accountNumber);
+
+        /// <summary>
         ///     Accepts the specified visitor.
         /// </summary>
         /// <param name="visitor">The visitor.</param>

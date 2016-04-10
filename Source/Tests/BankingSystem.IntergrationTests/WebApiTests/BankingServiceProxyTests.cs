@@ -1,32 +1,27 @@
 ﻿using System;
-using System.Net.Http;
 using System.Text.RegularExpressions;
-using BankingSystem.ATM;
 using BankingSystem.ATM.Services;
+using BankingSystem.IntegrationTests.Environment.Services;
 using NUnit.Framework;
 using Shouldly;
 
-namespace BankingSystem.IntergrationTests.WebApiTests
+namespace BankingSystem.IntegrationTests.WebApiTests
 {
     [TestFixture]
-    public class BankingServiceProxyTests : WebApiTestFixture
+    public class BankingServiceProxyTests : WebApiTestsBase
     {
-        // Account: 445641994546495. Currency: JPY.Card Holder: Anatoly Green
-        private const string ValidCardNumber = "2111222233335555";
-        private const string ValidCardCurrency = "JPY";
-        private const string ValidPinCode = "0000";
         private BankingServiceProxy _proxy;
 
         [SetUp]
         public void Setup()
         {
-            _proxy = new TestableBankingServiceProxy(Client);
+            _proxy = new TestBankingServiceProxy(Client);
         }
 
         [Test]
-        [TestCase(ValidCardNumber, ValidPinCode, true)]
-        [TestCase(ValidCardNumber, "9517", false)]
-        [TestCase("2111222233335", ValidPinCode, false)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, true)]
+        [TestCase(TestVars.ValidCardNumber, "9517", false)]
+        [TestCase("2111222233335", TestVars.ValidPinCode, false)]
         public async void ShouldValidatePin(string cardNumber, string pinCode, bool expectedResult)
         {
             // act
@@ -37,11 +32,11 @@ namespace BankingSystem.IntergrationTests.WebApiTests
         }
 
         [Test]
-        [TestCase(ValidCardNumber, ValidPinCode, "9812", true)]
-        [TestCase(ValidCardNumber, ValidPinCode, "invalid pin", false)]
-        [TestCase(ValidCardNumber, ValidPinCode, "12345", false)]
-        [TestCase(ValidCardNumber, ValidPinCode, "12", false)]
-        [TestCase(ValidCardNumber, "9517", ValidPinCode, false)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "9812", true)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "invalid pin", false)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "12345", false)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "12", false)]
+        [TestCase(TestVars.ValidCardNumber, "9517", TestVars.ValidPinCode, false)]
         public async void ShouldChangePin(string cardNumber, string pinCode, string newPin, bool expectedResult)
         {
             // act
@@ -56,9 +51,9 @@ namespace BankingSystem.IntergrationTests.WebApiTests
         }
 
         [Test]
-        [TestCase(ValidCardNumber, ValidPinCode, -10, null, ExpectedException = typeof (ArgumentException))]
-        [TestCase(ValidCardNumber, ValidPinCode, 1, null)]
-        [TestCase(ValidCardNumber, ValidPinCode, int.MaxValue, "Account balance exeeds limits.")]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, -10, null, ExpectedException = typeof (ArgumentException))]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, 1, null)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, int.MaxValue, "Account balance exeeds limits.")]
         public async void ShouldWithdraw(string cardNumber, string pinCode, decimal amount, string expectedResult)
         {
             // act
@@ -69,9 +64,9 @@ namespace BankingSystem.IntergrationTests.WebApiTests
         }
 
         [Test]
-        [TestCase(ValidCardNumber, ValidPinCode, false)]
-        [TestCase(ValidCardNumber, "12", true)]
-        [TestCase("123", ValidPinCode, true)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, false)]
+        [TestCase(TestVars.ValidCardNumber, "12", true)]
+        [TestCase("123", TestVars.ValidPinCode, true)]
         public async void ShouldGetBalance(string cardNumber, string pinCode, bool shouldBeEmpty)
         {
             // act
@@ -82,23 +77,8 @@ namespace BankingSystem.IntergrationTests.WebApiTests
                 result.ShouldBeEmpty();
             else
             {
-                var isMatch = Regex.IsMatch(result, @"([0-9]+[\s,])+" + ValidCardCurrency);
+                var isMatch = Regex.IsMatch(result, @"([0-9]+[\s,])+" + TestVars.ValidCardCurrency);
                 isMatch.ShouldBe(true);
-            }
-        }
-
-        private class TestableBankingServiceProxy : BankingServiceProxy
-        {
-            private readonly HttpClient _client;
-
-            public TestableBankingServiceProxy(HttpClient client) : base(new Settings())
-            {
-                _client = client;
-            }
-
-            protected override IHttpClient CreateClient()
-            {
-                return new NonDisposableHttpClient(_client);
             }
         }
     }

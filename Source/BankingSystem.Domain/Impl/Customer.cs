@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BankingSystem.Domain.Impl
 {
@@ -10,6 +12,34 @@ namespace BankingSystem.Domain.Impl
     {
         private IList<Account> _accounts = new List<Account>();
         private IList<LoginInfo> _logins = new List<LoginInfo>();
+
+        protected CustomerBase()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CustomerBase" /> class.
+        /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <param name="email">The email.</param>
+        /// <param name="passwordHash">The password hash.</param>
+        protected CustomerBase(string userName, string email, string passwordHash)
+        {
+            if (string.IsNullOrWhiteSpace(userName))
+                throw new ArgumentNullException(nameof(userName));
+
+            if (string.IsNullOrWhiteSpace(email))
+                throw new ArgumentNullException(nameof(email));
+
+            if (string.IsNullOrWhiteSpace(passwordHash))
+                throw new ArgumentNullException(nameof(passwordHash));
+
+            // ReSharper disable DoNotCallOverridableMethodsInConstructor
+            UserName = userName;
+            Email = email;
+            PasswordHash = passwordHash;
+            // ReSharper restore DoNotCallOverridableMethodsInConstructor
+        }
 
         /// <summary>
         ///     Gets the entity identifier.
@@ -93,6 +123,36 @@ namespace BankingSystem.Domain.Impl
                 _logins.Remove(loginInfo);
                 loginInfo.Customer = null;
             }
+        }
+
+
+        /// <summary>
+        ///     Adds the account.
+        /// </summary>
+        /// <param name="accountNumber">The account number.</param>
+        /// <param name="currency">The currency.</param>
+        /// <returns></returns>
+        public virtual IAccount AddAccount(string accountNumber, string currency)
+        {
+            if (_accounts.Any(x => x.AccountNumber == accountNumber))
+                throw new ArgumentException("Account already exists", nameof(accountNumber));
+
+            var account = new Account(accountNumber, currency, this);
+            _accounts.Add(account);
+            return account;
+        }
+
+        /// <summary>
+        /// Removes the account.
+        /// </summary>
+        /// <param name="accountNumber">The account number.</param>
+        public virtual void RemoveAccount(string accountNumber)
+        {
+            var account = _accounts.FirstOrDefault(x => x.AccountNumber != accountNumber);
+            if (account == null)
+                throw new ArgumentException("Account does not exist", nameof(accountNumber));
+
+            _accounts.Remove(account);
         }
 
         /// <summary>

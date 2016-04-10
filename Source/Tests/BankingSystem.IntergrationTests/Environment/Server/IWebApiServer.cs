@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Net.Http;
+using Microsoft.Practices.Unity;
 
-namespace BankingSystem.IntergrationTests.Server
+namespace BankingSystem.IntegrationTests.Environment.Server
 {
     /// <summary>
     ///     Defines a web api server.
     /// </summary>
     public interface IWebApiServer
     {
+        /// <summary>
+        ///     Gets the container.
+        /// </summary>
+        /// <value>
+        ///     The container.
+        /// </value>
+        IUnityContainer Container { get; }
+
         /// <summary>
         ///     Gets the base address.
         /// </summary>

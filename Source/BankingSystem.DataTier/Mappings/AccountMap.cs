@@ -1,4 +1,7 @@
-﻿using BankingSystem.Domain.Impl;
+﻿using System.Runtime.Remoting.Lifetime;
+using BankingSystem.Domain;
+using BankingSystem.Domain.Impl;
+using FluentNHibernate;
 using FluentNHibernate.Mapping;
 
 namespace BankingSystem.DataTier.Mappings
@@ -18,6 +21,7 @@ namespace BankingSystem.DataTier.Mappings
             Map(x => x.AccountNumber).Unique();
             Map(x => x.Currency).Not.Nullable();
             Map(x => x.Balance).Not.Nullable();
+            Map(Reveal.Member<Account>("CustomerId")).Not.Nullable();
             HasOne(x => x.BankCard).Class<BankCard>();
         }
     }

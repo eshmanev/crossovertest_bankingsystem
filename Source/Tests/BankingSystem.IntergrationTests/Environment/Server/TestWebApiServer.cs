@@ -6,14 +6,23 @@ using BankingSystem.WebPortal;
 using Microsoft.Practices.Unity;
 using NUnit.Framework;
 
-namespace BankingSystem.IntergrationTests.Server
+namespace BankingSystem.IntegrationTests.Environment.Server
 {
     /// <summary>
     ///     Represents a server which hosts Web API in test environment.
     /// </summary>
-    public class WebApiTestServer : IWebApiServer
+    public class TestWebApiServer : IWebApiServer
     {
         private HttpServer _server;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="TestWebApiServer" /> class.
+        /// </summary>
+        public TestWebApiServer()
+        {
+            UnityConfig.SetPerRequestManagerFactory(() => new ContainerControlledLifetimeManager());
+            UnityConfig.ConfigureContainer();
+        }
 
         /// <summary>
         ///     Gets the base address.
@@ -21,7 +30,7 @@ namespace BankingSystem.IntergrationTests.Server
         /// <value>
         ///     The base address.
         /// </value>
-        public Uri BaseAddress => new Uri("http://localhost:1234");
+        public Uri BaseAddress => new Uri(TestVars.WebApiBaseUrl);
 
         /// <summary>
         ///     Gets the server handler.
@@ -32,16 +41,20 @@ namespace BankingSystem.IntergrationTests.Server
         public HttpMessageHandler ServerHandler => _server;
 
         /// <summary>
+        ///     Gets the container.
+        /// </summary>
+        /// <value>
+        ///     The container.
+        /// </value>
+        public IUnityContainer Container => UnityConfig.Container;
+
+        /// <summary>
         ///     Starts the server.
         /// </summary>
         public void Start()
         {
             try
             {
-                // configure container
-                UnityConfig.SetPerRequestManagerFactory(() => new ContainerControlledLifetimeManager());
-                UnityConfig.ConfigureContainer();
-
                 // configure HTTP
                 var httpConfig = new HttpConfiguration();
                 httpConfig.Services.Replace(typeof (IAssembliesResolver), new TestAssembliesResolver());

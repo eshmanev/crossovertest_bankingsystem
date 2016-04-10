@@ -21,12 +21,12 @@ namespace BankingSystem.DataTier.Mappings
             Map(x => x.PasswordHash);
 
             HasMany<Account>(Reveal.Member<CustomerBase>("_accounts"))
-                .KeyColumn("CustomerId")
+                .KeyColumn("CustomerId").Not.KeyNullable()
                 .ForeignKeyConstraintName("FK_Account_Customer")
                 .Inverse().Cascade.AllDeleteOrphan();
 
             HasMany<LoginInfo>(Reveal.Member<CustomerBase>("_logins"))
-                .KeyColumn("CustomerId")
+                .KeyColumn("CustomerId").Not.KeyNullable()
                 .ForeignKeyConstraintName("FK_LoginInfo_Customer")
                 .Inverse().Cascade.AllDeleteOrphan();
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Web.Http.Dispatcher;
 
-namespace BankingSystem.IntergrationTests.Server
+namespace BankingSystem.IntegrationTests.Environment.Server
 {
     /// <summary>
     ///     Represents a resolver that loads tested assemblies.

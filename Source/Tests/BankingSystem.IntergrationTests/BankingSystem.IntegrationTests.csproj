@@ -7,8 +7,8 @@
     <ProjectGuid>{9C6629CB-69D9-42D1-B348-C18400CB77C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BankingSystem.IntergrationTests</RootNamespace>
-    <AssemblyName>BankingSystem.IntergrationTests</AssemblyName>
+    <RootNamespace>BankingSystem.IntegrationTests</RootNamespace>
+    <AssemblyName>BankingSystem.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Diagnostics, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Diagnostics.2.1.0\lib\net40\Microsoft.Owin.Diagnostics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Host.HttpListener.2.1.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Hosting.2.1.0\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -62,6 +86,10 @@
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Shouldly, Version=2.7.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Shouldly.2.7.0\lib\net40\Shouldly.dll</HintPath>
       <Private>True</Private>
@@ -87,25 +115,35 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Topshelf, Version=3.3.154.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Topshelf.3.3.1\lib\net40-full\Topshelf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Environment\Server\ISignalRServer.cs" />
+    <Compile Include="Environment\Server\TestSignalRServer.cs" />
+    <Compile Include="Environment\Services\TestBankingServiceProxy.cs" />
+    <Compile Include="NotificationsTests\EmailNotificationTests.cs" />
+    <Compile Include="NotificationsTests\NotificationTestsBase.cs" />
+    <Compile Include="Environment\Server\INotificationServer.cs" />
+    <Compile Include="Environment\Server\NotificationTestServer.cs" />
+    <Compile Include="NotificationsTests\SyncBalanceChangedMessageHandler.cs" />
+    <Compile Include="TestVars.cs" />
     <Compile Include="WebApiTests\BankingServiceProxyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\RealWebApiServer.cs" />
-    <Compile Include="Server\WebApiTestServer.cs" />
-    <Compile Include="Server\IWebApiServer.cs" />
-    <Compile Include="Server\TestAssembliesResolver.cs" />
+    <Compile Include="Environment\Server\TestWebApiServer.cs" />
+    <Compile Include="Environment\Server\IWebApiServer.cs" />
+    <Compile Include="Environment\Server\TestAssembliesResolver.cs" />
     <Compile Include="WebApiTests\ApiBankCardTests.cs" />
-    <Compile Include="WebApiTests\NonDisposableHttpClient.cs" />
-    <Compile Include="WebApiTests\WebApiTestFixture.cs" />
+    <Compile Include="Environment\Services\NonDisposableHttpClient.cs" />
+    <Compile Include="WebApiTests\WebApiTestsBase.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BankingSystem.ATM\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
@@ -115,9 +153,25 @@
       <Project>{c1769d34-8fda-4946-b303-5180b28df402}</Project>
       <Name>BankingSystem.ATM</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\BankingSystem.DataTier\BankingSystem.DataTier.csproj">
+      <Project>{90a6529c-62ff-4580-8f96-e15d69b4a020}</Project>
+      <Name>BankingSystem.DataTier</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BankingSystem.Domain\BankingSystem.Domain.csproj">
+      <Project>{7238B6BA-A350-4C0C-89DC-43F78EFF2159}</Project>
+      <Name>BankingSystem.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BankingSystem.LogicTier\BankingSystem.LogicTier.csproj">
+      <Project>{2A3C0E00-88A4-471E-B9D8-26DE7925B831}</Project>
+      <Name>BankingSystem.LogicTier</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BankingSystem.Messages\BankingSystem.Messages.csproj">
       <Project>{DF97F91D-79E7-4526-8586-5CDA82664FCF}</Project>
       <Name>BankingSystem.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BankingSystem.NotificationService\BankingSystem.NotificationService.csproj">
+      <Project>{EBB76035-8F03-4CAB-8A32-903816107024}</Project>
+      <Name>BankingSystem.NotificationService</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\BankingSystem.WebPortal\BankingSystem.WebPortal.csproj">
       <Project>{9E9F43F4-37D6-4444-97E5-4FBB720DE7C8}</Project>

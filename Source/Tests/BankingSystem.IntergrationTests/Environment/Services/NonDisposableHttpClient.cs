@@ -2,7 +2,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using BankingSystem.ATM.Services;
 
-namespace BankingSystem.IntergrationTests.WebApiTests
+namespace BankingSystem.IntegrationTests.WebApiTests
 {
     /// <summary>
     ///     This class prevents disposal of the HttpClient.

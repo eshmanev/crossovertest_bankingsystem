@@ -16,7 +16,7 @@ namespace BankingSystem.DataTier.Mappings
             Table("Journals");
             Id(x => x.Id).GeneratedBy.HiLo<Journal>();
             Map(x => x.DateTimeCreated).Not.Nullable();
-            Map(x => x.Description).Not.Nullable();
+            Map(x => x.Description).Length(4000).Not.Nullable();
             References(x => x.Customer).Class<CustomerBase>()
                 .Column("CustomerId").Not.Nullable()
                 .ForeignKey("FK_Journal_Customer");

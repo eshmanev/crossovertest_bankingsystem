@@ -7,19 +7,15 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using Shouldly;
 
-namespace BankingSystem.IntergrationTests.WebApiTests
+namespace BankingSystem.IntegrationTests.WebApiTests
 {
     [TestFixture]
-    public class ApiBankCardTests : WebApiTestFixture
+    public class ApiBankCardTests : WebApiTestsBase
     {
-        private const string ValidCardNumber = "2111222233335555";
-        private const string ValidCardCurrency = "JPY";
-        private const string ValidPinCode = "0000";
-
         [Test]
-        [TestCase(ValidCardNumber, ValidPinCode, HttpStatusCode.OK)]
-        [TestCase(ValidCardNumber, "9517", HttpStatusCode.Forbidden)]
-        [TestCase("2111222233335", ValidPinCode, HttpStatusCode.Forbidden)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, HttpStatusCode.OK)]
+        [TestCase(TestVars.ValidCardNumber, "9517", HttpStatusCode.Forbidden)]
+        [TestCase("2111222233335", TestVars.ValidPinCode, HttpStatusCode.Forbidden)]
         public async void ShouldCheckPinCode(string cardNumber, string pinCode, HttpStatusCode statusCode)
         {
             // act
@@ -30,11 +26,11 @@ namespace BankingSystem.IntergrationTests.WebApiTests
         }
 
         [Test]
-        [TestCase(ValidCardNumber, ValidPinCode, "9812", HttpStatusCode.OK)]
-        [TestCase(ValidCardNumber, ValidPinCode, "invalid pin", HttpStatusCode.Forbidden)]
-        [TestCase(ValidCardNumber, ValidPinCode, "12345", HttpStatusCode.Forbidden)]
-        [TestCase(ValidCardNumber, ValidPinCode, "12", HttpStatusCode.Forbidden)]
-        [TestCase(ValidCardNumber, "9517", ValidPinCode, HttpStatusCode.Forbidden)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "9812", HttpStatusCode.OK)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "invalid pin", HttpStatusCode.Forbidden)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "12345", HttpStatusCode.Forbidden)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "12", HttpStatusCode.Forbidden)]
+        [TestCase(TestVars.ValidCardNumber, "9517", TestVars.ValidPinCode, HttpStatusCode.Forbidden)]
         public async void ShouldUpdatePinCode(string cardNumber, string pinCode, string newPin, HttpStatusCode statusCode)
         {
             // act
@@ -42,13 +38,16 @@ namespace BankingSystem.IntergrationTests.WebApiTests
 
             // assert
             result.StatusCode.ShouldBe(statusCode);
+
+            // cleanup
+            await Client.PutAsync($"api/bankcard/{cardNumber}/pin/{newPin}", Serialize(new NewPinMessage { NewPin = pinCode }));
         }
 
         [Test]
-        [TestCase(ValidCardNumber, ValidPinCode, 1, HttpStatusCode.OK)]
-        [TestCase(ValidCardNumber, "123", 1, HttpStatusCode.Forbidden)]
-        [TestCase("123", ValidPinCode, 1, HttpStatusCode.Forbidden)]
-        [TestCase(ValidCardNumber, ValidPinCode, -int.MaxValue, HttpStatusCode.Forbidden)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, 1, HttpStatusCode.OK)]
+        [TestCase(TestVars.ValidCardNumber, "123", 1, HttpStatusCode.Forbidden)]
+        [TestCase("123", TestVars.ValidPinCode, 1, HttpStatusCode.Forbidden)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, -int.MaxValue, HttpStatusCode.Forbidden)]
         public async void ShouldUpdateBalance(string cardNumber, string pinCode, decimal amount, HttpStatusCode expectedResult)
         {
             // act
@@ -59,9 +58,9 @@ namespace BankingSystem.IntergrationTests.WebApiTests
         }
 
         [Test]
-        [TestCase(ValidCardNumber, ValidPinCode, HttpStatusCode.OK, false)]
-        [TestCase(ValidCardNumber, "12", HttpStatusCode.Forbidden, true)]
-        [TestCase("123", ValidPinCode, HttpStatusCode.Forbidden, true)]
+        [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, HttpStatusCode.OK, false)]
+        [TestCase(TestVars.ValidCardNumber, "12", HttpStatusCode.Forbidden, true)]
+        [TestCase("123", TestVars.ValidPinCode, HttpStatusCode.Forbidden, true)]
         public async void ShouldGetBalance(string cardNumber, string pinCode, HttpStatusCode expectedResult, bool shouldBeNull)
         {
             // act
@@ -74,7 +73,7 @@ namespace BankingSystem.IntergrationTests.WebApiTests
                 content.ShouldBeNull();
             else
             {
-                var isMatch = Regex.IsMatch(content, @"([0-9]+[\s,])+" + ValidCardCurrency);
+                var isMatch = Regex.IsMatch(content, @"([0-9]+[\s,])+" + TestVars.ValidCardCurrency);
                 isMatch.ShouldBe(true);
             }
         }

@@ -15,8 +15,7 @@ namespace BankingSystem.NotificationService
         /// <summary>
         ///     Entry point.
         /// </summary>
-        /// <param name="args">The arguments.</param>
-        private static void Main()
+        public static void Main()
         {
             log4net.Config.XmlConfigurator.Configure();
 
@@ -47,7 +46,7 @@ namespace BankingSystem.NotificationService
         ///     Builds the container.
         /// </summary>
         /// <returns>An instance of <see cref="IUnityContainer"/>.</returns>
-        private static IUnityContainer BuildContainer()
+        internal static IUnityContainer BuildContainer()
         {
             var container = new UnityContainer();
             container.RegisterType<ISettings, Settings>();
