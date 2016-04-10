@@ -22,11 +22,11 @@ namespace BankingSystem.IntegrationTests.Environment.Server
         /// <summary>
         ///     Initializes a new instance of the <see cref="NotificationTestServer" /> class.
         /// </summary>
-        public NotificationTestServer()
+        public NotificationTestServer(int signalRPort)
         {
             // build the service container
             Container = BankingSystem.NotificationService.Program.BuildContainer();
-            Container.RegisterType<ISettings, TestNotificationSettings>();
+            Container.RegisterInstance<ISettings>(new TestNotificationSettings(signalRPort));
         }
 
         /// <summary>
@@ -61,7 +61,14 @@ namespace BankingSystem.IntegrationTests.Environment.Server
 
         private class TestNotificationSettings : ISettings
         {
-            public string HubUrl => TestVars.SignalRBaseUrl;
+            private readonly int _portNumber;
+
+            public TestNotificationSettings(int portNumber)
+            {
+                _portNumber = portNumber;
+            }
+
+            public string HubUrl => "http://localhost:" + _portNumber;
 
             public SmtpSettings SmtpSettings => new SmtpSettings();
         }

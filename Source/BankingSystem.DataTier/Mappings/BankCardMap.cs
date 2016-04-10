@@ -22,7 +22,9 @@ namespace BankingSystem.DataTier.Mappings
             Map(x => x.ExpirationMonth).Not.Nullable();
             Map(x => x.ExpirationYear).Not.Nullable();
             Map(x => x.PinCode).Not.Nullable();
-            HasOne(x => x.Account).Class<Account>();
+            
+            References<Account>(x => x.Account).Column("AccountId").ForeignKey("FK_BankCard_Account").Class<Account>();
+
         }
     }
 }

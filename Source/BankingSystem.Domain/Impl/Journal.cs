@@ -6,7 +6,7 @@ namespace BankingSystem.Domain.Impl
     ///     Represents an journal.
     /// </summary>
     /// <seealso cref="IJournal" />
-    internal class Journal : IJournal
+    public class Journal : IJournal
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Journal" /> class.

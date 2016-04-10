@@ -6,7 +6,7 @@ namespace BankingSystem.Domain.Impl
     ///     Provides login information.
     /// </summary>
     /// <seealso cref="ILoginInfo" />
-    internal class LoginInfo : ILoginInfo
+    public class LoginInfo : ILoginInfo
     {
         protected LoginInfo()
         {

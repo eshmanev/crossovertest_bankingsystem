@@ -3,7 +3,7 @@
     /// <summary>
     ///     Represents a bank balance.
     /// </summary>
-    internal class BankBalance : IBankBalance
+    public class BankBalance : IBankBalance
     {
         /// <summary>
         ///     Gets or sets the identifier.

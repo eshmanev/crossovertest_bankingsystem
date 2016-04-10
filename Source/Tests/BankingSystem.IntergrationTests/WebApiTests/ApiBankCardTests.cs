@@ -30,7 +30,7 @@ namespace BankingSystem.IntegrationTests.WebApiTests
         [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "invalid pin", HttpStatusCode.Forbidden)]
         [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "12345", HttpStatusCode.Forbidden)]
         [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "12", HttpStatusCode.Forbidden)]
-        [TestCase(TestVars.ValidCardNumber, "9517", TestVars.ValidPinCode, HttpStatusCode.Forbidden)]
+        [TestCase(TestVars.ValidCardNumber, "9517", "9812", HttpStatusCode.Forbidden)]
         public async void ShouldUpdatePinCode(string cardNumber, string pinCode, string newPin, HttpStatusCode statusCode)
         {
             // act

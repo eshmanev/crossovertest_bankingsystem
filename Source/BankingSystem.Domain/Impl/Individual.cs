@@ -5,7 +5,7 @@ namespace BankingSystem.Domain.Impl
     /// <summary>
     ///     Represents an individual.
     /// </summary>
-    internal class Individual : CustomerBase, IIndividual
+    public class Individual : CustomerBase, IIndividual
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="Individual" /> class.

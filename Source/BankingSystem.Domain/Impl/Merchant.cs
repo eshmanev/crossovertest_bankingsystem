@@ -6,7 +6,7 @@ namespace BankingSystem.Domain.Impl
     ///     Represents a merchant.
     /// </summary>
     /// <seealso cref="IMerchant" />
-    internal class Merchant : CustomerBase, IMerchant
+    public class Merchant : CustomerBase, IMerchant
     {
         protected Merchant()
         {

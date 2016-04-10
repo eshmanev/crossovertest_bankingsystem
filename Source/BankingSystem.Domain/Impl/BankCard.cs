@@ -1,11 +1,44 @@
-﻿namespace BankingSystem.Domain.Impl
+﻿using System;
+
+namespace BankingSystem.Domain.Impl
 {
     /// <summary>
     ///     Represents a bank card.
     /// </summary>
     /// <seealso cref="IBankCard" />
-    internal class BankCard : IBankCard
+    public class BankCard : IBankCard
     {
+        protected BankCard()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="BankCard" /> class.
+        /// </summary>
+        /// <param name="account">The account.</param>
+        /// <param name="csv">The CSV.</param>
+        /// <param name="pin">The pin.</param>
+        /// <param name="cardHolder">The card holder.</param>
+        /// <param name="cardNumber">The card number.</param>
+        /// <param name="expireMonth">The expire month.</param>
+        /// <param name="expireYear">The expire year.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// </exception>
+        public BankCard(string csv, string pin, string cardHolder, string cardNumber, int expireMonth, int expireYear)
+        {
+            if (string.IsNullOrEmpty(csv)) throw new ArgumentNullException(nameof(csv));
+            if (string.IsNullOrEmpty(pin)) throw new ArgumentNullException(nameof(pin));
+            if (string.IsNullOrEmpty(cardHolder)) throw new ArgumentNullException(nameof(cardHolder));
+            if (string.IsNullOrEmpty(cardNumber)) throw new ArgumentNullException(nameof(cardNumber));
+
+            CsvCode = csv;
+            PinCode = pin;
+            CardHolder = cardHolder;
+            CardNumber = cardNumber;
+            ExpirationMonth = expireMonth;
+            ExpirationYear = expireYear;
+        }
+
         /// <summary>
         ///     Gets or sets the identifier.
         /// </summary>
@@ -20,7 +53,7 @@
         /// <value>
         ///     The account.
         /// </value>
-        public virtual IAccount Account { get; protected set; }
+        public virtual IAccount Account { get; protected internal set; }
 
         /// <summary>
         ///     Gets the CSV security code.

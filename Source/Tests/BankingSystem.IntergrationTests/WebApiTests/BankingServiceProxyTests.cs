@@ -36,7 +36,7 @@ namespace BankingSystem.IntegrationTests.WebApiTests
         [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "invalid pin", false)]
         [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "12345", false)]
         [TestCase(TestVars.ValidCardNumber, TestVars.ValidPinCode, "12", false)]
-        [TestCase(TestVars.ValidCardNumber, "9517", TestVars.ValidPinCode, false)]
+        [TestCase(TestVars.ValidCardNumber, "9517", "9812", false)]
         public async void ShouldChangePin(string cardNumber, string pinCode, string newPin, bool expectedResult)
         {
             // act

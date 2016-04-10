@@ -22,7 +22,10 @@ namespace BankingSystem.DataTier.Mappings
             Map(x => x.Currency).Not.Nullable();
             Map(x => x.Balance).Not.Nullable();
             Map(Reveal.Member<Account>("CustomerId")).Not.Nullable();
-            HasOne(x => x.BankCard).Class<BankCard>();
+            HasMany<BankCard>(Reveal.Member<Account>("_bankCards"))
+                .KeyColumn("AccountId").Not.KeyNullable()
+                .ForeignKeyConstraintName("FK_BankCard_Account")
+                .Inverse().Cascade.AllDeleteOrphan();
         }
     }
 }

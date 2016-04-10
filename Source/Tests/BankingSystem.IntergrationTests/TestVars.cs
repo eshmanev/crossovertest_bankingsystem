@@ -5,14 +5,9 @@ namespace BankingSystem.IntegrationTests
     public class TestVars
     {
         /// <summary>
-        ///     The base URL of the test Web API server.
+        ///     The _port number
         /// </summary>
-        public const string WebApiBaseUrl = "http://localhost:1234";
-
-        /// <summary>
-        ///     The base URL of the test SignalR server.
-        /// </summary>
-        public const string SignalRBaseUrl = "http://localhost:1235";
+        private static int _portNumber = 1234;
 
         /// <summary>
         ///     The valid bankcard number
@@ -33,5 +28,13 @@ namespace BankingSystem.IntegrationTests
         ///     The default timeout
         /// </summary>
         public static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(3);
+
+        /// <summary>
+        ///     Allocates a port number.
+        /// </summary>
+        public static int AllocPortNumber()
+        {
+            return ++_portNumber;
+        }
     }
 }

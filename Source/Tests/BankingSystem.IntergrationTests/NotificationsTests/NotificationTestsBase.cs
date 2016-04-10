@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using BankingSystem.IntegrationTests.Environment.Server;
 using BankingSystem.Messages;
 using BankingSystem.NotificationService.Handlers;
@@ -47,8 +48,10 @@ namespace BankingSystem.IntegrationTests.NotificationsTests
         [TestFixtureSetUp]
         public void FixtureSetup()
         {
+            var port = TestVars.AllocPortNumber();
+            
             // SignalR
-            TestSignalRServer = new TestSignalRServer();
+            TestSignalRServer = new TestSignalRServer(port);
             TestSignalRServer.Start();
 
             // Web API
@@ -58,7 +61,7 @@ namespace BankingSystem.IntegrationTests.NotificationsTests
             HttpClient = new HttpClient(WebApiServer.ServerHandler) {BaseAddress = WebApiServer.BaseAddress};
 
             // Notifications
-            NotificationServer = new NotificationTestServer();
+            NotificationServer = new NotificationTestServer(port);
             ConfigureNotificationContainer(NotificationServer.Container);
             NotificationServer.Start();
         }

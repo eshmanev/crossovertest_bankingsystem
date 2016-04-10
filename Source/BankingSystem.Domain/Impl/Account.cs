@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BankingSystem.Domain.Impl
 {
@@ -6,15 +8,18 @@ namespace BankingSystem.Domain.Impl
     ///     Represents an account.
     /// </summary>
     /// <seealso cref="IAccount" />
-    internal class Account : IAccount
+    public class Account : IAccount
     {
         // <summary>
-        //     These field exists to support NH persistence.
+        //     This field exists to support NH persistence.
         //     On a save, these are the ones that are actually persisted in the NH map.
         // </summary>
         // ReSharper disable once NotAccessedField.Local
         private readonly CustomerBase _customer;
 
+        // This will allow to add a collection of bank cards in future.
+        private IList<BankCard> _bankCards = new List<BankCard>();
+         
         /// <summary>
         ///     Initializes a new instance of the <see cref="Account" /> class.
         /// </summary>
@@ -83,8 +88,20 @@ namespace BankingSystem.Domain.Impl
         /// <value>
         ///     The bank card.
         /// </value>
-        public virtual IBankCard BankCard { get; protected set; }
-
+        public virtual IBankCard BankCard
+        {
+            get { return _bankCards.FirstOrDefault(); }
+            set
+            {
+                _bankCards.Clear();
+                if (value != null)
+                {
+                    var card = (BankCard) value;
+                    _bankCards.Add(card);
+                    card.Account = this;
+                }
+            }
+        }
 
         /// <summary>
         ///     This stupid workaround is to support NH persistence.

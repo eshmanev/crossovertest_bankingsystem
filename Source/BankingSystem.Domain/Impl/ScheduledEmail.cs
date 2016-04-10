@@ -6,7 +6,7 @@ namespace BankingSystem.Domain.Impl
     ///     Represents a scheduled email.
     /// </summary>
     /// <seealso cref="IScheduledEmail" />
-    internal class ScheduledEmail : IScheduledEmail
+    public class ScheduledEmail : IScheduledEmail
     {
         /// <summary>
         ///     Gets the identifier.

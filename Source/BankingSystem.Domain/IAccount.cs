@@ -38,11 +38,11 @@
         decimal Balance { get; set; }
 
         /// <summary>
-        ///     Gets the assigned bank card.
+        ///     Gets or sets the assigned bank card.
         /// </summary>
         /// <value>
         ///     The bank card.
         /// </value>
-        IBankCard BankCard { get; }
+        IBankCard BankCard { get; set;  }
     }
 }

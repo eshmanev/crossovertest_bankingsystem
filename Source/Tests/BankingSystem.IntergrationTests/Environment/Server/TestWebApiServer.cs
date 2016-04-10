@@ -22,6 +22,7 @@ namespace BankingSystem.IntegrationTests.Environment.Server
         {
             UnityConfig.SetPerRequestManagerFactory(() => new ContainerControlledLifetimeManager());
             UnityConfig.ConfigureContainer();
+            BaseAddress = new Uri("http://localhost:" + TestVars.AllocPortNumber());
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace BankingSystem.IntegrationTests.Environment.Server
         /// <value>
         ///     The base address.
         /// </value>
-        public Uri BaseAddress => new Uri(TestVars.WebApiBaseUrl);
+        public Uri BaseAddress { get; }
 
         /// <summary>
         ///     Gets the server handler.

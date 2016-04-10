@@ -6,7 +6,7 @@ namespace BankingSystem.Domain.Impl
     ///     Represents a delivered email.
     /// </summary>
     /// <seealso cref="IDeliveredEmail" />
-    internal class DeliveredEmail : IDeliveredEmail
+    public class DeliveredEmail : IDeliveredEmail
     {
         /// <summary>
         ///     Gets the identifier.

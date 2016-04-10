@@ -8,7 +8,7 @@ namespace BankingSystem.Domain.Impl
     ///     Represents a customer.
     /// </summary>
     /// <seealso cref="ICustomer" />
-    internal abstract class CustomerBase : ICustomer
+    public abstract class CustomerBase : ICustomer
     {
         private IList<Account> _accounts = new List<Account>();
         private IList<LoginInfo> _logins = new List<LoginInfo>();
