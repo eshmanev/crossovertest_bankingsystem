@@ -103,6 +103,9 @@ namespace BankingSystem.ATM.Services
         /// </returns>
         public async Task<string> Withdraw(string bankCardNumber, string pin, decimal amount)
         {
+            if (amount <= 0)
+                throw new ArgumentException("Amount must be greater than zero", nameof(amount));
+
             using (var client = CreateClient())
             {
                 try
@@ -169,6 +172,18 @@ namespace BankingSystem.ATM.Services
         }
 
         /// <summary>
+        ///     Creates the HTTP client.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual IHttpClient CreateClient()
+        {
+            var client = new HttpClient { BaseAddress = new Uri(_settings.WebApiHost) };
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            return new HttpClientWrapper(client);
+        }
+
+        /// <summary>
         ///     Gets the base URL.
         /// </summary>
         /// <param name="bankCardNumber">The bank card number.</param>
@@ -178,14 +193,6 @@ namespace BankingSystem.ATM.Services
         private string GetBaseUrl(string bankCardNumber, string pin, string relativeUrl = null)
         {
             return string.Format(BaseUrl, bankCardNumber, pin, relativeUrl);
-        }
-
-        private HttpClient CreateClient()
-        {
-            var client = new HttpClient {BaseAddress = new Uri(_settings.WebApiHost)};
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            return client;
         }
     }
 }

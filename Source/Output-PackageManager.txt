@@ -1,0 +1,32 @@
+﻿Attempting to gather dependencies information for package 'SpecFlow.NUnit.2.0.0' with respect to project 'Tests\BankingSystem.UnitTests', targeting '.NETFramework,Version=v4.5.2'
+Attempting to resolve dependencies for package 'SpecFlow.NUnit.2.0.0' with DependencyBehavior 'Lowest'
+Resolving actions to install package 'SpecFlow.NUnit.2.0.0'
+Resolved actions to install package 'SpecFlow.NUnit.2.0.0'
+Attempting to gather dependencies information for package 'SpecFlow.NUnit.2.0.0' with respect to project 'Tests\BankingSystem.IntergrationTests', targeting '.NETFramework,Version=v4.5.2'
+Attempting to resolve dependencies for package 'SpecFlow.NUnit.2.0.0' with DependencyBehavior 'Lowest'
+Resolving actions to install package 'SpecFlow.NUnit.2.0.0'
+Resolved actions to install package 'SpecFlow.NUnit.2.0.0'
+Removed package 'NUnit.2.6.4' from 'packages.config'
+Successfully uninstalled 'NUnit.2.6.4' from BankingSystem.UnitTests
+Adding package 'NUnit.3.0.0' to folder 'D:\Crossover\Trial\BankingSystem\Source\packages'
+Added package 'NUnit.3.0.0' to folder 'D:\Crossover\Trial\BankingSystem\Source\packages'
+Added package 'NUnit.3.0.0' to 'packages.config'
+Successfully installed 'NUnit 3.0.0' to BankingSystem.UnitTests
+Package 'SpecFlow.2.0.0' already exists in folder 'D:\Crossover\Trial\BankingSystem\Source\packages'
+Added package 'SpecFlow.2.0.0' to 'packages.config'
+Successfully installed 'SpecFlow 2.0.0' to BankingSystem.UnitTests
+Adding package 'SpecFlow.NUnit.2.0.0' to folder 'D:\Crossover\Trial\BankingSystem\Source\packages'
+Added package 'SpecFlow.NUnit.2.0.0' to folder 'D:\Crossover\Trial\BankingSystem\Source\packages'
+Added package 'SpecFlow.NUnit.2.0.0' to 'packages.config'
+Successfully installed 'SpecFlow.NUnit 2.0.0' to BankingSystem.UnitTests
+Removed package 'NUnit.2.6.4' from 'packages.config'
+Successfully uninstalled 'NUnit.2.6.4' from BankingSystem.IntergrationTests
+Package 'NUnit.3.0.0' already exists in folder 'D:\Crossover\Trial\BankingSystem\Source\packages'
+Added package 'NUnit.3.0.0' to 'packages.config'
+Successfully installed 'NUnit 3.0.0' to BankingSystem.IntergrationTests
+Package 'SpecFlow.NUnit.2.0.0' already exists in folder 'D:\Crossover\Trial\BankingSystem\Source\packages'
+Added package 'SpecFlow.NUnit.2.0.0' to 'packages.config'
+Successfully installed 'SpecFlow.NUnit 2.0.0' to BankingSystem.IntergrationTests
+Removing package 'NUnit.2.6.4' from folder 'D:\Crossover\Trial\BankingSystem\Source\packages'
+Removed package 'NUnit.2.6.4' from folder 'D:\Crossover\Trial\BankingSystem\Source\packages'
+========== Finished ==========

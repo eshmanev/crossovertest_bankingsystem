@@ -36,9 +36,8 @@ namespace BankingSystem.WebPortal
         private void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            var customerService = UnityConfig.Container.Resolve<ICustomerService>();
-            app.CreatePerOwinContext<CustomerManager>((options, ctx) => CustomerManager.Create(options, ctx, customerService));
-            app.CreatePerOwinContext<CustomerSignInManager>((options, ctx) => CustomerSignInManager.Create(options, ctx, customerService));
+            app.CreatePerOwinContext<CustomerManager>((options, ctx) => CustomerManager.Create(options, ctx, UnityConfig.Container.Resolve<ICustomerService>()));
+            app.CreatePerOwinContext<CustomerSignInManager>((options, ctx) => CustomerSignInManager.Create(options, ctx, UnityConfig.Container.Resolve<ICustomerService>()));
 
             //// Enable the application to use a cookie to store information for the signed in user
             //// and to use a cookie to temporarily store information about a user logging in with a third party login provider

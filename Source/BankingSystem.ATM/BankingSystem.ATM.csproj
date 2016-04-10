@@ -100,7 +100,8 @@
     <Compile Include="MainModule.cs" />
     <Compile Include="RegionName.cs" />
     <Compile Include="Services\DispatcherAccessor.cs" />
-    <Compile Include="Services\HttpClientExtensions.cs" />
+    <Compile Include="Services\HttpContentExtensions.cs" />
+    <Compile Include="Services\HttpClientWrapper.cs" />
     <Compile Include="Services\HttpErrorDto.cs" />
     <Compile Include="Services\IDispatcherAccessor.cs" />
     <Compile Include="Services\FakeBankCardSlot.xaml.cs">
@@ -110,6 +111,7 @@
     <Compile Include="Services\BankingServiceProxy.cs" />
     <Compile Include="Services\ICredentialsProvider.cs" />
     <Compile Include="Services\IBankingService.cs" />
+    <Compile Include="Services\IHttpClient.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\ActionsViewModel.cs" />
     <Compile Include="ViewModels\ChangePinViewModel.cs" />

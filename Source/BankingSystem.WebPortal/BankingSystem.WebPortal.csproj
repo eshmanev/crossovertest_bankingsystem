@@ -1080,10 +1080,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Default\" />
-    <Folder Include="Views\Merchant\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BankingSystem.Messages\BankingSystem.Messages.csproj">
       <Project>{df97f91d-79e7-4526-8586-5cda82664fcf}</Project>
