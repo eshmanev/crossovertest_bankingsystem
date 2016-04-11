@@ -3,7 +3,7 @@
     /// <summary>
     ///     Provider error details.
     /// </summary>
-    internal class SuccessViewModel
+    public class SuccessViewModel
     {
         /// <summary>
         ///     Gets or sets the message.

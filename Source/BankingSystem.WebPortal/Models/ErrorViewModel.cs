@@ -5,7 +5,7 @@ namespace BankingSystem.WebPortal.Models
     /// <summary>
     ///     Provider error details.
     /// </summary>
-    internal class ErrorViewModel
+    public class ErrorViewModel
     {
         /// <summary>
         ///     Gets or sets the message.

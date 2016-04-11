@@ -16,7 +16,8 @@ namespace BankingSystem.WebPortal.Models
         /// <returns>JsonResult</returns>
         public static JsonResult JsonError(this Controller controller, string message = "An error has occurred")
         {
-            controller.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+            if (controller.Response != null)
+                controller.Response.StatusCode = (int) HttpStatusCode.BadRequest;
 
             var model = new ErrorViewModel {Message = message, Details = new Dictionary<string, string>()};
             foreach (var item in controller.ModelState)
@@ -39,7 +40,8 @@ namespace BankingSystem.WebPortal.Models
         /// <returns>JsonResult</returns>
         public static JsonResult JsonSuccess(this Controller controller, string message = "The operation has successfully completed")
         {
-            controller.Response.StatusCode = (int) HttpStatusCode.OK;
+            if (controller.Response != null)
+                controller.Response.StatusCode = (int) HttpStatusCode.OK;
             return new JsonResult
             {
                 Data = new SuccessViewModel {Message = message},

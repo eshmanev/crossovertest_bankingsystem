@@ -96,8 +96,7 @@ namespace BankingSystem.WebPortal.Controllers
         /// <param name="viewModel">The view model.</param>
         public async Task<JsonResult> TransferToMyAccount(TransferViewModel viewModel)
         {
-            var userId = User.Identity.GetUserId<int>();
-            var customer = _customerService.FindCustomerById(userId);
+            var customer = GetCurrentCustomer();
 
             // search for logged user's accounts.
             var sourceAccount = customer.Accounts.SingleOrDefault(x => x.AccountNumber == viewModel.SourceAccount);
@@ -112,8 +111,7 @@ namespace BankingSystem.WebPortal.Controllers
         /// <param name="viewModel">The view model.</param>
         public async Task<JsonResult> TransferToOtherAccount(TransferViewModel viewModel)
         {
-            var userId = User.Identity.GetUserId<int>();
-            var customer = _customerService.FindCustomerById(userId);
+            var customer = GetCurrentCustomer();
 
             // search fo logged user's account and other customer's account.
             var sourceAccount = customer.Accounts.SingleOrDefault(x => x.AccountNumber == viewModel.SourceAccount);
@@ -128,7 +126,7 @@ namespace BankingSystem.WebPortal.Controllers
         /// <returns>A customer.</returns>
         private ICustomer GetCurrentCustomer()
         {
-            var userId = User.Identity.GetUserId<int>();
+            var userId = User?.Identity?.GetUserId<int>() ?? 0;
             var customer = _customerService.FindCustomerById(userId);
             Debug.Assert(customer != null);
             return customer;
