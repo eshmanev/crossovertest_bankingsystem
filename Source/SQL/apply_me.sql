@@ -41,6 +41,7 @@ GO
 CREATE TABLE [dbo].[BankCards]
 (
 	[Id] [int] NOT NULL,
+    [AccountId] [int] NOT NULL,
 	[CardHolder] [nvarchar](255) NOT NULL,
 	[CardNumber] [nvarchar](255) NOT NULL,
 	[CsvCode] [nvarchar](255) NOT NULL,
@@ -127,6 +128,10 @@ ALTER TABLE [dbo].[Accounts]  WITH CHECK
     ADD  CONSTRAINT [FK_Account_Customer] FOREIGN KEY([CustomerId])
     REFERENCES [dbo].[Customers] ([Id]) ON DELETE CASCADE
 GO
+ALTER TABLE [dbo].[BankCards]  WITH CHECK 
+    ADD  CONSTRAINT [FK_BankCard_Account] FOREIGN KEY([AccountId])
+    REFERENCES [dbo].[Accounts] ([Id]) ON DELETE CASCADE
+GO
 ALTER TABLE [dbo].[LoginInfos]  WITH CHECK 
     ADD  CONSTRAINT [FK_LoginInfo_Customer] FOREIGN KEY([CustomerId])
     REFERENCES [dbo].[Customers] ([Id]) ON DELETE CASCADE
@@ -187,33 +192,33 @@ INSERT INTO dbo.Accounts(Id, AccountNumber, Currency, Balance, CustomerId)
     SELECT 15, '999111111111233', 'JPY', '0', 6
 GO
 
-INSERT INTO dbo.BankCards(Id, CardHolder, CardNumber, CsvCode, ExpirationMonth, ExpirationYear, PinCode)
+INSERT INTO dbo.BankCards(Id, AccountId, CardHolder, CardNumber, CsvCode, ExpirationMonth, ExpirationYear, PinCode)
     -- evgeny.shmanev
-    SELECT 1, 'Evgeny Shmanev', '1111222233331111', '123', 1, 2020, '0000'
+    SELECT 1, 1, 'Evgeny Shmanev', '1111222233331111', '123', 1, 2020, '0000'
     UNION ALL
-    SELECT 2, 'Evgeny Shmanev', '2111222233331111', '123', 1, 2020, '0000'
+    SELECT 2, 2, 'Evgeny Shmanev', '2111222233331111', '123', 1, 2020, '0000'
     UNION ALL
-    SELECT 3, 'Evgeny Shmanev', '3111222233331111', '123', 1, 2020, '0000'
+    SELECT 3, 3, 'Evgeny Shmanev', '3111222233331111', '123', 1, 2020, '0000'
     UNION ALL
     -- eshmanev
-    SELECT 4, 'Eugene Temp', '1111222233332222', '123', 1, 2020, '0000'
+    SELECT 4, 4, 'Eugene Temp', '1111222233332222', '123', 1, 2020, '0000'
     UNION ALL
-    SELECT 5, 'Eugene Temp', '2111222233332222', '123', 1, 2020, '0000'
+    SELECT 5, 5, 'Eugene Temp', '2111222233332222', '123', 1, 2020, '0000'
     UNION ALL
-    SELECT 6, 'Eugene Temp', '3111222233332222', '123', 1, 2020, '0000'
+    SELECT 6, 6, 'Eugene Temp', '3111222233332222', '123', 1, 2020, '0000'
     UNION ALL
     -- joseph.fill
-    SELECT 7, 'Joseph Fill', '1111222233333333', '123', 1, 2020, '0000'
+    SELECT 7, 7, 'Joseph Fill', '1111222233333333', '123', 1, 2020, '0000'
     UNION ALL
      -- peter.petroff
-    SELECT 9, 'Peter Petroff', '1111222233334444', '123', 1, 2020, '0000'
+    SELECT 9, 9, 'Peter Petroff', '1111222233334444', '123', 1, 2020, '0000'
     UNION ALL
-    SELECT 10, 'Peter Petroff', '2111222233334444', '123', 1, 2020, '0000'
+    SELECT 10, 10, 'Peter Petroff', '2111222233334444', '123', 1, 2020, '0000'
     UNION ALL
      -- anatoly.green
-    SELECT 11, 'Anatoly Green', '1111222233335555', '123', 1, 2020, '0000'
+    SELECT 11, 11, 'Anatoly Green', '1111222233335555', '123', 1, 2020, '0000'
     UNION ALL
-    SELECT 12, 'Anatoly Green', '2111222233335555', '123', 1, 2020, '0000'
+    SELECT 12, 12, 'Anatoly Green', '2111222233335555', '123', 1, 2020, '0000'
 GO
 
 INSERT INTO dbo.HiLo(NextHi, Entity)
